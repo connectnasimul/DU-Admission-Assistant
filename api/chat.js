@@ -15,20 +15,35 @@
 //   4. Deployments → ⋯ → Redeploy (env var বদলালে redeploy লাগে)
 //
 // চুক্তি (index.html-এর callGemini-এর সাথে মিলিয়ে):
-//   Request:  POST /api/chat  { "message": "...", "history": [{role, text}, ...] }
+//   Request:  POST /api/chat  { "message": "...", "history": [{role, text}, ...], "lang": "bn" | "en" }
 //   Response: 200 { "text": "..." }  — ব্যর্থ হলে 4xx/5xx JSON { "error": "..." }
 
 const MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
 
-const SYSTEM_PROMPT = [
-  "তুমি ঢাকা বিশ্ববিদ্যালয়ের (University of Dhaka) অ্যাডমিশন অ্যাসিস্ট্যান্ট।",
-  "ভদ্র, সংক্ষিপ্ত ও সহায়ক বাংলায় উত্তর দাও।",
-  "শুধু ভর্তি-সংক্রান্ত বিষয়ে সাহায্য করো: যোগ্যতা, ইউনিট, ডেডলাইন, আবেদন ফি,",
-  "প্রয়োজনীয় ডকুমেন্টস, আবেদনের ধাপ, ডিপার্টমেন্ট ও ক্যারিয়ার গাইড।",
-  "তথ্য না জানলে বা প্রশ্ন ভর্তি-সংক্রান্ত না হলে হুবহু এই বার্তাটি দাও:",
-  "দুঃখিত, এই বিষয়ে আমার কাছে নির্দিষ্ট তথ্য নেই। অনুগ্রহ করে অ্যাডমিশন অফিসে যোগাযোগ করুন: [ফোন নম্বর: +88 01903-446970 | ইমেইল: registrar@du.ac.bd]",
-  "অফিসিয়াল ভর্তি পোর্টাল: admission.eis.du.ac.bd। তারিখ ও ফি বদলাতে পারে, তাই সার্কুলার যাচাই করতে বলো।",
-].join(" ");
+// ফ্রন্টএন্ড (index.html) অনুরোধের সাথে lang পাঠায়: 'bn' বা 'en'।
+// উত্তর সেই ভাষাতেই দিতে হবে; ফলব্যাক বার্তায় কোনো "[ ]" ব্র্যাকেট নেই।
+function systemPrompt(lang) {
+  if (lang === "en") {
+    return [
+      "You are the admission assistant of the University of Dhaka.",
+      "Answer politely, briefly and helpfully in English.",
+      "Help only with admission-related topics: eligibility, units, deadlines, application fees,",
+      "required documents, application steps, departments and career guidance.",
+      "If you do not know the answer, or the question is not admission-related, reply with exactly this message:",
+      "Sorry, I don't have specific information on this. Please contact the Admission Office: Phone: +88 01903-446970 | Email: registrar@du.ac.bd",
+      "Official admission portal: admission.eis.du.ac.bd. Dates and fees may change, so ask the user to verify the official circular.",
+    ].join(" ");
+  }
+  return [
+    "তুমি ঢাকা বিশ্ববিদ্যালয়ের (University of Dhaka) অ্যাডমিশন অ্যাসিস্ট্যান্ট।",
+    "ভদ্র, সংক্ষিপ্ত ও সহায়ক বাংলায় উত্তর দাও।",
+    "শুধু ভর্তি-সংক্রান্ত বিষয়ে সাহায্য করো: যোগ্যতা, ইউনিট, ডেডলাইন, আবেদন ফি,",
+    "প্রয়োজনীয় ডকুমেন্টস, আবেদনের ধাপ, ডিপার্টমেন্ট ও ক্যারিয়ার গাইড।",
+    "তথ্য না জানলে বা প্রশ্ন ভর্তি-সংক্রান্ত না হলে হুবহু এই বার্তাটি দাও:",
+    "দুঃখিত, এই বিষয়ে আমার কাছে নির্দিষ্ট তথ্য নেই। অনুগ্রহ করে অ্যাডমিশন অফিসে যোগাযোগ করুন: ফোন নম্বর: +88 01903-446970 | ইমেইল: registrar@du.ac.bd",
+    "অফিসিয়াল ভর্তি পোর্টাল: admission.eis.du.ac.bd। তারিখ ও ফি বদলাতে পারে, তাই সার্কুলার যাচাই করতে বলো।",
+  ].join(" ");
+}
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
@@ -52,6 +67,7 @@ module.exports = async (req, res) => {
   }
   const message = body && typeof body.message === "string" ? body.message.trim() : "";
   const history = Array.isArray(body && body.history) ? body.history : [];
+  const lang = body && body.lang === "en" ? "en" : "bn";
 
   if (!message) {
     return res.status(400).json({ error: "message is required" });
@@ -76,7 +92,7 @@ module.exports = async (req, res) => {
           "x-goog-api-key": apiKey,
         },
         body: JSON.stringify({
-          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          system_instruction: { parts: [{ text: systemPrompt(lang) }] },
           contents,
           generationConfig: { temperature: 0.4, maxOutputTokens: 800 },
         }),

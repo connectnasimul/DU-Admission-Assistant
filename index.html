@@ -139,21 +139,31 @@ svg.ic{flex-shrink:0;display:block}
 .only-mobile{display:none}
 @media(max-width:900px){ .only-mobile{display:grid} .chat-head{padding:10px 12px} }
 
+/* ---------- Language toggle (segmented BN / EN) ---------- */
+.lang-toggle{display:flex;align-items:center;border:1px solid var(--line-strong);border-radius:999px;background:var(--panel);padding:3px;gap:2px;height:42px;flex-shrink:0}
+.lang-toggle button{border:none;background:transparent;color:var(--ink-2);font-size:13px;font-weight:700;padding:6px 11px;border-radius:999px;line-height:1.2;min-height:34px;white-space:nowrap}
+.lang-toggle button:hover{color:var(--ink)}
+.lang-toggle button:focus-visible{color:var(--ink);outline:2px solid var(--green-2);outline-offset:1px}
+.lang-toggle button.active{background:#0C3B2E;color:#FFFFFF}
+.lang-toggle button.active:hover{color:#FFFFFF}
+:root[data-theme="dark"] .lang-toggle button.active{background:#1E5C46;color:#FFFFFF}
+@media(max-width:480px){.lang-toggle button{padding:6px 8px;font-size:12.5px}.head-actions{gap:6px}}
+
 /* ---------- Messages ---------- */
 .messages{flex:1;min-height:0;overflow-y:auto;padding:20px 18px 10px;background:var(--panel);display:flex;flex-direction:column}
-.messages-inner{width:100%;max-width:920px;margin:0 auto;display:flex;flex-direction:column;flex:1}
+.messages-inner{width:100%;max-width:1080px;margin:0 auto;display:flex;flex-direction:column;flex:1}
 .date-label{text-align:center;font-size:12px;color:var(--ink-3);font-weight:500;margin:2px 0 14px}
 .msg-row{display:flex;gap:8px;margin-bottom:12px;align-items:flex-end;width:100%}
 .msg-row.user{justify-content:flex-end}
 .msg-row.bot{justify-content:flex-start}
 .msg-row>div{min-width:0}
-.msg-row.user>div{display:flex;flex-direction:column;align-items:flex-end;max-width:94%}
-.msg-row.bot>div{max-width:92%}
+.msg-row.user>div{display:flex;flex-direction:column;align-items:flex-end;width:100%;flex:1 1 auto}
+.msg-row.bot>div{display:flex;flex-direction:column;align-items:flex-start;flex:1 1 auto;max-width:calc(100% - 36px)}
 .mini-avatar{width:28px;height:28px;border-radius:50%;background:#0C3B2E;color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0}
 .bubble{padding:11px 16px;border-radius:16px;font-size:15px;line-height:1.65;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal}
-.msg-row.bot .bubble{max-width:min(86%,740px)}
-.msg-row.user .bubble{max-width:min(90%,780px);width:fit-content}
-@media(max-width:600px){.msg-row.bot .bubble{max-width:94%}.msg-row.user .bubble{max-width:94%}.msg-row.user>div{max-width:96%}.msg-row.bot>div{max-width:96%}}
+.msg-row.bot .bubble{max-width:min(90%,920px)}
+.msg-row.user .bubble{max-width:min(92%,950px)}
+@media(max-width:600px){.msg-row.bot .bubble{max-width:94%}.msg-row.user .bubble{max-width:94%}}
 .msg-row.bot .bubble{background:var(--panel-2);border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--ink)}
 .msg-row.user .bubble{background:#0C3B2E;color:#FFFFFF;border-bottom-right-radius:4px}
 :root[data-theme="dark"] .msg-row.user .bubble{background:#1E5C46}
@@ -182,7 +192,7 @@ svg.ic{flex-shrink:0;display:block}
 /* ---------- Typing ---------- */
 .typing{display:none;align-items:center;gap:8px;padding:2px 18px 10px;background:var(--panel)}
 .typing.show{display:flex}
-.typing-inner{width:100%;max-width:920px;margin:0 auto;display:flex;align-items:center;gap:8px}
+.typing-inner{width:100%;max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:8px}
 .typing-bubble{background:var(--panel-2);border:1px solid var(--line);padding:12px 14px;border-radius:16px;border-bottom-left-radius:4px;display:flex;gap:5px;align-items:center}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--ink-3);animation:bounce 1.2s infinite}
 .dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
@@ -191,7 +201,7 @@ svg.ic{flex-shrink:0;display:block}
 
 /* ---------- Quick replies : high-contrast chips ---------- */
 .quick-wrap{padding:10px 18px 4px;border-top:1px solid var(--line);background:var(--panel)}
-.quick-inner{max-width:920px;margin:0 auto}
+.quick-inner{max-width:1080px;margin:0 auto}
 .quick-label{font-size:12px;color:var(--ink-3);margin-bottom:8px;font-weight:600;letter-spacing:.03em}
 .quick-scroll{display:flex;gap:8px;flex-wrap:wrap}
 .qbtn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--green);color:var(--chip-ink);background:var(--chip-bg);padding:9px 14px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer;min-height:40px;line-height:1.2}
@@ -208,7 +218,7 @@ svg.ic{flex-shrink:0;display:block}
 
 /* ---------- Composer ---------- */
 .composer-wrap{padding:10px 18px calc(12px + env(safe-area-inset-bottom));background:var(--panel)}
-.composer{max-width:920px;margin:0 auto;display:flex;gap:9px;align-items:flex-end}
+.composer{max-width:1080px;margin:0 auto;display:flex;gap:9px;align-items:flex-end}
 .composer textarea{flex:1;border:1.5px solid var(--line-strong);background:var(--panel-2);border-radius:14px;padding:12px 15px;font-size:15px;resize:none;max-height:110px;outline:none;line-height:1.45;color:var(--ink)}
 .composer textarea::placeholder{color:var(--ink-3);opacity:1;font-weight:500}
 .composer textarea:focus{border-color:var(--green)}
@@ -218,7 +228,7 @@ svg.ic{flex-shrink:0;display:block}
 .send-btn:active{background:#07271D;color:#FFFFFF}
 .send-btn:disabled{opacity:.45;cursor:default}
 :root[data-theme="dark"] .send-btn{background:#1E5C46} :root[data-theme="dark"] .send-btn:hover,:root[data-theme="dark"] .send-btn:focus-visible{background:#27755A} :root[data-theme="dark"] .send-btn:active{background:#2F8A68}
-.disclaimer{max-width:920px;margin:9px auto 0;font-size:12px;color:var(--ink-3);line-height:1.55;text-align:center;font-weight:500}
+.disclaimer{max-width:1080px;margin:9px auto 0;font-size:12px;color:var(--ink-3);line-height:1.55;text-align:center;font-weight:500}
 
 /* ---------- Minimal scrollbars (theme-aware, no default browser bar) ---------- */
 *{scrollbar-width:thin;scrollbar-color:var(--scroll-thumb) transparent}
@@ -228,6 +238,34 @@ svg.ic{flex-shrink:0;display:block}
 *::-webkit-scrollbar-thumb:hover{background:var(--scroll-thumb-hover)}
 *::-webkit-scrollbar-corner{background:transparent}
 
+/* ---------- Professional polish: type hierarchy, soft depth, consistency ---------- */
+.topbar{box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)}
+.chat-head{box-shadow:0 6px 18px -14px rgba(12,59,44,.35)}
+.head-info h1{font-size:17px;letter-spacing:-.015em}
+.head-info p{letter-spacing:.01em}
+.side-sec h2{line-height:1.42;letter-spacing:-.012em}
+.side-sec h3{color:var(--ink-2)}
+.info-row b{letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.welcome h2{letter-spacing:-.02em;text-wrap:balance}
+.welcome .mark{box-shadow:0 0 0 6px var(--green-soft),0 2px 8px rgba(12,59,44,.18)}
+.avatar{box-shadow:0 1px 3px rgba(12,59,44,.25)}
+.msg-row.bot .bubble{box-shadow:0 1px 2px rgba(12,59,44,.05)}
+.msg-row.user .bubble{box-shadow:0 1px 3px rgba(12,59,44,.20)}
+:root[data-theme="dark"] .msg-row.bot .bubble,:root[data-theme="dark"] .msg-row.user .bubble{box-shadow:none}
+:root[data-theme="dark"] .chat-head{box-shadow:0 6px 18px -14px rgba(0,0,0,.8)}
+.dept-btn,.suggest{transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .2s ease}
+.dept-btn:hover{box-shadow:0 2px 8px rgba(12,59,44,.08)}
+.suggest:hover{box-shadow:0 3px 12px rgba(12,59,44,.08)}
+.qbtn{box-shadow:0 1px 2px rgba(12,59,44,.05)}
+.qbtn:hover{box-shadow:0 2px 8px rgba(12,59,44,.14)}
+.composer textarea{transition:border-color .2s ease,box-shadow .2s ease}
+.composer textarea:focus{box-shadow:0 0 0 3px var(--green-soft)}
+.send-btn{box-shadow:0 2px 8px rgba(12,59,44,.28);transition:background-color .2s ease,box-shadow .2s ease}
+.send-btn:hover{box-shadow:0 3px 12px rgba(12,59,44,.32)}
+.send-btn:disabled{box-shadow:none}
+.icon-btn{box-shadow:0 1px 2px rgba(12,59,44,.05)}
+.date-label{letter-spacing:.02em}
+
 /* ---------- Smooth theme switch ---------- */
 body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.icon-btn,.dept-btn,.suggest,.qbtn{transition:background-color .3s ease,color .3s ease,border-color .3s ease}
 
@@ -236,6 +274,33 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
   .quick-wrap{padding:10px 12px 4px}
   .composer-wrap{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
   .typing{padding:2px 12px 8px}
+}
+
+/* ---------- Mobile chat header: two tidy rows ----------
+   Row 1 keeps the avatar + title block with flex priority, so the
+   title and status each stay on ONE line (no word-by-word wrap,
+   green dots stay pinned). Row 2 holds the controls — language
+   toggle on the left, theme + clear on the right — at a compact
+   size. Desktop header is untouched (rules live under 720px). */
+@media(max-width:720px){
+  .chat-head{flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 12px 12px}
+  .chat-head .avatar{width:40px;height:40px;font-size:14px;flex:0 0 auto}
+  .chat-head .avatar::after{width:10px;height:10px;border-width:2px}
+  .chat-head>.icon-btn{width:38px;height:38px;flex:0 0 auto}
+  .head-info{flex:1 1 0;min-width:0}
+  .head-info h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:16px;line-height:1.3}
+  .head-info p{flex-wrap:nowrap;white-space:nowrap;overflow:hidden;margin-top:1px}
+  .head-info p i{flex:0 0 auto}
+  .head-info p span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .head-actions{flex:1 0 100%;justify-content:flex-end;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;margin-top:2px}
+  .head-actions .lang-toggle{margin-right:auto;height:38px;padding:2px;flex:0 0 auto}
+  .head-actions .lang-toggle button{min-height:32px;padding:5px 12px}
+  .head-actions .icon-btn{width:38px;height:38px;flex:0 0 auto}
+}
+@media(max-width:380px){
+  .head-info h1{font-size:15px}
+  .head-info p{font-size:11.5px}
+  .head-actions .lang-toggle button{padding:5px 10px;font-size:12.5px}
 }
 @media(prefers-reduced-motion:reduce){.dot{animation:none}.sidebar,.backdrop,body,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.icon-btn,.dept-btn,.suggest,.qbtn{transition:none}}
 </style>
@@ -257,10 +322,10 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
       <button class="side-close" id="sideClose" aria-label="তথ্য প্যানেল বন্ধ করুন"></button>
 
       <section class="side-sec">
-        <span class="status-line"><i></i> অ্যাডমিশন অফিস • অনলাইন</span>
-        <h2>আসসালামু আলাইকুম! ভর্তিতে সাহায্য করতে আমি এখানে</h2>
-        <p>আমি <b style="color:var(--ink)">ঢাবি অ্যাডমিশন অ্যাসিস্ট্যান্ট</b>। ভর্তির যোগ্যতা, আবেদন, ফি, ডকুমেন্টস ও ডিপার্টমেন্ট নিয়ে যেকোনো প্রশ্ন করুন — বাংলা বা English-এ।</p>
-        <ul>
+        <span class="status-line"><i></i><span id="sideStatus">অ্যাডমিশন অফিস • অনলাইন</span></span>
+        <h2 id="sideTitle">আসসালামু আলাইকুম! ভর্তিতে সাহায্য করতে আমি এখানে</h2>
+        <p id="sideIntro">আমি <b style="color:var(--ink)">ঢাবি অ্যাডমিশন অ্যাসিস্ট্যান্ট</b>। ভর্তির যোগ্যতা, আবেদন, ফি, ডকুমেন্টস ও ডিপার্টমেন্ট নিয়ে যেকোনো প্রশ্ন করুন — বাংলা বা English-এ।</p>
+        <ul id="sideList">
           <li>ইউনিট: ক (বিজ্ঞান), খ (মানবিক), গ (ব্যবসায়), ঘ (সমন্বিত), চ (চারুকলা)</li>
           <li>আবেদন: অনলাইনে — admission.eis.du.ac.bd</li>
           <li>সর্বশেষ তারিখ সবসময় অফিসিয়াল সার্কুলারে মিলিয়ে নিন</li>
@@ -268,26 +333,26 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
       </section>
 
       <section class="side-sec">
-        <h3>এক নজরে ভর্তি তথ্য</h3>
-        <div class="info-row"><span>আবেদন মাধ্যম</span><b>অনলাইন</b></div>
-        <div class="info-row"><span>আবেদন ফি (প্রতি ইউনিট)</span><b>৳১,০৫০ *</b></div>
-        <div class="info-row"><span>ভর্তি ফি (আনুমানিক)</span><b>৳৮,৫০০ – ১৪,০০০</b></div>
-        <div class="info-row"><span>পরীক্ষা পদ্ধতি</span><b>MCQ + লিখিত</b></div>
-        <div class="info-row"><span>মোট নম্বর</span><b>১০০ (পরীক্ষা) + ২০ (GPA)</b></div>
-        <p class="side-note">* ফি ও তারিখ শিক্ষাবর্ষভেদে বদলাতে পারে। চ্যাটে জিজ্ঞেস করলে বিস্তারিত পাবেন।</p>
+        <h3 id="factsH">এক নজরে ভর্তি তথ্য</h3>
+        <div class="info-row"><span id="fL1">আবেদন মাধ্যম</span><b id="fV1">অনলাইন</b></div>
+        <div class="info-row"><span id="fL2">আবেদন ফি (প্রতি ইউনিট)</span><b id="fV2">৳১,০৫০ *</b></div>
+        <div class="info-row"><span id="fL3">ভর্তি ফি (আনুমানিক)</span><b id="fV3">৳৮,৫০০ – ১৪,০০০</b></div>
+        <div class="info-row"><span id="fL4">পরীক্ষা পদ্ধতি</span><b id="fV4">MCQ + লিখিত</b></div>
+        <div class="info-row"><span id="fL5">মোট নম্বর</span><b id="fV5">১০০ (পরীক্ষা) + ২০ (GPA)</b></div>
+        <p class="side-note" id="sideNote">* ফি ও তারিখ শিক্ষাবর্ষভেদে বদলাতে পারে। চ্যাটে জিজ্ঞেস করলে বিস্তারিত পাবেন।</p>
       </section>
 
       <section class="side-sec">
-        <h3>জনপ্রিয় ডিপার্টমেন্ট</h3>
+        <h3 id="deptH">জনপ্রিয় ডিপার্টমেন্ট</h3>
         <div class="dept-grid" id="deptGrid"></div>
       </section>
 
       <section class="side-sec">
-        <h3>অ্যাডমিশন অফিসে যোগাযোগ</h3>
+        <h3 id="contactH">অ্যাডমিশন অফিসে যোগাযোগ</h3>
         <div class="contact-list" id="contactList"></div>
       </section>
 
-      <p class="side-foot">এই বটটি একটি প্র্যাকটিক্যাল প্রজেক্ট — তথ্য সাধারণ গাইডলাইনের জন্য। ভর্তির চূড়ান্ত সিদ্ধান্ত, তারিখ ও ফি অবশ্যই অফিসিয়াল ওয়েবসাইট ও ভর্তি সার্কুলার থেকে যাচাই করুন।</p>
+      <p class="side-foot" id="sideFoot">এই বটটি একটি প্র্যাকটিক্যাল প্রজেক্ট — তথ্য সাধারণ গাইডলাইনের জন্য। ভর্তির চূড়ান্ত সিদ্ধান্ত, তারিখ ও ফি অবশ্যই অফিসিয়াল ওয়েবসাইট ও ভর্তি সার্কুলার থেকে যাচাই করুন।</p>
     </aside>
     <div class="backdrop" id="backdrop"></div>
 
@@ -298,9 +363,13 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
         <div class="avatar" aria-hidden="true">ঢা</div>
         <div class="head-info">
           <h1>DU Admission Assistant</h1>
-          <p><i></i> Active now • সাথে সাথে উত্তর দেয়</p>
+          <p><i></i><span id="headStatus">Active now • সাথে সাথে উত্তর দেয়</span></p>
         </div>
         <div class="head-actions">
+          <div class="lang-toggle" role="group" aria-label="Language — ভাষা বেছে নিন">
+            <button type="button" id="langBn" class="active" aria-pressed="true">বাংলা</button>
+            <button type="button" id="langEn" aria-pressed="false">EN</button>
+          </div>
           <button class="icon-btn" id="themeBtn" title="Dark theme" aria-label="ডার্ক থিমে যান"></button>
           <button class="icon-btn" id="clearBtn" title="নতুন চ্যাট শুরু করুন" aria-label="Clear chat"></button>
         </div>
@@ -308,12 +377,12 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
 
       <div class="messages" id="messages">
         <div class="messages-inner" id="messagesInner">
-          <div class="date-label">আজ • ঢাকা বিশ্ববিদ্যালয় ভর্তি সহায়তা</div>
+          <div class="date-label" id="dateLabel">আজ • ঢাকা বিশ্ববিদ্যালয় ভর্তি সহায়তা</div>
 
           <div class="welcome" id="welcome">
             <div class="mark" aria-hidden="true">ঢা</div>
-            <h2>আসসালামু আলাইকুম!<br>ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?</h2>
-            <p>ভর্তির যোগ্যতা, ডেডলাইন, ফি, ডকুমেন্টস কিংবা যেকোনো ডিপার্টমেন্ট ও ক্যারিয়ার গাইড — নিচের বিষয়গুলো থেকে বেছে নিন, অথবা নিজের প্রশ্নটি লিখুন।</p>
+            <h2 id="welcomeTitle">আসসালামু আলাইকুম!<br>ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?</h2>
+            <p id="welcomeText">ভর্তির যোগ্যতা, ডেডলাইন, ফি, ডকুমেন্টস কিংবা যেকোনো ডিপার্টমেন্ট ও ক্যারিয়ার গাইড — নিচের বিষয়গুলো থেকে বেছে নিন, অথবা নিজের প্রশ্নটি লিখুন।</p>
             <div class="suggest-grid" id="suggestGrid"></div>
           </div>
         </div>
@@ -323,13 +392,13 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
         <div class="typing-inner">
           <div class="mini-avatar">ঢা</div>
           <div class="typing-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          <span class="typing-text">টাইপিং...</span>
+          <span class="typing-text" id="typingText">টাইপিং...</span>
         </div>
       </div>
 
       <div class="quick-wrap">
         <div class="quick-inner">
-          <div class="quick-label">কুইক রিপ্লাই — এক ক্লিকে জিজ্ঞেস করুন</div>
+          <div class="quick-label" id="quickLabel">কুইক রিপ্লাই — এক ক্লিকে জিজ্ঞেস করুন</div>
           <div class="quick-scroll" id="quickReplies"></div>
         </div>
       </div>
@@ -339,7 +408,7 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
           <textarea id="input" rows="1" placeholder="আপনার প্রশ্ন লিখুন... যেমন: CSE-তে ভর্তি হতে কী লাগবে?" aria-label="আপনার প্রশ্ন লিখুন"></textarea>
           <button class="send-btn" id="sendBtn" aria-label="মেসেজ পাঠান"></button>
         </div>
-        <p class="disclaimer">তথ্য সাধারণ গাইডলাইনের জন্য — চূড়ান্ত তারিখ ও ফি অফিসিয়াল সার্কুলারে যাচাই করুন: admission.eis.du.ac.bd</p>
+        <p class="disclaimer" id="disclaimer">তথ্য সাধারণ গাইডলাইনের জন্য — চূড়ান্ত তারিখ ও ফি অফিসিয়াল সার্কুলারে যাচাই করুন: admission.eis.du.ac.bd</p>
       </div>
     </section>
   </div>
@@ -355,7 +424,8 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
    ============================================================ */
 var proxyState = "unknown"; /* unknown | ok | down */
 
-var FALLBACK = "দুঃখিত, এই বিষয়ে আমার কাছে নির্দিষ্ট তথ্য নেই। অনুগ্রহ করে অ্যাডমিশন অফিসে যোগাযোগ করুন: [ফোন নম্বর: +88 01903-446970 | ইমেইল: registrar@du.ac.bd]";
+var FALLBACK = "দুঃখিত, এই বিষয়ে আমার কাছে নির্দিষ্ট তথ্য নেই। অনুগ্রহ করে অ্যাডমিশন অফিসে যোগাযোগ করুন: ফোন নম্বর: +88 01903-446970 | ইমেইল: registrar@du.ac.bd";
+var FALLBACK_EN = "Sorry, I don't have specific information on this topic. Please contact the Admission Office: Phone: +88 01903-446970 | Email: registrar@du.ac.bd";
 
 /* ---------- Inline SVG icons (stroke, currentColor) ---------- */
 function ic(paths, size){
@@ -382,13 +452,72 @@ var ICON = {
   moon:    '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
 };
 
+/* ---------- Language (বাংলা / English) ----------
+   টগল শুধু এই সেশনের জন্য; পেজের সব UI লেখা ও বটের অফলাইন উত্তর
+   নির্বাচিত ভাষায় দেখানো হয়। আগের পাঠানো মেসেজ অপরিবর্তিত থাকে। */
+var LANG = 'bn';
+var I18N = {
+  bn: {
+    sideStatus: "অ্যাডমিশন অফিস • অনলাইন",
+    sideTitle: "আসসালামু আলাইকুম! ভর্তিতে সাহায্য করতে আমি এখানে",
+    sideIntro: 'আমি <b style="color:var(--ink)">ঢাবি অ্যাডমিশন অ্যাসিস্ট্যান্ট</b>। ভর্তির যোগ্যতা, আবেদন, ফি, ডকুমেন্টস ও ডিপার্টমেন্ট নিয়ে যেকোনো প্রশ্ন করুন — বাংলা বা English-এ।',
+    sideList: ["ইউনিট: ক (বিজ্ঞান), খ (মানবিক), গ (ব্যবসায়), ঘ (সমন্বিত), চ (চারুকলা)", "আবেদন: অনলাইনে — admission.eis.du.ac.bd", "সর্বশেষ তারিখ সবসময় অফিসিয়াল সার্কুলারে মিলিয়ে নিন"],
+    factsH: "এক নজরে ভর্তি তথ্য",
+    facts: [["আবেদন মাধ্যম","অনলাইন"],["আবেদন ফি (প্রতি ইউনিট)","৳১,০৫০ *"],["ভর্তি ফি (আনুমানিক)","৳৮,৫০০ – ১৪,০০০"],["পরীক্ষা পদ্ধতি","MCQ + লিখিত"],["মোট নম্বর","১০০ (পরীক্ষা) + ২০ (GPA)"]],
+    sideNote: "* ফি ও তারিখ শিক্ষাবর্ষভেদে বদলাতে পারে। চ্যাটে জিজ্ঞেস করলে বিস্তারিত পাবেন।",
+    deptH: "জনপ্রিয় ডিপার্টমেন্ট",
+    contactH: "অ্যাডমিশন অফিসে যোগাযোগ",
+    contactPhone: "ফোন:", contactEmail: "ইমেইল:", contactAddr: "ঠিকানা: রেজিস্ট্রার ভবন, ঢাকা বিশ্ববিদ্যালয়, ঢাকা-১০০০",
+    sideFoot: "এই বটটি একটি প্র্যাকটিক্যাল প্রজেক্ট — তথ্য সাধারণ গাইডলাইনের জন্য। ভর্তির চূড়ান্ত সিদ্ধান্ত, তারিখ ও ফি অবশ্যই অফিসিয়াল ওয়েবসাইট ও ভর্তি সার্কুলার থেকে যাচাই করুন।",
+    headStatus: "Active now • সাথে সাথে উত্তর দেয়",
+    dateLabel: "আজ • ঢাকা বিশ্ববিদ্যালয় ভর্তি সহায়তা",
+    welcomeTitle: "আসসালামু আলাইকুম!<br>ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?",
+    welcomeText: "ভর্তির যোগ্যতা, ডেডলাইন, ফি, ডকুমেন্টস কিংবা যেকোনো ডিপার্টমেন্ট ও ক্যারিয়ার গাইড — নিচের বিষয়গুলো থেকে বেছে নিন, অথবা নিজের প্রশ্নটি লিখুন।",
+    typing: "টাইপিং...",
+    quickLabel: "কুইক রিপ্লাই — এক ক্লিকে জিজ্ঞেস করুন",
+    placeholder: "আপনার প্রশ্ন লিখুন... যেমন: CSE-তে ভর্তি হতে কী লাগবে?",
+    disclaimer: "তথ্য সাধারণ গাইডলাইনের জন্য — চূড়ান্ত তারিখ ও ফি অফিসিয়াল সার্কুলারে যাচাই করুন: admission.eis.du.ac.bd",
+    sidebarAria: "ভর্তি তথ্য", infoAria: "ভর্তি তথ্য দেখুন", closeAria: "তথ্য প্যানেল বন্ধ করুন",
+    themeDark: "ডার্ক থিমে যান", themeLight: "লাইট থিমে যান", clearTitle: "নতুন চ্যাট শুরু করুন",
+    sendAria: "মেসেজ পাঠান", inputAria: "আপনার প্রশ্ন লিখুন"
+  },
+  en: {
+    sideStatus: "Admission Office • Online",
+    sideTitle: "Welcome! I'm here to help with your admission",
+    sideIntro: 'I am the <b style="color:var(--ink)">DU Admission Assistant</b>. Ask me anything about eligibility, applications, fees, documents and departments — in English or বাংলা.',
+    sideList: ["Units: A (Science), B (Humanities), C (Business), D (Combined), Cha (Fine Arts)", "Apply online — admission.eis.du.ac.bd", "Always cross-check the latest dates in the official circular"],
+    factsH: "Admission at a glance",
+    facts: [["Application mode","Online"],["Application fee (per unit)","BDT 1,050 *"],["Admission fee (approx.)","BDT 8,500 – 14,000"],["Exam format","MCQ + Written"],["Total marks","100 (exam) + 20 (GPA)"]],
+    sideNote: "* Fees and dates can change each academic year. Ask in the chat for details.",
+    deptH: "Popular departments",
+    contactH: "Contact the Admission Office",
+    contactPhone: "Phone:", contactEmail: "Email:", contactAddr: "Address: Registrar Building, University of Dhaka, Dhaka-1000",
+    sideFoot: "This bot is a practical project — information is a general guideline. Always verify final admission decisions, dates and fees on the official website and the admission circular.",
+    headStatus: "Active now • Replies instantly",
+    dateLabel: "Today • University of Dhaka admission help",
+    welcomeTitle: "Welcome!<br>How can I help with your DU admission?",
+    welcomeText: "Eligibility, deadlines, fees, documents, or any department and career guide — pick a topic below, or type your own question.",
+    typing: "Typing...",
+    quickLabel: "Quick replies — ask in one click",
+    placeholder: "Type your question... e.g. What do I need for CSE admission?",
+    disclaimer: "Information is a general guideline — verify final dates and fees in the official circular: admission.eis.du.ac.bd",
+    sidebarAria: "Admission information", infoAria: "View admission information", closeAria: "Close information panel",
+    themeDark: "Switch to dark theme", themeLight: "Switch to light theme", clearTitle: "Start a new chat",
+    sendAria: "Send message", inputAria: "Type your question"
+  }
+};
+function t(key){ return I18N[LANG][key]; }
+
 /* ---------- Header / sidebar static bits ---------- */
 document.getElementById('topPhone').innerHTML = ic(ICON.phone,15) + '<span>Helpline: +88 01903-446970</span>';
 document.getElementById('topSite').innerHTML = ic(ICON.globe,15) + '<span>admission.eis.du.ac.bd</span>';
-document.getElementById('contactList').innerHTML =
-  '<div class="row">'+ic(ICON.phone,17)+'<span>ফোন: <b style="color:var(--ink)">+88 01903-446970</b></span></div>' +
-  '<div class="row">'+ic(ICON.mail,17)+'<span>ইমেইল: <a href="mailto:registrar@du.ac.bd">registrar@du.ac.bd</a></span></div>' +
-  '<div class="row">'+ic(ICON.pin,17)+'<span>ঠিকানা: রেজিস্ট্রার ভবন, ঢাকা বিশ্ববিদ্যালয়, ঢাকা-১০০০</span></div>';
+function renderContact(){
+  document.getElementById('contactList').innerHTML =
+    '<div class="row">'+ic(ICON.phone,17)+'<span>'+t('contactPhone')+' <b style="color:var(--ink)">+88 01903-446970</b></span></div>' +
+    '<div class="row">'+ic(ICON.mail,17)+'<span>'+t('contactEmail')+' <a href="mailto:registrar@du.ac.bd">registrar@du.ac.bd</a></span></div>' +
+    '<div class="row">'+ic(ICON.pin,17)+'<span>'+t('contactAddr')+'</span></div>';
+}
+renderContact();
 document.getElementById('infoBtn').innerHTML = ic(ICON.info,20);
 document.getElementById('clearBtn').innerHTML = ic(ICON.refresh,19);
 document.getElementById('sideClose').innerHTML = ic(ICON.x,18);
@@ -403,7 +532,7 @@ var themeChosen=false;
 function renderThemeIcon(){
   var dark=document.documentElement.getAttribute('data-theme')==='dark';
   themeBtn.innerHTML = ic(dark?ICON.sun:ICON.moon,19);
-  themeBtn.setAttribute('aria-label', dark?'লাইট থিমে যান':'ডার্ক থিমে যান');
+  themeBtn.setAttribute('aria-label', dark?t('themeLight'):t('themeDark'));
   themeBtn.title = dark?'Light theme':'Dark theme';
 }
 renderThemeIcon();
@@ -438,23 +567,36 @@ var DEPTS = {
   "microbiology": {name:"অণুজীববিজ্ঞান (Microbiology)", faculty:"জীববিজ্ঞান অনুষদ", unit:"ক ইউনিট", seats:"~৬০টি", about:"ব্যাকটেরিওলজি, ভাইরোলজি, ইমিউনোলজি ও বায়োটেকনোলজি।", career:"icddr,b, ফার্মা ও ডায়াগনস্টিক ল্যাব, খাদ্য শিল্প, গবেষণা ও BCS।", req:"ক ইউনিট + জীববিজ্ঞানে আগ্রহ।"}
 };
 
+var DEPTS_EN = {
+  "cse": {name:"Computer Science and Engineering (CSE)", faculty:"Faculty of Engineering and Technology", unit:"A Unit", seats:"~60", about:"Study of algorithms, data structures, AI/ML, software engineering, networks and databases. One of the most competitive departments at DU.", career:"Software engineer, AI/ML engineer, data scientist, systems architect — at local and international tech companies, banks and startups. Plenty of remote job opportunities too.", req:"A strong position in A Unit + Mathematics in HSC is essential."},
+  "eee": {name:"Electrical and Electronic Engineering (EEE)", faculty:"Faculty of Engineering and Technology", unit:"A Unit", seats:"~90", about:"Circuits, power systems, telecommunications, VLSI, embedded systems and renewable energy.", career:"Power sector (DPDC, DESCO), telecom (Grameenphone, Robi), semiconductor and automation industries, BCS technical cadre.", req:"A Unit + a strong base in Physics and Mathematics."},
+  "pharmacy": {name:"Pharmacy", faculty:"Faculty of Pharmacy", unit:"A Unit", seats:"~70", about:"5-year B.Pharm (Hons) — pharmaceutical chemistry, pharmacology, clinical pharmacy and drug design.", career:"QA/QC, R&D and production at pharma companies like Square, Beximco and Incepta; hospital pharmacist, drug administration. Strong demand in Bangladesh's pharma export sector.", req:"A Unit + good marks in Biology and Chemistry."},
+  "law": {name:"Law", faculty:"Faculty of Law", unit:"B / D Unit", seats:"~110", about:"LLB (Hons) — constitutional law, civil and criminal law, international law. DU's Faculty of Law is the most prestigious in the country.", career:"Judiciary (BJS), advocate, corporate lawyer, BCS, legal officer at banks and NGOs, teaching and research.", req:"A top position in B or D Unit is required."},
+  "english": {name:"English", faculty:"Faculty of Arts", unit:"B Unit", seats:"~120", about:"English literature, linguistics, ELT and critical theory. Builds strong writing and analytical skills.", career:"BCS education cadre, banks, media and content, development sector, teaching, translation and publishing.", req:"B Unit + good proficiency in English."},
+  "economics": {name:"Economics", faculty:"Faculty of Social Sciences", unit:"B / D Unit", seats:"~130", about:"Micro and macro economics, econometrics, development economics and public policy.", career:"Bangladesh Bank, BCS, research institutes (BIDS, CPD), banks and international organisations (World Bank, UNDP).", req:"B/D Unit; Mathematics/Statistics in HSC is an advantage."},
+  "finance": {name:"Finance (FBS)", faculty:"Faculty of Business Studies (FBS)", unit:"C Unit", seats:"~105", about:"Corporate finance, investment, banking and fintech. FBS is one of DU's most sought-after faculties.", career:"Banks, merchant banks, the stock market, finance teams of multinational companies, and pathways to CFA/ACCA.", req:"A top merit position in C Unit."},
+  "marketing": {name:"Marketing (FBS)", faculty:"Faculty of Business Studies (FBS)", unit:"C Unit", seats:"~110", about:"Brand management, digital marketing, consumer behaviour and market research.", career:"FMCG companies (Unilever, BAT), ad agencies, digital marketing, sales leadership.", req:"C Unit."},
+  "iba": {name:"IBA — BBA Programme", faculty:"Institute of Business Administration", unit:"IBA's own admission test", seats:"~120", about:"IBA's BBA is the most competitive programme in the country. A separate admission test (mathematics, English, analytical ability) plus a viva.", career:"Management trainee roles at multinational companies, banks and consulting firms — among the highest starting salaries in the country.", req:"Students from any background can apply; follow IBA's own circular: iba-du.edu"},
+  "microbiology": {name:"Microbiology", faculty:"Faculty of Biological Sciences", unit:"A Unit", seats:"~60", about:"Bacteriology, virology, immunology and biotechnology.", career:"icddr,b, pharma and diagnostic labs, the food industry, research and BCS.", req:"A Unit + an interest in Biology."}
+};
+
 var QUICK = [
-  {icon:"wallet",   label:"ভর্তি ফি কত?",        q:"ভর্তি ফি কত?"},
-  {icon:"calendar", label:"ডেডলাইন কবে?",         q:"ভর্তির ডেডলাইন কবে?"},
-  {icon:"grid",     label:"ডিপার্টমেন্টসমূহ",      q:"কোন কোন ডিপার্টমেন্ট আছে?"},
-  {icon:"check",    label:"ভর্তির যোগ্যতা",        q:"ভর্তির যোগ্যতা কি?"},
-  {icon:"file",     label:"প্রয়োজনীয় ডকুমেন্টস",  q:"কি কি ডকুমেন্টস লাগবে?"},
-  {icon:"code",     label:"CSE সম্পর্কে জানতে চাই", q:"CSE ডিপার্টমেন্ট সম্পর্কে জানতে চাই"},
-  {icon:"pen",      label:"আবেদন করবো কিভাবে?",   q:"কিভাবে আবেদন করবো?"}
+  {icon:"wallet",   label:"ভর্তি ফি কত?",        labelEn:"Admission fee?",      q:"ভর্তি ফি কত?",                 qEn:"What is the admission fee?"},
+  {icon:"calendar", label:"ডেডলাইন কবে?",         labelEn:"Deadline?",           q:"ভর্তির ডেডলাইন কবে?",          qEn:"When is the admission deadline?"},
+  {icon:"grid",     label:"ডিপার্টমেন্টসমূহ",      labelEn:"Departments",         q:"কোন কোন ডিপার্টমেন্ট আছে?",     qEn:"What departments are there?"},
+  {icon:"check",    label:"ভর্তির যোগ্যতা",        labelEn:"Eligibility",         q:"ভর্তির যোগ্যতা কি?",           qEn:"What is the eligibility?"},
+  {icon:"file",     label:"প্রয়োজনীয় ডকুমেন্টস",  labelEn:"Required documents",  q:"কি কি ডকুমেন্টস লাগবে?",       qEn:"What documents are required?"},
+  {icon:"code",     label:"CSE সম্পর্কে জানতে চাই", labelEn:"About CSE",           q:"CSE ডিপার্টমেন্ট সম্পর্কে জানতে চাই", qEn:"Tell me about the CSE department"},
+  {icon:"pen",      label:"আবেদন করবো কিভাবে?",   labelEn:"How to apply?",       q:"কিভাবে আবেদন করবো?",          qEn:"How do I apply?"}
 ];
 
 var SUGGEST = [
-  {icon:"check",    title:"ভর্তির যোগ্যতা",        sub:"ইউনিটভেদে GPA শর্ত ও পাস নম্বর", q:"ভর্তির যোগ্যতা কি?"},
-  {icon:"calendar", title:"ডেডলাইন ও সময়সূচি",    sub:"আবেদন, পরীক্ষা ও ফলাফলের তারিখ", q:"ভর্তির ডেডলাইন কবে?"},
-  {icon:"wallet",   title:"ফি ও খরচ",              sub:"আবেদন ফি, ভর্তি ফি ও হল খরচ", q:"ভর্তি ফি কত?"},
-  {icon:"file",     title:"প্রয়োজনীয় ডকুমেন্টস",   sub:"ভর্তির সময় যা যা লাগবে", q:"কি কি ডকুমেন্টস লাগবে?"},
-  {icon:"cap",      title:"ডিপার্টমেন্ট গাইড",      sub:"বিভাগ পরিচিতি ও ক্যারিয়ার পথ", q:"কোন কোন ডিপার্টমেন্ট আছে?"},
-  {icon:"pen",      title:"আবেদন প্রক্রিয়া",       sub:"ধাপে ধাপে অনলাইন আবেদন", q:"কিভাবে আবেদন করবো?"}
+  {icon:"check",    title:"ভর্তির যোগ্যতা",        titleEn:"Eligibility",          sub:"ইউনিটভেদে GPA শর্ত ও পাস নম্বর",       subEn:"Unit-wise GPA requirements & pass marks", q:"ভর্তির যোগ্যতা কি?",        qEn:"What is the eligibility?"},
+  {icon:"calendar", title:"ডেডলাইন ও সময়সূচি",    titleEn:"Deadline & schedule",  sub:"আবেদন, পরীক্ষা ও ফলাফলের তারিখ",      subEn:"Application, exam & result dates",        q:"ভর্তির ডেডলাইন কবে?",       qEn:"When is the admission deadline?"},
+  {icon:"wallet",   title:"ফি ও খরচ",              titleEn:"Fees & costs",         sub:"আবেদন ফি, ভর্তি ফি ও হল খরচ",         subEn:"Application fee, admission fee & hall costs", q:"ভর্তি ফি কত?",          qEn:"What is the admission fee?"},
+  {icon:"file",     title:"প্রয়োজনীয় ডকুমেন্টস",   titleEn:"Required documents",   sub:"ভর্তির সময় যা যা লাগবে",             subEn:"Everything you need at admission time",   q:"কি কি ডকুমেন্টস লাগবে?",    qEn:"What documents are required?"},
+  {icon:"cap",      title:"ডিপার্টমেন্ট গাইড",      titleEn:"Department guide",     sub:"বিভাগ পরিচিতি ও ক্যারিয়ার পথ",        subEn:"Department intros & career paths",        q:"কোন কোন ডিপার্টমেন্ট আছে?",  qEn:"What departments are there?"},
+  {icon:"pen",      title:"আবেদন প্রক্রিয়া",       titleEn:"Application process",  sub:"ধাপে ধাপে অনলাইন আবেদন",             subEn:"Step-by-step online application",         q:"কিভাবে আবেদন করবো?",       qEn:"How do I apply?"}
 ];
 
 /* ---------- Chat plumbing ---------- */
@@ -488,6 +630,14 @@ function showTyping(){ typingEl.classList.add('show'); scrollBottom(); }
 function hideTyping(){ typingEl.classList.remove('show'); }
 
 function deptAnswer(d){
+  if(LANG==='en'){
+    for(var k in DEPTS){
+      if(DEPTS[k]===d && DEPTS_EN[k]){
+        var e=DEPTS_EN[k];
+        return e.name+"\n\nFaculty: "+e.faculty+"\nAdmission: "+e.unit+" • Seats: "+e.seats+"\n\nAbout: "+e.about+"\n\nCareers: "+e.career+"\n\nRequirements: "+e.req+"\n\nAsk me more if you like — for example, this department's admission fee or seat count.";
+      }
+    }
+  }
   return d.name+"\n\nঅনুষদ: "+d.faculty+"\nভর্তি: "+d.unit+" • আসন: "+d.seats+"\n\nসম্পর্কে: "+d.about+"\n\nক্যারিয়ার: "+d.career+"\n\nযোগ্যতা: "+d.req+"\n\nআরও জানতে চাইলে জিজ্ঞেস করুন — যেমন এই বিভাগের ভর্তি ফি বা আসন সংখ্যা।";
 }
 
@@ -612,10 +762,181 @@ var FAQ_DB = [
 {k:["ট্রান্সক্রিপ্ট","transcript"],a:"ট্রান্সক্রিপ্ট/নম্বরপত্র উত্তোলন:\n\n• পরীক্ষা নিয়ন্ত্রক অফিস থেকে নির্ধারিত ফি দিয়ে আবেদন করতে হয়\n• বিদেশে আবেদনের জন্য সিলগালা ট্রান্সক্রিপ্টের ব্যবস্থা আছে\n• প্রক্রিয়ায় কয়েক কর্মদিবস সময় লাগতে পারে — হাতে সময় নিয়ে আবেদন করুন"}
 ];
 
+/* ============================================================
+   English knowledge base — used when the UI language is English.
+   Same longest-keyword matching as the Bangla database.
+   ============================================================ */
+var FAQ_DB_EN = [
+{k:["how are you"],a:"I'm doing well, thank you! I hope you are well too.\n\nI'm here to help with University of Dhaka admissions — ask me about eligibility, deadlines, fees, documents or departments."},
+{k:["who are you","your name","introduce yourself"],a:"I'm the DU Admission Assistant — a chatbot built to help with University of Dhaka admissions.\n\nI can provide information on eligibility, the application process, fees, documents, the admission test and department guides. For final decisions, the official circular is always authoritative."},
+{k:["what can you do","help me","how can you help"],a:"I can help with:\n\n• Eligibility and unit introductions\n• Application steps, deadlines and fees\n• Required documents and quotas\n• Exam format, mark distribution and preparation\n• Department introductions and career guides\n• Results, merit lists, subject choice and migration\n• Halls, scholarships and campus life\n\nType any topic and I'll give you the details."},
+{k:["good morning","good afternoon","good evening"],a:"Hello! Welcome to University of Dhaka admission help.\n\nType your question — eligibility, fees, deadlines, documents or departments — and I'll help."},
+{k:["bye","goodbye","see you"],a:"Goodbye! Wishing you success with your admission preparation and your future.\n\nCome back any time you need information. Official source: admission.eis.du.ac.bd"},
+{k:["thank you","thanks"],a:"You're very welcome! Wishing you a successful admission journey. Feel free to ask if you need anything else."},
+{k:["about du","about the university","university of dhaka"],a:"The University of Dhaka (DU) is Bangladesh's oldest and leading public university — founded in 1921.\n\n• 13 faculties, 80+ departments and several institutes\n• Campus: Shahbagh–Nilkhet area, Dhaka\n• Admission: through competitive unit-wise tests every year\n• Admission portal: admission.eis.du.ac.bd\n\nWhat would you like to know — eligibility, units or departments?"},
+{k:["when was du established","established","founded"],a:"The University of Dhaka was founded in 1921. It is the oldest university in Bangladesh and is known as the 'Oxford of the East'."},
+{k:["total seat","how many seats","total seats"],a:"DU has roughly 6,000+ undergraduate seats each year (this changes by academic year and circular).\n\n• A Unit has the most seats\n• Then B, C, D and Cha Units\n• For a specific department's seats, type its name — e.g. 'How many seats in CSE?'"},
+{k:["i want admission","want to get admitted","get admission"],a:"To get admitted to DU, the steps are:\n\n1. Check your eligibility (SSC+HSC GPA requirements)\n2. When the circular is published, apply online at admission.eis.du.ac.bd\n3. Pay the application fee (BDT 1,050 per unit)\n4. Download the admit card and sit for the admission test\n5. If you make the merit list, complete subject choice and admission\n\nWhich step would you like in detail?"},
+{k:["circular","notice"],a:"The admission circular is published on DU's official websites each academic year.\n\n• Websites: du.ac.bd and admission.eis.du.ac.bd\n• The circular contains: eligibility, dates, fees, exam rules and mark distribution\n• Read the full circular carefully before applying — it carries the final rules\n\nThe exact publication date is announced each year."},
+{k:["a unit eligibility","science unit eligibility"],a:"A Unit (Science) eligibility:\n\n• Passed both SSC and HSC from the science group\n• Combined SSC+HSC GPA of at least 8.00\n• At least GPA 3.50 in each exam separately\n• Some departments require specific HSC subjects (e.g. Mathematics for CSE)\n\nSee the circular for full conditions."},
+{k:["b unit eligibility","humanities unit"],a:"B Unit (Humanities) eligibility:\n\n• Combined SSC+HSC GPA of at least 7.50\n• At least GPA 3.00 in each exam separately\n• Students from other groups may also apply if they meet the conditions (see the circular)"},
+{k:["c unit eligibility","business unit"],a:"C Unit (Business Studies) eligibility:\n\n• Combined SSC+HSC GPA of at least 7.50\n• At least GPA 3.00 in each exam separately\n• Mainly for business studies students; other groups follow the circular's conditions"},
+{k:["d unit"],a:"D Unit (Combined / group change):\n\n• You must meet your own group's eligibility conditions\n• Students from science, humanities and business groups can all apply\n• Offers admission to departments including those under the Faculty of Social Sciences\n• Subject-specific conditions are stated in the circular"},
+{k:["cha unit","fine arts unit"],a:"Cha Unit (Fine Arts) eligibility:\n\n• Combined SSC+HSC GPA of at least 6.50\n• You must sit a general knowledge test plus a drawing test\n• Drawing skill matters most here"},
+{k:["low gpa","gpa is low","my gpa"],a:"Don't lose heart if your GPA is comparatively low:\n\n• Cha Unit has the lowest requirement (combined 6.50)\n• B/C Units need 7.50 combined, A Unit needs 8.00\n• The merit list is driven mainly by the 100-mark exam — GPA contributes only 20 marks\n• Strong preparation can make up much of a GPA gap\n\nTell me your SSC and HSC GPA and I'll tell you which units you can apply to."},
+{k:["second time","apply again","improvement"],a:"DU usually allows candidates from the most recent two HSC batches to apply — so if you miss one year, you can sit the test again the next year, as long as you fall within the circular's batch conditions.\n\nImprovement candidates follow the specific rules in the circular — check it before applying."},
+{k:["group change","change my group","change group"],a:"To change your group, D Unit is the main route:\n\n• Students from all groups can sit the D Unit test\n• You must meet your own group's GPA conditions\n• B Unit also allows some cross-group applications (per the circular)\n\nTell me which group you are moving from and to, and I'll be more specific."},
+{k:["arts to science","humanities to science"],a:"You cannot move directly from humanities into A Unit (science) departments, because the relevant HSC science subjects are mandatory.\n\nHowever, through D Unit and B Unit you can access many strong departments including social sciences, arts and law."},
+{k:["science to business","science to bba"],a:"For a science student wanting an FBS BBA, IBA is an excellent route — IBA accepts applicants from any background.\n\nC Unit is mainly for business studies students; other groups should check the circular's conditions. D Unit also offers some departments such as Economics."},
+{k:["madrasa","alim","dakhil"],a:"Madrasa board students (Dakhil/Alim) can also apply to DU if they meet the conditions:\n\n• Alim is treated as equivalent to HSC\n• The same unit-wise GPA conditions apply\n• Subject conditions (e.g. science subjects for A Unit) must be met\n\nThe circular details the equivalence rules."},
+{k:["vocational","technical board","diploma"],a:"For students from technical/vocational boards, equivalence and subject conditions are specified in the circular. Generally, an HSC-equivalent certificate with the relevant subjects allows you to apply.\n\nTell me your board and group for a more specific answer — or contact the Admission Office: +88 01903-446970"},
+{k:["english medium","o level","a level"],a:"English-medium (O/A Level) students can apply after equivalence assessment:\n\n• You need an Equivalence certificate from the university\n• Grades are converted to GPA and matched against unit conditions\n• The process takes time — start before the circular is published\n\nDetails: registrar@du.ac.bd"},
+{k:["foreign student","international student"],a:"There is a separate quota and process for foreign students:\n\n• Applications usually go through the foreign/education ministry channel\n• An equivalence certificate, passport and other documents are required\n• For details, contact the international affairs office / Registrar's office: registrar@du.ac.bd"},
+{k:["apply link","admission website","official website"],a:"DU's official admission websites:\n\n• Admission portal: admission.eis.du.ac.bd\n• Main website: du.ac.bd\n\nUse only these official sites — never send money to unofficial sites."},
+{k:["photo upload","photo size","upload photo"],a:"Photo rules for the application (usually):\n\n• A recent colour passport-size photo\n• The size and format (usually JPG) are stated in the circular/portal\n• Sunglasses, caps or unclear photos are not accepted\n• A wrong photo can cause problems on the admit card — check the preview before submitting"},
+{k:["edit application","mistake in application","wrong information"],a:"If there is a mistake in your application:\n\n• Within the application period, you may be able to correct it by logging into the portal\n• Some information cannot be changed after payment — contact the helpline in that case\n• Phone: +88 01903-446970, Email: registrar@du.ac.bd\n\nAlways double-check everything before submitting."},
+{k:["multiple unit","two units","more than one unit"],a:"Yes, if you are eligible you can apply to multiple units:\n\n• A separate application and fee (BDT 1,050) for each unit\n• The tests are usually held on different days\n• If you get a chance in more than one unit, you must enrol in only one"},
+{k:["payment","pay the fee","bkash"],a:"Ways to pay the application fee (usually):\n\n• Mobile banking: bKash, Rocket, Nagad\n• Debit/credit cards and online banking\n• Follow the payment steps on the portal\n\nAfter a successful payment you'll receive a confirmation SMS/receipt — keep it safe. If money is deducted but not confirmed, inform the helpline (+88 01903-446970) immediately."},
+{k:["refund","fee back"],a:"The application fee is generally non-refundable.\n\nHowever, for technical payment errors (e.g. being charged twice) you can apply to the Admission Office with proof: +88 01903-446970 / registrar@du.ac.bd"},
+{k:["admit card"],a:"Admit Card:\n\n• Available for download from admission.eis.du.ac.bd about 1 week before the exam\n• Log in and print it in colour\n• Bring the admit card plus your HSC registration card/original certificate to the exam hall\n• Your exam centre, date and time are printed on it — check the centre's location the day before"},
+{k:["exam center","exam centre","seat plan"],a:"The admission test is usually held at centres on the DU campus and across Dhaka, and in some divisional cities (per the circular).\n\nYour centre and seat plan are on your admit card. Leave extra travel time on exam day to avoid traffic."},
+{k:["marks distribution","mark distribution","how many marks"],a:"Admission test mark distribution:\n\n• MCQ: 60 marks\n• Written: 40 marks\n• Total exam: 100 marks\n• From SSC/HSC GPA: 20 marks\n• Grand total for the merit list: 120 marks\n\nDuration is usually 1 hour 30 minutes. Subject-wise distribution varies by unit — see the circular."},
+{k:["pass mark","passing marks"],a:"Pass marks and conditions:\n\n• You must score minimum marks in the MCQ and written parts separately (usually with combined conditions)\n• Some departments require minimum marks in specific subjects (e.g. English/Mathematics)\n• Passing alone is not enough — seats are filled by merit position\n\nThe exact pass conditions are in each year's circular."},
+{k:["negative marking"],a:"DU admission MCQ tests usually have negative marking — a fixed amount (generally 0.25) is deducted for each wrong answer.\n\nSo think carefully before guessing a question you don't know at all. Confirm the exact rule in the circular."},
+{k:["calculator","smartwatch","phone in exam"],a:"Calculators, smartwatches, mobile phones and all electronic devices are generally prohibited in the exam hall.\n\nThe list of permitted items is given on the admit card and in the circular — follow that."},
+{k:["preparation","how to prepare","study tips"],a:"Effective DU admission preparation tips:\n\n1. Finish your HSC textbooks (board books) thoroughly — most questions come from them\n2. Solve previous years' questions — the best way to understand the pattern\n3. Practise time management for MCQ (take model tests)\n4. Practise writing short answers for the written part\n5. Give regular time to English and general knowledge\n\nTell me which unit you're preparing for and I'll give subject-wise guidance."},
+{k:["a unit preparation","science preparation"],a:"A Unit preparation:\n\n• Subjects: Physics, Chemistry, Mathematics, Biology (by choice) + Bangla/English\n• Practise MCQs from every chapter of the board books\n• For Mathematics focus on formulas and shortcuts; for Physics, concept-based questions\n• Study Biology with diagrams\n• Take a full model test every week"},
+{k:["b unit preparation","humanities preparation"],a:"B Unit preparation:\n\n• Subjects: Bangla, English and General Knowledge\n• Bangla: grammar, literature and the board books\n• English: grammar, vocabulary and comprehension\n• General Knowledge: Bangladesh, the Liberation War, international affairs and current events\n• Practise paragraph writing for the written part"},
+{k:["c unit preparation","commerce preparation","business preparation"],a:"C Unit preparation:\n\n• Subjects: Bangla, English, Accounting, Business Organisation & Management, Finance/Marketing\n• Regular practice of accounting problems is essential\n• Give time to English grammar and vocabulary\n• Learn the question style from previous years' questions"},
+{k:["general knowledge","gk preparation"],a:"General Knowledge (GK) preparation:\n\n• Bangladesh: history, the Liberation War, the constitution, geography\n• International: organisations, capitals and currencies, current events\n• Read a newspaper daily and follow a monthly current-affairs magazine\n• Also learn facts about the University of Dhaka itself (founding, halls, faculties)"},
+{k:["english preparation"],a:"English preparation for the admission test:\n\n• Grammar: tense, voice, narration, prepositions, correction\n• Vocabulary: 15–20 new words daily + synonyms/antonyms\n• Practise answering comprehension passages quickly\n• Previous years' questions give the most common items"},
+{k:["bangla preparation"],a:"Bangla preparation for the admission test:\n\n• Prose, poetry and author introductions from the board books\n• Grammar: compounds (samasa), sandhi, karaka, idioms, one-word expressions\n• Literary history and famous quotations\n• Practise summaries and elaborations for the written part"},
+{k:["coaching"],a:"Coaching is not compulsory — many students get into DU through self-study.\n\n• The foundation is board books + previous years' questions\n• Coaching/guides can help with discipline and model tests, but they are not a substitute\n• Whatever you choose, take regular model tests to gauge your position"},
+{k:["question bank","previous year question","past questions"],a:"Previous years' questions are the most valuable preparation resource:\n\n• They reveal the pattern and the important topics\n• Unit-wise question banks are available in bookshops and online\n• Try to solve at least the last 10 years' questions"},
+{k:["cut mark","how much to get a chance","marks needed"],a:"The cut mark changes every year with question difficulty and competition — there is no fixed number.\n\n• For popular departments (CSE, Law, Pharmacy, IBA) you need a merit position far ahead\n• In general, the higher your score out of 120, the better your chance of a preferred department\n• Aim to maximise MCQ accuracy and score fully in the written part"},
+{k:["seat distribution"],a:"Unit-wise seats (approximate idea; the circular is final):\n\n• A Unit: the most (all science departments)\n• B Unit: a large share of arts and social sciences\n• C Unit: the FBS departments\n• D and Cha Units: comparatively fewer\n\nFor a specific department's seats, type its name."},
+{k:["subject choice"],a:"Subject choice:\n\n• After making the merit list, you submit your preference list online\n• Departments are allocated in merit order — arrange your list carefully\n• Once allocated, it usually cannot be changed (except through migration)\n• Arrange by your interest and career plan, not just by a department's 'name'"},
+{k:["migration"],a:"Migration (changing department):\n\n• After the first allocation, if seats remain vacant you may migrate to a higher-preference department\n• Migration is generally automatic/application-based — follow the notices\n• If you migrate, you must give up your previous seat\n• Migration happens within a fixed window; there is no later opportunity"},
+{k:["waiting list"],a:"Waiting list:\n\n• After the main merit list admission, waiting-list candidates are called for vacant seats\n• Calls can come in several rounds — check admission.eis.du.ac.bd regularly\n• If called, you must complete admission within the given time or lose the chance"},
+{k:["cancel admission","cancellation"],a:"To cancel your admission:\n\n• Apply in writing to the relevant department/faculty office\n• Apply following the rules to get your original certificates back\n• Fee refund rules are limited — check with the office\n• Confirm the DU cancellation before enrolling at another university"},
+{k:["quota"],a:"Quotas apply at DU under government rules:\n\n• Freedom fighter's children/grandchildren quota\n• Indigenous (tribal) quota\n• Disability quota\n• Sports quota and others (per the circular)\n\nQuota applicants must declare it during application with the relevant certificate, and originals are verified at admission. Fake certificates lead to cancellation and legal action."},
+{k:["ward quota"],a:"A ward quota for children of the university's teachers/officers/staff may apply under the circular's conditions. You must declare it during application and submit the required proof."},
+{k:["sports quota"],a:"There is a sports quota for nationally recognised athletes (per the circular's conditions). Certificates from the relevant federation and proof of achievement are required, with a separate verification process."},
+{k:["tuition fee","semester fee","yearly cost"],a:"DU is a public university — so tuition costs are very low compared to private universities:\n\n• Admission fee (one-time): approx. BDT 8,500 – 14,000 (varies by department)\n• Annual/semester fees: usually only a few thousand taka\n• Exam fees are paid separately each semester\n• IBA's fee structure is separate and comparatively higher\n\nTuition waivers and scholarships are available for financially disadvantaged students."},
+{k:["hall cost","hostel cost","dorm cost"],a:"Hall (dormitory) costs:\n\n• Seat rent: nominal (very low monthly)\n• Food: at your own cost in the hall dining/canteen — cheaper than outside messes\n• Hall attachment and other charges are paid one-time at admission\n\nOverall, staying in a hall is far cheaper than a mess in Dhaka."},
+{k:["no hall seat","mess","stay outside"],a:"If you don't get a hall seat in the first year:\n\n• There are many messes/hostels around the university (Nilkhet, Azimpur, Lalbagh, Dhanmondi)\n• Many students share with seniors and classmates\n• Your chance of a hall seat improves in later years by merit and seniority"},
+{k:["hall list","how many halls","dormitories"],a:"DU has 20+ residential halls for male and female students. Notable ones:\n\n• For men: Salimullah Muslim Hall, Jagannath Hall, Shahidullah Hall, Fazlul Huq Hall, Masterda Surya Sen Hall, Bijoy Ekattor Hall\n• For women: Rokeya Hall, Shamsun Nahar Hall, Bangladesh-Kuwait Maitree Hall, Bangamata Sheikh Fazilatunnesa Mujib Hall\n\nHall allocation is fixed by faculty/department."},
+{k:["get scholarship","scholarship how"],a:"How to get a scholarship:\n\n• Do well academically — merit scholarships are awarded on results\n• Watch department office and notice board announcements regularly\n• Apply online for government scholarships within the deadline\n• Keep proof of financial need (income certificate) ready\n\nFor details, contact your department office."},
+{k:["fee waiver","tuition waiver"],a:"Financially disadvantaged students can apply for a tuition fee waiver:\n\n• Apply through your department head\n• Submit proof documents including a family income certificate\n• Partial or full waivers may be granted after verification"},
+{k:["semester system","credit system"],a:"Most DU departments follow the semester system:\n\n• 2 semesters a year, 8 semesters in total for a bachelor's (4 years)\n• Each course carries credits with CGPA grading\n• Some programmes may follow an annual system (e.g. Pharmacy is 5 years)\n\nYou'll receive the academic calendar and rules from your department after admission."},
+{k:["class start","when do classes start","session start"],a:"Classes begin with an orientation after admission is completed — usually within a few weeks of the admission process ending.\n\nExact dates vary by department and are announced on department notices and websites."},
+{k:["session jam","session delay"],a:"Session jams at DU are much less common than before — most departments follow a regular academic calendar and aim to finish the bachelor's in 4 years. There can be some variation by department."},
+{k:["library"],a:"DU's Central Library is one of the richest in the country:\n\n• Hundreds of thousands of books, journals and research materials\n• Departments also have seminar libraries\n• Spacious reading rooms — a favourite place for admission preparation and research\n• Members can borrow books"},
+{k:["tsc"],a:"TSC (Teacher-Student Centre) is the heart of DU campus life — cultural events, hangouts, student organisation activities and the canteen. A large part of campus life revolves around TSC."},
+{k:["curzon hall"],a:"Curzon Hall is one of DU's historic architectural landmarks — the heart of the Science Faculty. Built in 1904, it is one of the most recognisable buildings on campus."},
+{k:["transport","bus service","how to commute"],a:"DU runs its own bus service for students on various routes across Dhaka (at nominal fare/by card).\n\nThe metro rail's 'Dhaka University' station has also made commuting to campus much easier."},
+{k:["medical center","medical facility","health service"],a:"DU has a Medical Centre for students — primary treatment and consultations are available. For emergencies, major hospitals including Dhaka Medical College Hospital are nearby."},
+{k:["software engineering","iit"],a:"Software Engineering — IIT (Institute of Information Technology):\n\n• Institute: IIT, DU\n• Admission: through A Unit\n• About: a curriculum centred on software development, project management and modern technology, with strong industry project opportunities\n• Careers: software engineer, full-stack developer, product engineer — at local and foreign companies and in remote jobs\n• Requirements: a good A Unit position + strength in Mathematics"},
+{k:["statistics department","statistics"],a:"Statistics:\n\n• Admission: A Unit\n• About: probability, data analysis, surveys and research methods\n• Careers: data analyst, Bangladesh Bureau of Statistics, banks, research institutes, and a path into data science\n• Requirements: A Unit + an interest in Mathematics"},
+{k:["mathematics department","math department"],a:"Mathematics:\n\n• Admission: A Unit\n• About: pure and applied mathematics, foundations of statistics\n• Careers: BCS education, banks, data analytics, insurance (actuarial), research and teaching"},
+{k:["physics department"],a:"Physics:\n\n• Admission: A Unit\n• About: theoretical and experimental physics, electronics\n• Careers: research, BCS, teaching, and transitions into tech and data fields"},
+{k:["chemistry department"],a:"Chemistry:\n\n• Admission: A Unit\n• About: organic, inorganic and physical chemistry, analytical chemistry\n• Careers: pharma and chemical industries, BCS, research, quality control (QC) labs"},
+{k:["zoology","botany"],a:"Zoology and Botany (Faculty of Biological Sciences):\n\n• Admission: A Unit\n• About: animal/plant structure, environment, ecosystems and research\n• Careers: BCS, Department of Environment and Forest, research institutes, teaching, NGO environment projects"},
+{k:["psychology"],a:"Psychology:\n\n• Admission: B/D Unit (per the circular)\n• About: human behaviour, counselling, clinical and organisational psychology\n• Careers: counsellor, HR, hospitals and clinics, research, development sector"},
+{k:["international relations","ir department"],a:"International Relations (IR):\n\n• Admission: B/D Unit\n• About: diplomacy, foreign policy, international politics and organisations\n• Careers: BCS foreign affairs cadre, embassies, international organisations (UN, World Bank), media and research"},
+{k:["mass communication","journalism"],a:"Mass Communication and Journalism (MCJ):\n\n• Admission: B/D Unit\n• About: journalism, media studies, public relations and digital media\n• Careers: newspapers, television, online media, corporate communications, PR agencies"},
+{k:["public administration"],a:"Public Administration:\n\n• Admission: B/D Unit\n• About: government administration, policy analysis, human resource management\n• Careers: one of the most popular departments for the BCS administration cadre; also NGO and corporate HR"},
+{k:["political science"],a:"Political Science:\n\n• Admission: B Unit\n• About: political theory, systems of government, comparative politics\n• Careers: BCS, teaching, research, media, development sector"},
+{k:["sociology"],a:"Sociology:\n\n• Admission: B/D Unit\n• About: social structure, research methods, development studies\n• Careers: research institutes, NGOs, international organisations, BCS, teaching"},
+{k:["history department"],a:"History:\n\n• Admission: B Unit\n• About: the history of Bangladesh, the subcontinent and the world; research methods\n• Careers: BCS, teaching, museums and archives, media and publishing, research"},
+{k:["philosophy"],a:"Philosophy:\n\n• Admission: B Unit\n• About: logic, ethics, epistemology and contemporary philosophy\n• Careers: BCS, teaching, research, writing and analysis-based professions"},
+{k:["accounting department","accounting and information"],a:"Accounting and Information Systems (AIS, FBS):\n\n• Admission: C Unit\n• About: financial accounting, audit, tax and information systems\n• Careers: a pathway to CA (ICAB), banks, audit firms, corporate accounts — one of FBS's most in-demand departments"},
+{k:["management department"],a:"Management (FBS):\n\n• Admission: C Unit\n• About: organisational behaviour, HR, operations and strategic management\n• Careers: corporate management, HR, banks, multinational companies"},
+{k:["banking and insurance","banking department"],a:"Banking and Insurance (FBS):\n\n• Admission: C Unit\n• About: bank management, risk, insurance and financial institutions\n• Careers: Bangladesh Bank, commercial banks, insurance companies, financial institutions"},
+{k:["tourism and hospitality","tourism department"],a:"Tourism and Hospitality Management (FBS):\n\n• Admission: C Unit\n• About: the tourism business, hotel management, event management\n• Careers: hotels and resorts, airlines, travel agencies, the tourism corporation"},
+{k:["ier","institute of education"],a:"Institute of Education and Research (IER):\n\n• Admission: unit-based (per the circular)\n• About: education science, curriculum, educational psychology\n• Careers: education administration, BCS education, curriculum development, research and training institutes"},
+{k:["nutrition","food and nutrition"],a:"Institute of Nutrition and Food Science (INFS):\n\n• Admission: an A Unit-based process (per the circular)\n• About: human nutrition, food technology, public health nutrition\n• Careers: hospital dietitian, food industry, public health projects, research"},
+{k:["health economics"],a:"Institute of Health Economics:\n\n• About: health-sector economics, policy and management\n• Careers: Ministry of Health, international organisations, hospital administration, research"},
+{k:["disaster management","disaster science"],a:"Disaster Science and Management:\n\n• Admission: an A Unit-based process (per the circular)\n• About: disaster risk, climate adaptation, emergency management\n• Careers: Department of Disaster Management, NGOs, international organisations, research"},
+{k:["geography"],a:"Geography and Environment:\n\n• Admission: A/D Unit (per the circular)\n• About: physical and human geography, GIS and remote sensing, environmental management\n• Careers: GIS specialist, Department of Environment, urban planning, research"},
+{k:["geology"],a:"Geology:\n\n• Admission: A Unit\n• About: minerals, energy, geological structures and water resources\n• Careers: Petrobangla, Geological Survey of Bangladesh, the mining and energy sector, research"},
+{k:["applied mathematics"],a:"Applied Mathematics:\n\n• Admission: A Unit\n• About: mathematical modelling, mechanics, computation\n• Careers: data and finance sectors, research, teaching, BCS"},
+{k:["biochemistry"],a:"Biochemistry and Molecular Biology:\n\n• Admission: A Unit\n• About: biomolecules, genetics, foundations of biotechnology\n• Careers: pharma and biotech, research (icddr,b), diagnostic labs, BCS"},
+{k:["genetic engineering"],a:"Genetic Engineering and Biotechnology:\n\n• Admission: A Unit (extremely competitive)\n• About: gene technology, molecular biology, bioinformatics\n• Careers: biotech and pharma research, laboratories, higher education and research institutes"},
+{k:["soil science"],a:"Soil, Water and Environment:\n\n• Admission: A Unit\n• About: soil science, water management, pollution control\n• Careers: agricultural extension, Department of Environment, research institutes, BCS"},
+{k:["fisheries"],a:"Fisheries:\n\n• Admission: A Unit\n• About: fish farming, aquatic environments, fisheries management\n• Careers: Department of Fisheries, hatcheries and the aquaculture industry, research, BCS"},
+{k:["leather engineering","leather technology"],a:"Institute of Leather Engineering and Technology:\n\n• Admission: an A Unit-based process\n• About: leather processing, footwear and leather goods\n• Careers: the leather industry (a major export sector of Bangladesh), quality and production management"},
+{k:["bcs"],a:"BCS preparation from DU:\n\n• DU graduates succeed in the BCS in large numbers every year\n• The library and hall-centred study environment helps\n• It's good to keep an eye on the BCS syllabus from the 3rd/4th year alongside your degree\n• But keeping your academic results strong should remain the first priority"},
+{k:["job preparation"],a:"Job preparation tips alongside your degree:\n\n• Build a strong base in English and Mathematics (needed in every job exam)\n• Develop computer and digital skills\n• Join departmental organisations, debating and volunteering — they build leadership and communication skills\n• Take internship opportunities (especially for FBS, CSE and IBA students)"},
+{k:["higher study abroad","study abroad","higher studies"],a:"Higher study abroad from DU:\n\n• DU degrees are recognised internationally; many graduates study at top universities worldwide\n• A good CGPA, research experience and IELTS/GRE preparation are important\n• Build relationships with teachers for recommendation letters from your student days\n• Research scholarships (Fulbright, Erasmus, Commonwealth etc.) early"},
+{k:["cgpa"],a:"About CGPA:\n\n• DU uses a 4.00-scale grading system under the semester system\n• A good CGPA (3.50+) helps with higher studies, scholarships and jobs\n• Study regularly from the first semester — making up a deficit later is hard\n• Class attendance and submitting assignments on time matter"},
+{k:["du vs buet","buet or du"],a:"DU vs BUET — both are top institutions, but different in nature:\n\n• BUET: focused only on engineering and architecture\n• DU: science, arts, business, law and social sciences all on one campus\n• Choose BUET for a pure engineering focus; DU for a wide range of subjects and campus life\n\nDecide according to your own interests."},
+{k:["private university","du vs private"],a:"DU vs private universities:\n\n• Cost: nominal at DU; private universities can cost up to several lakh taka per semester\n• Environment: DU's campus life, halls and organisations are unique\n• Competition: admission to DU is extremely competitive\n• Private universities offer modern facilities and faster semester completion\n\nDecide by your financial capacity, subject and career goals."},
+{k:["for girls","female students","girls admission"],a:"DU offers a fully safe and supportive environment for female students:\n\n• Separate residential halls for women (Rokeya Hall and several others)\n• Female students make up close to half of enrolment in every department\n• There are also separate scholarship opportunities for women"},
+{k:["for parents","parents"],a:"Information for parents:\n\n• All admission information is on the official site: admission.eis.du.ac.bd\n• If any person/institution promises 'admission in exchange for money', it is fraud — admission is purely merit-based\n• Contact: +88 01903-446970 / registrar@du.ac.bd"},
+{k:["fraud","scam","money for admission"],a:"Warning — admission fraud:\n\n• Admission to DU is based only on the merit list; there is no way to buy admission\n• If anyone promises this, it is fraud — inform the university authorities/law enforcement\n• Pay fees only through the official portal"},
+{k:["office hour","office time","when is the office open"],a:"Admission/Registrar office hours:\n\n• Sunday – Thursday: 9:00 AM – 5:00 PM\n• Closed on Fridays, Saturdays and government holidays\n• Phone: +88 01903-446970 • Email: registrar@du.ac.bd"},
+{k:["email address","contact email"],a:"DU admission email: registrar@du.ac.bd\n\nPhone: +88 01903-446970\nAdmission portal: admission.eis.du.ac.bd\nAddress: Registrar Building, University of Dhaka, Dhaka-1000"},
+{k:["get my certificate back","original certificate return"],a:"Getting back original certificates submitted at admission:\n\n• Apply through your department office after graduation or if you cancel admission\n• Provisional certificates and original certificates have separate rules and fees\n• Details: Registrar's office / your department office"},
+{k:["transcript"],a:"Collecting a transcript/marks sheet:\n\n• Apply at the Controller of Examinations office with the prescribed fee\n• Sealed transcripts are available for applications abroad\n• The process can take a few working days — apply with time in hand"},
+{k:["admission fee","application fee"],a:"University of Dhaka fees (general guideline):\n\n• Application fee: BDT 1,050 per unit (payable online)\n• Admission fee (one-time): approx. BDT 8,500 – 14,000 (varies by department)\n• Semester/year fees: very low, as DU is a public university — usually a few thousand taka per year\n• IBA BBA: comparatively higher (a separate fee structure)\n• Hall fees: nominal monthly seat rent; food costs are separate\n\nFees change by academic year — check the official circular for exact figures: admission.eis.du.ac.bd"},
+{k:["deadline","last date","schedule","when does application start"],a:"Admission schedule (general pattern):\n\n• Online application starts: usually November–December\n• Application deadline: about 3–4 weeks after applications open\n• Admit card download: from 1 week before the exam\n• Admission test: usually December–February (different days per unit)\n• Results: within 2–4 weeks of the test\n\nExact dates for each year are announced in the circular. For live dates visit: admission.eis.du.ac.bd"},
+{k:["eligibility","gpa requirement","requirement"],a:"Eligibility (1st year undergraduate):\n\n• Passed both SSC and HSC\n• A Unit (Science): combined GPA at least 8.00, with 3.50+ in each\n• B Unit (Humanities): combined GPA 7.50, with 3.00+ in each\n• C Unit (Business): combined GPA 7.50, with 3.00+ in each\n• D Unit: per your own group's conditions\n• Cha Unit (Fine Arts): combined GPA 6.50+\n\nTest: 100 marks (MCQ 60 + written 40) + 20 from GPA — the merit list is out of 120."},
+{k:["documents required","required documents","what documents"],a:"Documents required at admission:\n\n1. Original SSC and HSC certificates and marksheets + photocopies\n2. Admission test admit card and a copy of the result\n3. Recent passport-size photos (usually 6–8 copies)\n4. National ID / birth registration copy\n5. Character certificate\n6. Quota certificate, if applicable\n7. Migration certificate (where applicable)\n\nKeep all originals with you."},
+{k:["how to apply","how do i apply","application process","apply online"],a:"Application steps:\n\n1. Go to admission.eis.du.ac.bd\n2. Register with your HSC and SSC roll numbers, board and passing years\n3. Upload your photo and verify your information\n4. Select a unit and pay the fee (BDT 1,050) via bKash/Rocket/card\n5. You'll receive an SMS once payment is confirmed\n6. Download your admit card at the scheduled time\n\nYou can apply to multiple units (with a separate fee for each)."},
+{k:["which units","units are there","admission units","unit list"],a:"DU admission test units:\n\n• A Unit — Science\n• B Unit — Humanities\n• C Unit — Business Studies\n• D Unit — Group change (combined)\n• Cha Unit — Fine Arts\n• IBA — a separate test\n\nTest format: MCQ 60 + written 40 = 100, duration usually 1 hour 30 minutes."},
+{k:["departments are there","list of departments","which departments","all departments"],a:"The University of Dhaka has 13 faculties and 80+ departments. Some popular ones:\n\n• CSE, EEE, Software Engineering (IIT)\n• Pharmacy, Microbiology, Biochemistry\n• Law, English, Economics, Finance, Marketing\n• International Relations, Mass Communication & Journalism\n• IBA (BBA) — a separate admission test\n\nWhich department would you like in detail? Type its name — e.g. 'CSE' or 'Law' — and I'll give you information and career guidance."},
+{k:["result","merit list"],a:"Results and merit list:\n\n• Results: admission.eis.du.ac.bd\n• Log in with your roll number to see your score and merit position\n• Subject choice is given according to merit\n• Vacant seats are filled from the waiting list"},
+{k:["contact","phone number","helpline"],a:"Contact the Admission Office:\n\n• Phone: +88 01903-446970\n• Email: registrar@du.ac.bd\n• Admission portal: admission.eis.du.ac.bd\n• Address: Registrar Building, University of Dhaka, Dhaka-1000\n\nOffice hours: Sunday–Thursday, 9:00 AM – 5:00 PM."},
+{k:["scholarship","hall"],a:"Halls and scholarships:\n\n• Separate residential halls for male and female students (20+ halls)\n• Seats are allocated by merit and need\n• Government scholarships, merit scholarships and trust scholarships are available\n• You can apply for a tuition fee waiver\n\nDetails: your department office and the hall administration."},
+{k:["career"],a:"For a career guide, type a specific department name — e.g. 'CSE' or 'Law'.\n\nIn general, major destinations for DU graduates include the BCS, banks, multinationals, the tech sector and research."},
+{k:["where is du","campus location","du location","address of du"],a:"The University of Dhaka campus is in the Shahbagh/Nilkhet area of Dhaka — TSC, Curzon Hall and the Central Library are at its heart. The metro rail's Dhaka University station makes it easy to reach."}
+];
+
+function localAnswerEn(raw){
+  var q = normQ(raw);
+  var rawLow = (raw||"").toLowerCase();
+
+  if(/^(hi|hii+|hello|hey|hlw|assalam|salam)/.test(q) && q.length<45){
+    if(q.indexOf("how are")!==-1){
+      return "I'm doing well, thank you! I hope you are well too.\n\nTell me your question about DU admission — eligibility, fees, deadlines, documents or departments — and I'll help.";
+    }
+    return "Hello! Welcome to University of Dhaka admission help.\n\nI can help you with eligibility, deadlines, fees, documents and department guides. Use the quick buttons below or type your question.";
+  }
+  if(q.indexOf("how are you")!==-1) return "I'm doing well, thank you! I hope you are well too.\n\nTell me your question about DU admission — I'm here to help.";
+  if(q.indexOf("thank")!==-1) return "You're very welcome! Wishing you a successful admission journey. Feel free to ask if you need anything else.";
+
+  var deptContext = q.indexOf("preparation")===-1 && q.indexOf("english medium")===-1 && q.indexOf("o level")===-1 && q.indexOf("a level")===-1;
+  if(deptContext){
+    for(var key in DEPTS){
+      if(rawLow.indexOf(key)!==-1) return deptAnswer(DEPTS[key]);
+    }
+    if(q.indexOf("law department")!==-1 || q==="law") return deptAnswer(DEPTS["law"]);
+    if(q.indexOf("pharmacy")!==-1) return deptAnswer(DEPTS["pharmacy"]);
+    if(q.indexOf("economics")!==-1) return deptAnswer(DEPTS["economics"]);
+    if(q.indexOf("english department")!==-1) return deptAnswer(DEPTS["english"]);
+    if(q.indexOf("finance department")!==-1) return deptAnswer(DEPTS["finance"]);
+    if(q.indexOf("marketing department")!==-1) return deptAnswer(DEPTS["marketing"]);
+    if(q.indexOf("microbiology")!==-1) return deptAnswer(DEPTS["microbiology"]);
+  }
+
+  var best=null, bestLen=-1;
+  for(var i=0;i<FAQ_DB_EN.length;i++){
+    var item=FAQ_DB_EN[i];
+    for(var j=0;j<item.k.length;j++){
+      var kw=normQ(item.k[j]);
+      if(kw && q.indexOf(kw)!==-1 && kw.length>bestLen){ best=item; bestLen=kw.length; }
+    }
+  }
+  if(best) return best.a;
+  return null;
+}
+
 function normQ(s){ return (s||"").toLowerCase().replace(/\s+/g," ").trim(); }
 
 
 function localAnswer(raw){
+  if(LANG==='en') return localAnswerEn(raw);
   var q = normQ(raw);
   var rawLow = (raw||"").toLowerCase();
 
@@ -696,7 +1017,7 @@ async function callGemini(userText){
      Gemini-কে কল করে শুধু উত্তরটি ফেরত দেয়। */
   var res = await fetch('/api/chat', {
     method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ message: userText, history: chatHistory.slice(-6) })
+    body: JSON.stringify({ message: userText, history: chatHistory.slice(-6), lang: LANG })
   });
   if(!res.ok) throw new Error('Chat proxy error '+res.status);
   var data = await res.json();
@@ -723,7 +1044,7 @@ async function handleSend(text){
     try{ reply = await callGemini(msg); proxyState="ok"; }
     catch(e){ proxyState="down"; }
   }
-  if(!reply) reply = FALLBACK;
+  if(!reply) reply = (LANG==='en' ? FALLBACK_EN : FALLBACK);
   hideTyping();
   addMsg(reply,'bot'); chatHistory.push({role:'bot',text:reply});
   busy=false; sendBtn.disabled=false; inputEl.focus();
@@ -733,34 +1054,98 @@ sendBtn.addEventListener('click', function(){ handleSend(); });
 inputEl.addEventListener('keydown', function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); handleSend(); } });
 inputEl.addEventListener('input', function(){ inputEl.style.height='auto'; inputEl.style.height=Math.min(inputEl.scrollHeight,110)+'px'; });
 
-/* Quick replies — SVG icon + high-contrast label */
-var qr=document.getElementById('quickReplies');
-QUICK.forEach(function(item){
-  var b=document.createElement('button'); b.className='qbtn'; b.type='button';
-  b.innerHTML = ic(ICON[item.icon],16) + '<span>'+item.label+'</span>';
-  b.addEventListener('click', function(){ handleSend(item.q); });
-  qr.appendChild(b);
-});
+/* Quick replies — SVG icon + high-contrast label (re-rendered on language switch) */
+function renderQuick(){
+  var qr=document.getElementById('quickReplies');
+  qr.innerHTML='';
+  QUICK.forEach(function(item){
+    var b=document.createElement('button'); b.className='qbtn'; b.type='button';
+    b.innerHTML = ic(ICON[item.icon],16) + '<span>'+(LANG==='en'?item.labelEn:item.label)+'</span>';
+    b.addEventListener('click', function(){ handleSend(LANG==='en'?item.qEn:item.q); });
+    qr.appendChild(b);
+  });
+}
+renderQuick();
 
 /* Welcome suggestion cards */
-var sg=document.getElementById('suggestGrid');
-SUGGEST.forEach(function(item){
-  var b=document.createElement('button'); b.className='suggest'; b.type='button';
-  b.innerHTML = '<span class="ic-wrap">'+ic(ICON[item.icon],19)+'</span><span><b>'+item.title+'</b><small>'+item.sub+'</small></span>';
-  b.addEventListener('click', function(){ handleSend(item.q); });
-  sg.appendChild(b);
-});
+function fillSuggestGrid(grid){
+  grid.innerHTML='';
+  SUGGEST.forEach(function(item){
+    var b=document.createElement('button'); b.className='suggest'; b.type='button';
+    b.innerHTML = '<span class="ic-wrap">'+ic(ICON[item.icon],19)+'</span><span><b>'+(LANG==='en'?item.titleEn:item.title)+'</b><small>'+(LANG==='en'?item.subEn:item.sub)+'</small></span>';
+    b.addEventListener('click', function(){ handleSend(LANG==='en'?item.qEn:item.q); });
+    grid.appendChild(b);
+  });
+}
+fillSuggestGrid(document.getElementById('suggestGrid'));
 
 /* Department grid in sidebar */
-var dg=document.getElementById('deptGrid');
-[['CSE','ক ইউনিট • টেক'],['EEE','ক ইউনিট'],['ফার্মেসি','ক ইউনিট'],['আইন','খ / ঘ ইউনিট'],['ফাইন্যান্স','গ ইউনিট • FBS'],['IBA BBA','আলাদা পরীক্ষা']].forEach(function(x){
-  var b=document.createElement('button'); b.className='dept-btn'; b.type='button';
-  var nm=document.createElement('span'); nm.textContent=x[0];
-  var sm=document.createElement('small'); sm.textContent=x[1];
-  b.appendChild(nm); b.appendChild(sm);
-  b.addEventListener('click', function(){ closeSidebar(); handleSend(x[0]+' ডিপার্টমেন্ট সম্পর্কে জানতে চাই'); });
-  dg.appendChild(b);
-});
+var DEPT_GRID = [
+  {name:"CSE",     nameEn:"CSE",       sub:"ক ইউনিট • টেক",  subEn:"A Unit • Tech",   q:"CSE ডিপার্টমেন্ট সম্পর্কে জানতে চাই",       qEn:"Tell me about the CSE department"},
+  {name:"EEE",     nameEn:"EEE",       sub:"ক ইউনিট",        subEn:"A Unit",          q:"EEE ডিপার্টমেন্ট সম্পর্কে জানতে চাই",       qEn:"Tell me about the EEE department"},
+  {name:"ফার্মেসি",  nameEn:"Pharmacy",  sub:"ক ইউনিট",        subEn:"A Unit",          q:"ফার্মেসি ডিপার্টমেন্ট সম্পর্কে জানতে চাই",    qEn:"Tell me about the Pharmacy department"},
+  {name:"আইন",     nameEn:"Law",       sub:"খ / ঘ ইউনিট",     subEn:"B / D Unit",      q:"আইন ডিপার্টমেন্ট সম্পর্কে জানতে চাই",       qEn:"Tell me about the Law department"},
+  {name:"ফাইন্যান্স", nameEn:"Finance",   sub:"গ ইউনিট • FBS",   subEn:"C Unit • FBS",    q:"ফাইন্যান্স ডিপার্টমেন্ট সম্পর্কে জানতে চাই",   qEn:"Tell me about the Finance department"},
+  {name:"IBA BBA", nameEn:"IBA BBA",   sub:"আলাদা পরীক্ষা",    subEn:"Separate exam",   q:"IBA ডিপার্টমেন্ট সম্পর্কে জানতে চাই",       qEn:"Tell me about the IBA BBA programme"}
+];
+function renderDepts(){
+  var dg=document.getElementById('deptGrid');
+  dg.innerHTML='';
+  DEPT_GRID.forEach(function(x){
+    var b=document.createElement('button'); b.className='dept-btn'; b.type='button';
+    var nm=document.createElement('span'); nm.textContent=(LANG==='en'?x.nameEn:x.name);
+    var sm=document.createElement('small'); sm.textContent=(LANG==='en'?x.subEn:x.sub);
+    b.appendChild(nm); b.appendChild(sm);
+    b.addEventListener('click', function(){ closeSidebar(); handleSend(LANG==='en'?x.qEn:x.q); });
+    dg.appendChild(b);
+  });
+}
+renderDepts();
+
+/* ---------- Language toggle wiring ---------- */
+function setLang(lang){
+  LANG = lang;
+  document.documentElement.setAttribute('lang', lang==='bn'?'bn':'en');
+  var bnBtn=document.getElementById('langBn'), enBtn=document.getElementById('langEn');
+  bnBtn.classList.toggle('active', lang==='bn'); bnBtn.setAttribute('aria-pressed', lang==='bn'?'true':'false');
+  enBtn.classList.toggle('active', lang==='en'); enBtn.setAttribute('aria-pressed', lang==='en'?'true':'false');
+  document.getElementById('sideStatus').textContent = t('sideStatus');
+  document.getElementById('sideTitle').textContent = t('sideTitle');
+  document.getElementById('sideIntro').innerHTML = t('sideIntro');
+  var list=document.getElementById('sideList').children;
+  for(var i=0;i<list.length && i<t('sideList').length;i++) list[i].textContent = t('sideList')[i];
+  document.getElementById('factsH').textContent = t('factsH');
+  for(var f=0;f<5;f++){
+    document.getElementById('fL'+(f+1)).textContent = t('facts')[f][0];
+    document.getElementById('fV'+(f+1)).textContent = t('facts')[f][1];
+  }
+  document.getElementById('sideNote').textContent = t('sideNote');
+  document.getElementById('deptH').textContent = t('deptH');
+  document.getElementById('contactH').textContent = t('contactH');
+  document.getElementById('sideFoot').textContent = t('sideFoot');
+  document.getElementById('headStatus').textContent = t('headStatus');
+  var dl=document.getElementById('dateLabel'); if(dl) dl.textContent = t('dateLabel');
+  var wt=document.getElementById('welcomeTitle'); if(wt) wt.innerHTML = t('welcomeTitle');
+  var wx=document.getElementById('welcomeText'); if(wx) wx.textContent = t('welcomeText');
+  document.getElementById('typingText').textContent = t('typing');
+  document.getElementById('quickLabel').textContent = t('quickLabel');
+  document.getElementById('disclaimer').textContent = t('disclaimer');
+  inputEl.setAttribute('placeholder', t('placeholder'));
+  inputEl.setAttribute('aria-label', t('inputAria'));
+  sendBtn.setAttribute('aria-label', t('sendAria'));
+  document.getElementById('sidebar').setAttribute('aria-label', t('sidebarAria'));
+  document.getElementById('infoBtn').setAttribute('aria-label', t('infoAria'));
+  document.getElementById('sideClose').setAttribute('aria-label', t('closeAria'));
+  var clearBtn=document.getElementById('clearBtn');
+  clearBtn.setAttribute('aria-label', t('clearTitle')); clearBtn.title = t('clearTitle');
+  renderContact();
+  renderQuick();
+  renderDepts();
+  var sgNow=document.getElementById('suggestGrid'); if(sgNow) fillSuggestGrid(sgNow);
+  renderThemeIcon();
+}
+document.getElementById('langBn').addEventListener('click', function(){ if(LANG!=='bn') setLang('bn'); });
+document.getElementById('langEn').addEventListener('click', function(){ if(LANG!=='en') setLang('en'); });
 
 /* Sidebar drawer (mobile) */
 var sidebar=document.getElementById('sidebar');
@@ -775,17 +1160,12 @@ backdrop.addEventListener('click', closeSidebar);
 document.getElementById('clearBtn').addEventListener('click', function(){
   chatHistory=[]; started=false; busy=false; sendBtn.disabled=false; hideTyping();
   innerEl.innerHTML='';
-  var dl=document.createElement('div'); dl.className='date-label'; dl.textContent='আজ • ঢাকা বিশ্ববিদ্যালয় ভর্তি সহায়তা';
+  var dl=document.createElement('div'); dl.className='date-label'; dl.id='dateLabel'; dl.textContent=t('dateLabel');
   innerEl.appendChild(dl);
   var w=document.createElement('div'); w.className='welcome'; w.id='welcome';
-  w.innerHTML = '<div class="mark" aria-hidden="true">ঢা</div><h2>আসসালামু আলাইকুম!<br>ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?</h2><p>ভর্তির যোগ্যতা, ডেডলাইন, ফি, ডকুমেন্টস কিংবা যেকোনো ডিপার্টমেন্ট ও ক্যারিয়ার গাইড — নিচের বিষয়গুলো থেকে বেছে নিন, অথবা নিজের প্রশ্নটি লিখুন।</p>';
-  var grid=document.createElement('div'); grid.className='suggest-grid';
-  SUGGEST.forEach(function(item){
-    var b=document.createElement('button'); b.className='suggest'; b.type='button';
-    b.innerHTML = '<span class="ic-wrap">'+ic(ICON[item.icon],19)+'</span><span><b>'+item.title+'</b><small>'+item.sub+'</small></span>';
-    b.addEventListener('click', function(){ handleSend(item.q); });
-    grid.appendChild(b);
-  });
+  w.innerHTML = '<div class="mark" aria-hidden="true">ঢা</div><h2 id="welcomeTitle">'+t('welcomeTitle')+'</h2><p id="welcomeText">'+t('welcomeText')+'</p>';
+  var grid=document.createElement('div'); grid.className='suggest-grid'; grid.id='suggestGrid';
+  fillSuggestGrid(grid);
   w.appendChild(grid);
   innerEl.appendChild(w);
   welcomeEl = w;
