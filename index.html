@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<link rel="icon" href="data:,"/>
+<script>document.documentElement.setAttribute('data-theme',(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');</script>
+<title>DU Admission Assistant — ঢাকা বিশ্ববিদ্যালয়</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#EDF0EC;
+  --panel:#FFFFFF;
+  --panel-2:#F3F5F2;
+  --ink:#131B16;
+  --ink-2:#33443A;
+  --ink-3:#46584D;
+  --line:#D5DCD5;
+  --line-strong:#B9C6BB;
+  --green:#0C3B2E;
+  --green-2:#12503D;
+  --green-soft:#E3EFE7;
+  --gold:#8A6414;
+  --gold-soft:#F7ECD2;
+  --chip-bg:#FFFFFF;
+  --chip-ink:#0C3B2E;
+  --scroll-thumb:#BCC9BE;
+  --scroll-thumb-hover:#93A896;
+  --shadow:0 10px 32px rgba(12,59,44,.10);
+}
+:root[data-theme="dark"]{
+    --bg:#0B100D;
+    --panel:#141B17;
+    --panel-2:#18211B;
+    --ink:#F2F6F2;
+    --ink-2:#D3DED5;
+    --ink-3:#B7C6BB;
+    --line:#2B372E;
+    --line-strong:#3D4D41;
+    --green:#7FBF9E;
+    --green-2:#9BD3B4;
+    --green-soft:#1D2E24;
+    --gold:#E3B95B;
+    --gold-soft:#2C2716;
+    --chip-bg:#1D2A21;
+    --chip-ink:#EAF4ED;
+    --scroll-thumb:#3D4D41;
+    --scroll-thumb-hover:#5A7263;
+    --shadow:0 10px 32px rgba(0,0,0,.45);
+    color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:"Hind Siliguri","Inter",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--green-2);font-weight:600}
+a:hover{color:var(--green);text-decoration:underline}
+a:active{color:var(--ink)}
+:root[data-theme="dark"] a:hover{color:#C4E7D2} :root[data-theme="dark"] a:active{color:#FFFFFF}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--green-2);outline-offset:2px}
+svg.ic{flex-shrink:0;display:block}
+
+/* ---------- App frame: full viewport, no wasted margins ---------- */
+.app{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+
+.topbar{background:#0C3B2E;color:#fff;padding:0 18px;min-height:46px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.topbar .brand{font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .brand span{color:#C9A44C}
+.topbar .links{display:flex;align-items:center;gap:18px;font-size:13px;white-space:nowrap}
+.topbar .links a{color:#F3D98B;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.topbar .links a:hover,.topbar .links a:focus-visible{color:#FFE9A8;text-decoration:underline}
+.topbar .links a:active{color:#FFFFFF}
+.topbar .links .phone{display:inline-flex;align-items:center;gap:6px;color:#E8F0E9}
+@media(max-width:640px){ .topbar .links .phone{display:none} .topbar{padding:0 12px} }
+@media(max-width:560px){ .topbar .brand .brand-en{display:none} }
+
+.main{flex:1;min-height:0;display:grid;grid-template-columns:336px minmax(0,1fr);}
+
+/* ---------- Sidebar (info rail) ---------- */
+.sidebar{background:var(--panel-2);border-right:1px solid var(--line);overflow-y:auto;padding:22px 20px 26px;display:flex;flex-direction:column;gap:26px}
+.side-sec h2{margin:0 0 4px;font-size:16.5px;font-weight:700;letter-spacing:-.01em}
+.side-sec h3{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.side-sec p{margin:0;font-size:14px;line-height:1.65;color:var(--ink-2)}
+.side-sec ul{margin:10px 0 0;padding:0;list-style:none}
+.side-sec ul li{font-size:13.5px;line-height:1.55;color:var(--ink-2);padding:7px 0 7px 20px;position:relative;border-bottom:1px solid var(--line)}
+.side-sec ul li:last-child{border-bottom:none}
+.side-sec ul li::before{content:"";position:absolute;left:2px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--green)}
+.status-line{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:10px}
+.status-line i{width:8px;height:8px;border-radius:50%;background:#1F9D63;display:block}
+.info-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--ink-2)}
+.info-row:last-of-type{border-bottom:none}
+.info-row b{color:var(--ink);font-weight:600;text-align:right}
+.side-note{font-size:12.5px;color:var(--ink-3);line-height:1.6;margin-top:8px}
+.dept-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dept-btn{border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);border-radius:10px;padding:10px 12px;text-align:left;font-size:13.5px;font-weight:600;line-height:1.3;min-height:52px}
+.dept-btn small{display:block;font-weight:500;color:var(--ink-3);font-size:12px;margin-top:3px}
+.dept-btn:hover{border-color:var(--green);background:var(--green-soft);color:var(--ink)}
+.dept-btn:focus-visible{border-color:var(--green);background:var(--green-soft);color:var(--ink)}
+.dept-btn:active{background:#0C3B2E;color:#FFFFFF;border-color:#0C3B2E}
+.dept-btn:active small{color:#CFE3D4}
+:root[data-theme="dark"] .dept-btn:active{background:#1E5C46;border-color:#1E5C46}
+.contact-list{display:flex;flex-direction:column;gap:10px;font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.contact-list .row{display:flex;gap:10px;align-items:flex-start}
+.contact-list svg{margin-top:2px;color:var(--green)}
+.contact-list a{word-break:break-all}
+.side-foot{margin-top:auto;font-size:12px;line-height:1.6;color:var(--ink-3);border-top:1px solid var(--line);padding-top:14px}
+
+/* Mobile drawer behaviour — closed drawer is fully removed from layout,
+   so none of its controls sit off-screen or under other elements */
+.backdrop{display:none}
+@media(max-width:900px){
+  .main{grid-template-columns:minmax(0,1fr)}
+  .sidebar{display:none}
+  .sidebar.open{display:flex;position:fixed;top:0;left:0;bottom:0;width:min(320px,86vw);z-index:40;box-shadow:var(--shadow);border-right:1px solid var(--line);animation:slideIn .22s ease}
+  .backdrop{display:block;position:fixed;inset:0;background:rgba(8,16,11,.5);z-index:39;opacity:0;pointer-events:none;transition:opacity .25s ease}
+  .backdrop.show{opacity:1;pointer-events:auto}
+  .side-close{display:inline-grid !important}
+}
+@keyframes slideIn{from{transform:translateX(-24px);opacity:.4}to{transform:translateX(0);opacity:1}}
+.side-close{display:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);place-items:center;margin-left:auto}
+
+/* ---------- Chat column ---------- */
+.chat{display:flex;flex-direction:column;min-height:0;background:var(--panel)}
+.chat-head{padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);background:var(--panel)}
+.avatar{width:46px;height:46px;border-radius:50%;background:#0C3B2E;color:#fff;display:grid;place-items:center;font-weight:700;font-size:16px;position:relative;flex-shrink:0}
+.avatar::after{content:"";position:absolute;right:0;bottom:0;width:11px;height:11px;background:#22A35F;border:2.5px solid var(--panel);border-radius:50%}
+.head-info{flex:1;min-width:0}
+.head-info h1{margin:0;font-size:16.5px;line-height:1.25;font-weight:700}
+.head-info p{margin:2px 0 0;font-size:12.5px;color:var(--ink-3);display:flex;align-items:center;gap:6px;font-weight:500}
+.head-info p i{width:7px;height:7px;background:#22A35F;border-radius:50%;display:block}
+.head-actions{display:flex;gap:8px}
+.icon-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.icon-btn:hover{background:var(--panel-2);border-color:var(--green);color:var(--ink)}
+.icon-btn:focus-visible{background:var(--panel-2);border-color:var(--green);color:var(--ink)}
+.icon-btn:active{background:var(--green-soft);color:var(--ink)}
+.only-mobile{display:none}
+@media(max-width:900px){ .only-mobile{display:grid} .chat-head{padding:10px 12px} }
+
+/* ---------- Messages ---------- */
+.messages{flex:1;min-height:0;overflow-y:auto;padding:20px 18px 10px;background:var(--panel);display:flex;flex-direction:column}
+.messages-inner{width:100%;max-width:820px;margin:0 auto;display:flex;flex-direction:column;flex:1}
+.date-label{text-align:center;font-size:12px;color:var(--ink-3);font-weight:500;margin:2px 0 14px}
+.msg-row{display:flex;gap:8px;margin-bottom:12px;align-items:flex-end}
+.msg-row.user{justify-content:flex-end}
+.msg-row.bot{justify-content:flex-start}
+.mini-avatar{width:28px;height:28px;border-radius:50%;background:#0C3B2E;color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0}
+.bubble{max-width:min(78%,620px);padding:11px 15px;border-radius:16px;font-size:15px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+@media(max-width:600px){.bubble{max-width:88%}}
+.msg-row.bot .bubble{background:var(--panel-2);border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--ink)}
+.msg-row.user .bubble{background:#0C3B2E;color:#FFFFFF;border-bottom-right-radius:4px}
+:root[data-theme="dark"] .msg-row.user .bubble{background:#1E5C46}
+.time{font-size:11.5px;color:var(--ink-3);margin-top:4px;font-weight:500}
+.msg-row.user .time{text-align:right}
+
+/* ---------- Welcome / empty state (fills the message area) ---------- */
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 6px 30px;max-width:620px;margin:0 auto;width:100%}
+.welcome .mark{width:62px;height:62px;border-radius:50%;background:#0C3B2E;color:#fff;display:grid;place-items:center;font-size:21px;font-weight:700;margin-bottom:16px}
+.welcome h2{margin:0 0 8px;font-size:23px;line-height:1.3;font-weight:700;letter-spacing:-.01em}
+.welcome p{margin:0 0 22px;font-size:14.5px;line-height:1.65;color:var(--ink-2);max-width:480px}
+.suggest-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;text-align:left}
+@media(max-width:520px){.suggest-grid{grid-template-columns:1fr}}
+.suggest{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);border-radius:12px;padding:13px 14px;min-height:60px;text-align:left}
+.suggest:hover{border-color:var(--green);background:var(--green-soft);color:var(--ink)}
+.suggest:focus-visible{border-color:var(--green);background:var(--green-soft);color:var(--ink)}
+.suggest:active{background:#0C3B2E;color:#FFFFFF;border-color:#0C3B2E}
+.suggest:active small{color:#CFE3D4}
+.suggest:active .ic-wrap{background:#1E5C46;color:#FFFFFF}
+:root[data-theme="dark"] .suggest:active{background:#1E5C46;border-color:#1E5C46} :root[data-theme="dark"] .suggest:active .ic-wrap{background:#27755A}
+.suggest .ic-wrap{width:36px;height:36px;border-radius:9px;background:var(--green-soft);color:var(--green);display:grid;place-items:center;flex-shrink:0}
+:root[data-theme="dark"] .suggest .ic-wrap{color:var(--green-2)}
+.suggest b{display:block;font-size:14px;font-weight:600;line-height:1.35}
+.suggest small{display:block;font-size:12.5px;color:var(--ink-3);line-height:1.45;margin-top:2px;font-weight:500}
+
+/* ---------- Typing ---------- */
+.typing{display:none;align-items:center;gap:8px;padding:2px 18px 10px;background:var(--panel)}
+.typing.show{display:flex}
+.typing-inner{width:100%;max-width:820px;margin:0 auto;display:flex;align-items:center;gap:8px}
+.typing-bubble{background:var(--panel-2);border:1px solid var(--line);padding:12px 14px;border-radius:16px;border-bottom-left-radius:4px;display:flex;gap:5px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ink-3);animation:bounce 1.2s infinite}
+.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.55}30%{transform:translateY(-4px);opacity:1}}
+.typing-text{font-size:13px;color:var(--ink-3);font-weight:500}
+
+/* ---------- Quick replies : high-contrast chips ---------- */
+.quick-wrap{padding:10px 18px 4px;border-top:1px solid var(--line);background:var(--panel)}
+.quick-inner{max-width:820px;margin:0 auto}
+.quick-label{font-size:12px;color:var(--ink-3);margin-bottom:8px;font-weight:600;letter-spacing:.03em}
+.quick-scroll{display:flex;gap:8px;flex-wrap:wrap}
+.qbtn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--green);color:var(--chip-ink);background:var(--chip-bg);padding:9px 14px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer;min-height:40px;line-height:1.2}
+.qbtn svg{color:var(--green)}
+:root[data-theme="dark"] .qbtn{border-color:var(--green-2)} :root[data-theme="dark"] .qbtn svg{color:var(--green-2)}
+/* Every interactive state keeps text/icon clearly readable:
+   dark-green surface always pairs with pure-white text, in both schemes */
+.qbtn:hover,.qbtn:focus-visible{background:#0C3B2E;color:#FFFFFF;border-color:#0C3B2E}
+.qbtn:hover svg,.qbtn:focus-visible svg{color:#FFFFFF}
+.qbtn:active{background:#07271D;color:#FFFFFF;border-color:#07271D}
+.qbtn:active svg{color:#FFFFFF}
+:root[data-theme="dark"] .qbtn:hover,:root[data-theme="dark"] .qbtn:focus-visible{background:#1E5C46;color:#FFFFFF;border-color:#2A7A5C}
+:root[data-theme="dark"] .qbtn:active{background:#27755A;color:#FFFFFF;border-color:#27755A}
+
+/* ---------- Composer ---------- */
+.composer-wrap{padding:10px 18px calc(12px + env(safe-area-inset-bottom));background:var(--panel)}
+.composer{max-width:820px;margin:0 auto;display:flex;gap:9px;align-items:flex-end}
+.composer textarea{flex:1;border:1.5px solid var(--line-strong);background:var(--panel-2);border-radius:14px;padding:12px 15px;font-size:15px;resize:none;max-height:110px;outline:none;line-height:1.45;color:var(--ink)}
+.composer textarea::placeholder{color:var(--ink-3);opacity:1;font-weight:500}
+.composer textarea:focus{border-color:var(--green)}
+.send-btn{width:48px;height:48px;border-radius:50%;border:none;background:#0C3B2E;color:#fff;cursor:pointer;display:grid;place-items:center;flex-shrink:0}
+.send-btn:hover{background:#12503D}
+.send-btn:focus-visible{background:#12503D;color:#FFFFFF}
+.send-btn:active{background:#07271D;color:#FFFFFF}
+.send-btn:disabled{opacity:.45;cursor:default}
+:root[data-theme="dark"] .send-btn{background:#1E5C46} :root[data-theme="dark"] .send-btn:hover,:root[data-theme="dark"] .send-btn:focus-visible{background:#27755A} :root[data-theme="dark"] .send-btn:active{background:#2F8A68}
+.disclaimer{max-width:820px;margin:9px auto 0;font-size:12px;color:var(--ink-3);line-height:1.55;text-align:center;font-weight:500}
+
+/* ---------- Minimal scrollbars (theme-aware, no default browser bar) ---------- */
+*{scrollbar-width:thin;scrollbar-color:var(--scroll-thumb) transparent}
+*::-webkit-scrollbar{width:6px;height:6px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:var(--scroll-thumb);border-radius:99px}
+*::-webkit-scrollbar-thumb:hover{background:var(--scroll-thumb-hover)}
+*::-webkit-scrollbar-corner{background:transparent}
+
+/* ---------- Smooth theme switch ---------- */
+body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.icon-btn,.dept-btn,.suggest,.qbtn{transition:background-color .3s ease,color .3s ease,border-color .3s ease}
+
+@media(max-width:640px){
+  .messages{padding:14px 12px 8px}
+  .quick-wrap{padding:10px 12px 4px}
+  .composer-wrap{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+  .typing{padding:2px 12px 8px}
+}
+@media(prefers-reduced-motion:reduce){.dot{animation:none}.sidebar,.backdrop,body,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.icon-btn,.dept-btn,.suggest,.qbtn{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand"><span class="brand-en">University of Dhaka <span>•</span> </span>ঢাকা বিশ্ববিদ্যালয়</div>
+    <div class="links">
+      <span class="phone" id="topPhone"></span>
+      <a href="https://admission.eis.du.ac.bd" target="_blank" rel="noopener" id="topSite"></a>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="ভর্তি তথ্য">
+      <button class="side-close" id="sideClose" aria-label="তথ্য প্যানেল বন্ধ করুন"></button>
+
+      <section class="side-sec">
+        <span class="status-line"><i></i> অ্যাডমিশন অফিস • অনলাইন</span>
+        <h2>আসসালামু আলাইকুম! ভর্তিতে সাহায্য করতে আমি এখানে</h2>
+        <p>আমি <b style="color:var(--ink)">ঢাবি অ্যাডমিশন অ্যাসিস্ট্যান্ট</b>। ভর্তির যোগ্যতা, আবেদন, ফি, ডকুমেন্টস ও ডিপার্টমেন্ট নিয়ে যেকোনো প্রশ্ন করুন — বাংলা বা English-এ।</p>
+        <ul>
+          <li>ইউনিট: ক (বিজ্ঞান), খ (মানবিক), গ (ব্যবসায়), ঘ (সমন্বিত), চ (চারুকলা)</li>
+          <li>আবেদন: অনলাইনে — admission.eis.du.ac.bd</li>
+          <li>সর্বশেষ তারিখ সবসময় অফিসিয়াল সার্কুলারে মিলিয়ে নিন</li>
+        </ul>
+      </section>
+
+      <section class="side-sec">
+        <h3>এক নজরে ভর্তি তথ্য</h3>
+        <div class="info-row"><span>আবেদন মাধ্যম</span><b>অনলাইন</b></div>
+        <div class="info-row"><span>আবেদন ফি (প্রতি ইউনিট)</span><b>৳১,০৫০ *</b></div>
+        <div class="info-row"><span>ভর্তি ফি (আনুমানিক)</span><b>৳৮,৫০০ – ১৪,০০০</b></div>
+        <div class="info-row"><span>পরীক্ষা পদ্ধতি</span><b>MCQ + লিখিত</b></div>
+        <div class="info-row"><span>মোট নম্বর</span><b>১০০ (পরীক্ষা) + ২০ (GPA)</b></div>
+        <p class="side-note">* ফি ও তারিখ শিক্ষাবর্ষভেদে বদলাতে পারে। চ্যাটে জিজ্ঞেস করলে বিস্তারিত পাবেন।</p>
+      </section>
+
+      <section class="side-sec">
+        <h3>জনপ্রিয় ডিপার্টমেন্ট</h3>
+        <div class="dept-grid" id="deptGrid"></div>
+      </section>
+
+      <section class="side-sec">
+        <h3>অ্যাডমিশন অফিসে যোগাযোগ</h3>
+        <div class="contact-list" id="contactList"></div>
+      </section>
+
+      <p class="side-foot">এই বটটি একটি প্র্যাকটিক্যাল প্রজেক্ট — তথ্য সাধারণ গাইডলাইনের জন্য। ভর্তির চূড়ান্ত সিদ্ধান্ত, তারিখ ও ফি অবশ্যই অফিসিয়াল ওয়েবসাইট ও ভর্তি সার্কুলার থেকে যাচাই করুন।</p>
+    </aside>
+    <div class="backdrop" id="backdrop"></div>
+
+    <!-- CHAT -->
+    <section class="chat" aria-label="Chat with DU Admission Assistant">
+      <div class="chat-head">
+        <button class="icon-btn only-mobile" id="infoBtn" aria-label="ভর্তি তথ্য দেখুন"></button>
+        <div class="avatar" aria-hidden="true">ঢা</div>
+        <div class="head-info">
+          <h1>DU Admission Assistant</h1>
+          <p><i></i> Active now • সাথে সাথে উত্তর দেয়</p>
+        </div>
+        <div class="head-actions">
+          <button class="icon-btn" id="themeBtn" title="Dark theme" aria-label="ডার্ক থিমে যান"></button>
+          <button class="icon-btn" id="clearBtn" title="নতুন চ্যাট শুরু করুন" aria-label="Clear chat"></button>
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="messages-inner" id="messagesInner">
+          <div class="date-label">আজ • ঢাকা বিশ্ববিদ্যালয় ভর্তি সহায়তা</div>
+
+          <div class="welcome" id="welcome">
+            <div class="mark" aria-hidden="true">ঢা</div>
+            <h2>আসসালামু আলাইকুম!<br>ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?</h2>
+            <p>ভর্তির যোগ্যতা, ডেডলাইন, ফি, ডকুমেন্টস কিংবা যেকোনো ডিপার্টমেন্ট ও ক্যারিয়ার গাইড — নিচের বিষয়গুলো থেকে বেছে নিন, অথবা নিজের প্রশ্নটি লিখুন।</p>
+            <div class="suggest-grid" id="suggestGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="typing" id="typing" aria-hidden="true">
+        <div class="typing-inner">
+          <div class="mini-avatar">ঢা</div>
+          <div class="typing-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <span class="typing-text">টাইপিং...</span>
+        </div>
+      </div>
+
+      <div class="quick-wrap">
+        <div class="quick-inner">
+          <div class="quick-label">কুইক রিপ্লাই — এক ক্লিকে জিজ্ঞেস করুন</div>
+          <div class="quick-scroll" id="quickReplies"></div>
+        </div>
+      </div>
+
+      <div class="composer-wrap">
+        <div class="composer">
+          <textarea id="input" rows="1" placeholder="আপনার প্রশ্ন লিখুন... যেমন: CSE-তে ভর্তি হতে কী লাগবে?" aria-label="আপনার প্রশ্ন লিখুন"></textarea>
+          <button class="send-btn" id="sendBtn" aria-label="মেসেজ পাঠান"></button>
+        </div>
+        <p class="disclaimer">তথ্য সাধারণ গাইডলাইনের জন্য — চূড়ান্ত তারিখ ও ফি অফিসিয়াল সার্কুলারে যাচাই করুন: admission.eis.du.ac.bd</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   Gemini সংযোগ: API Key এই পেজে (ক্লায়েন্টে) কোথাও থাকে না।
+   চ্যাট প্রথমে একই সাইটের সার্ভার এন্ডপয়েন্ট /api/chat-এ পাঠানো হয় —
+   Vercel-এ একটি serverless function (api/chat.js) Environment
+   Variable GEMINI_API_KEY সার্ভার-সাইডে পড়ে Gemini-কে কল করে।
+   এন্ডপয়েন্ট না থাকলে বট বিল্ট-ইন অফলাইন নলেজ বেস থেকে উত্তর দেয়।
+   ============================================================ */
+var proxyState = "unknown"; /* unknown | ok | down */
+
+var FALLBACK = "দুঃখিত, এই বিষয়ে আমার কাছে নির্দিষ্ট তথ্য নেই। অনুগ্রহ করে অ্যাডমিশন অফিসে যোগাযোগ করুন: [ফোন নম্বর: +88 01903-446970 | ইমেইল: registrar@du.ac.bd]";
+
+/* ---------- Inline SVG icons (stroke, currentColor) ---------- */
+function ic(paths, size){
+  return '<svg class="ic" width="'+(size||18)+'" height="'+(size||18)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+paths+'</svg>';
+}
+var ICON = {
+  send:    '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/>',
+  refresh: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+  info:    '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  x:       '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  phone:   '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  mail:    '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  pin:     '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+  globe:   '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+  wallet:  '<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>',
+  calendar:'<path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/>',
+  grid:    '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>',
+  check:   '<path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/>',
+  file:    '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  code:    '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  pen:     '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',
+  cap:     '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+  sun:     '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+  moon:    '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
+};
+
+/* ---------- Header / sidebar static bits ---------- */
+document.getElementById('topPhone').innerHTML = ic(ICON.phone,15) + '<span>Helpline: +88 01903-446970</span>';
+document.getElementById('topSite').innerHTML = ic(ICON.globe,15) + '<span>admission.eis.du.ac.bd</span>';
+document.getElementById('contactList').innerHTML =
+  '<div class="row">'+ic(ICON.phone,17)+'<span>ফোন: <b style="color:var(--ink)">+88 01903-446970</b></span></div>' +
+  '<div class="row">'+ic(ICON.mail,17)+'<span>ইমেইল: <a href="mailto:registrar@du.ac.bd">registrar@du.ac.bd</a></span></div>' +
+  '<div class="row">'+ic(ICON.pin,17)+'<span>ঠিকানা: রেজিস্ট্রার ভবন, ঢাকা বিশ্ববিদ্যালয়, ঢাকা-১০০০</span></div>';
+document.getElementById('infoBtn').innerHTML = ic(ICON.info,20);
+document.getElementById('clearBtn').innerHTML = ic(ICON.refresh,19);
+document.getElementById('sideClose').innerHTML = ic(ICON.x,18);
+document.getElementById('sendBtn').innerHTML = ic(ICON.send,20);
+
+/* ---------- Light / Dark theme toggle ----------
+   ডিফল্ট: সিস্টেম প্রেফারেন্স (head-এর স্ক্রিপ্ট data-theme সেট করে)।
+   টগল করলে এই সেশনের জন্য সেই থিমই থাকে; সিস্টেম বদলালে —
+   ব্যবহারকারী নিজে টগল না করে থাকলে — থিম সিস্টেমের সাথে মিলে যায়। */
+var themeBtn=document.getElementById('themeBtn');
+var themeChosen=false;
+function renderThemeIcon(){
+  var dark=document.documentElement.getAttribute('data-theme')==='dark';
+  themeBtn.innerHTML = ic(dark?ICON.sun:ICON.moon,19);
+  themeBtn.setAttribute('aria-label', dark?'লাইট থিমে যান':'ডার্ক থিমে যান');
+  themeBtn.title = dark?'Light theme':'Dark theme';
+}
+renderThemeIcon();
+themeBtn.addEventListener('click', function(){
+  themeChosen=true;
+  var dark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme', dark?'light':'dark');
+  renderThemeIcon();
+});
+if(window.matchMedia){
+  var schemeMq=window.matchMedia('(prefers-color-scheme: dark)');
+  var onSchemeChange=function(e){
+    if(themeChosen) return;
+    document.documentElement.setAttribute('data-theme', e.matches?'dark':'light');
+    renderThemeIcon();
+  };
+  if(schemeMq.addEventListener) schemeMq.addEventListener('change', onSchemeChange);
+  else if(schemeMq.addListener) schemeMq.addListener(onSchemeChange);
+}
+
+/* ---------- Data ---------- */
+var DEPTS = {
+  "cse": {name:"কম্পিউটার সায়েন্স অ্যান্ড ইঞ্জিনিয়ারিং (CSE)", faculty:"ইঞ্জিনিয়ারিং অ্যান্ড টেকনোলজি অনুষদ", unit:"ক ইউনিট", seats:"~৬০টি", about:"অ্যালগরিদম, ডেটা স্ট্রাকচার, AI/ML, সফটওয়্যার ইঞ্জিনিয়ারিং, নেটওয়ার্ক ও ডেটাবেস নিয়ে পড়াশোনা। ঢাবির সবচেয়ে প্রতিযোগিতামূলক বিভাগগুলোর একটি।", career:"সফটওয়্যার ইঞ্জিনিয়ার, AI/ML ইঞ্জিনিয়ার, ডেটা সায়েন্টিস্ট, সিস্টেম আর্কিটেক্ট — দেশি-বিদেশি টেক কোম্পানি, ব্যাংক ও স্টার্টআপে। রিমোট জবের সুযোগও প্রচুর।", req:"ক ইউনিটে ভালো অবস্থান + HSC-তে গণিত থাকা জরুরি।"},
+  "eee": {name:"ইলেকট্রিক্যাল অ্যান্ড ইলেকট্রনিক ইঞ্জিনিয়ারিং (EEE)", faculty:"ইঞ্জিনিয়ারিং অ্যান্ড টেকনোলজি অনুষদ", unit:"ক ইউনিট", seats:"~৯০টি", about:"সার্কিট, পাওয়ার সিস্টেম, টেলিকমিউনিকেশন, VLSI, এমবেডেড সিস্টেম ও রিনিউয়েবল এনার্জি নিয়ে পড়াশোনা।", career:"পাওয়ার সেক্টর (DPDC, DESCO), টেলিকম (Grameenphone, Robi), সেমিকন্ডাক্টর ও অটোমেশন ইন্ডাস্ট্রি, BCS টেকনিক্যাল ক্যাডার।", req:"ক ইউনিট + পদার্থবিজ্ঞান ও গণিতে শক্ত ভিত্তি।"},
+  "pharmacy": {name:"ফার্মেসি", faculty:"ফার্মেসি অনুষদ", unit:"ক ইউনিট", seats:"~৭০টি", about:"৫ বছর মেয়াদি B.Pharm (Hons) — ফার্মাসিউটিক্যাল কেমিস্ট্রি, ফার্মাকোলজি, ক্লিনিক্যাল ফার্মেসি ও ড্রাগ ডিজাইন।", career:"Square, Beximco, Incepta-সহ ফার্মা ইন্ডাস্ট্রিতে QA/QC, R&D, প্রোডাকশন; হাসপাতাল ফার্মাসিস্ট, ড্রাগ অ্যাডমিনিস্ট্রেশন। বাংলাদেশের ফার্মা রপ্তানি খাতে বড় চাহিদা।", req:"ক ইউনিট + জীববিজ্ঞান ও রসায়নে ভালো নম্বর।"},
+  "law": {name:"আইন (Law)", faculty:"আইন অনুষদ", unit:"খ / ঘ ইউনিট", seats:"~১১০টি", about:"LLB (Hons) — সাংবিধানিক আইন, দেওয়ানি ও ফৌজদারি আইন, আন্তর্জাতিক আইন। ঢাবির আইন অনুষদ দেশের সবচেয়ে মর্যাদাপূর্ণ।", career:"জুডিশিয়ারি (BJS), অ্যাডভোকেট, কর্পোরেট ল’য়ার, BCS, ব্যাংক ও NGO-তে লিগ্যাল অফিসার, শিক্ষকতা ও গবেষণা।", req:"খ বা ঘ ইউনিটে শীর্ষ অবস্থান প্রয়োজন।"},
+  "english": {name:"ইংরেজি (English)", faculty:"কলা অনুষদ", unit:"খ ইউনিট", seats:"~১২০টি", about:"ইংরেজি সাহিত্য, ভাষাতত্ত্ব, ELT ও ক্রিটিক্যাল থিওরি। লেখালেখি ও বিশ্লেষণী দক্ষতা গড়ে ওঠে।", career:"BCS শিক্ষা ক্যাডার, ব্যাংক, মিডিয়া ও কনটেন্ট, ডেভেলপমেন্ট সেক্টর, শিক্ষকতা, অনুবাদ ও প্রকাশনা।", req:"খ ইউনিট + ইংরেজিতে ভালো দক্ষতা।"},
+  "economics": {name:"অর্থনীতি (Economics)", faculty:"সামাজিক বিজ্ঞান অনুষদ", unit:"খ / ঘ ইউনিট", seats:"~১৩০টি", about:"মাইক্রো ও ম্যাক্রো ইকোনমিক্স, ইকোনমেট্রিক্স, ডেভেলপমেন্ট ইকোনমিক্স ও পাবলিক পলিসি।", career:"বাংলাদেশ ব্যাংক, BCS, গবেষণা প্রতিষ্ঠান (BIDS, CPD), ব্যাংক ও আন্তর্জাতিক সংস্থা (World Bank, UNDP)।", req:"খ/ঘ ইউনিট; HSC-তে গণিত/পরিসংখ্যান থাকলে সুবিধা।"},
+  "finance": {name:"ফাইন্যান্স (FBS)", faculty:"বিজনেস স্টাডিজ অনুষদ (FBS)", unit:"গ ইউনিট", seats:"~১০৫টি", about:"কর্পোরেট ফাইন্যান্স, ইনভেস্টমেন্ট, ব্যাংকিং ও ফিনটেক। FBS ঢাবির অন্যতম চাহিদাসম্পন্ন অনুষদ।", career:"ব্যাংক, মার্চেন্ট ব্যাংক, স্টক মার্কেট, মাল্টিন্যাশনাল কোম্পানির ফাইন্যান্স টিম, CFA/ACCA পথে অগ্রগতি।", req:"গ ইউনিটে শীর্ষ মেধাক্রম।"},
+  "marketing": {name:"মার্কেটিং (FBS)", faculty:"বিজনেস স্টাডিজ অনুষদ (FBS)", unit:"গ ইউনিট", seats:"~১১০টি", about:"ব্র্যান্ড ম্যানেজমেন্ট, ডিজিটাল মার্কেটিং, কনজিউমার বিহেভিয়র ও মার্কেট রিসার্চ।", career:"FMCG কোম্পানি (Unilever, BAT), অ্যাড এজেন্সি, ডিজিটাল মার্কেটিং, সেলস লিডারশিপ।", req:"গ ইউনিট।"},
+  "iba": {name:"IBA — BBA প্রোগ্রাম", faculty:"ইনস্টিটিউট অব বিজনেস অ্যাডমিনিস্ট্রেশন", unit:"IBA নিজস্ব পরীক্ষা", seats:"~১২০টি", about:"ঢাবির IBA-র BBA দেশের সবচেয়ে প্রতিযোগিতামূলক প্রোগ্রাম। আলাদা ভর্তি পরীক্ষা (গণিত, ইংরেজি, অ্যানালিটিক্যাল অ্যাবিলিটি) + ভাইভা।", career:"মাল্টিন্যাশনাল কোম্পানি, ব্যাংক, কনসাল্টিং ফার্মে ম্যানেজমেন্ট ট্রেইনি — গ্র্যাজুয়েটদের স্টার্টিং স্যালারি দেশে সর্বোচ্চ পর্যায়ের।", req:"যেকোনো বিভাগ থেকে আবেদন করা যায়; IBA-র নিজস্ব সার্কুলার অনুসরণ করুন: iba-du.edu"},
+  "microbiology": {name:"অণুজীববিজ্ঞান (Microbiology)", faculty:"জীববিজ্ঞান অনুষদ", unit:"ক ইউনিট", seats:"~৬০টি", about:"ব্যাকটেরিওলজি, ভাইরোলজি, ইমিউনোলজি ও বায়োটেকনোলজি।", career:"icddr,b, ফার্মা ও ডায়াগনস্টিক ল্যাব, খাদ্য শিল্প, গবেষণা ও BCS।", req:"ক ইউনিট + জীববিজ্ঞানে আগ্রহ।"}
+};
+
+var QUICK = [
+  {icon:"wallet",   label:"ভর্তি ফি কত?",        q:"ভর্তি ফি কত?"},
+  {icon:"calendar", label:"ডেডলাইন কবে?",         q:"ভর্তির ডেডলাইন কবে?"},
+  {icon:"grid",     label:"ডিপার্টমেন্টসমূহ",      q:"কোন কোন ডিপার্টমেন্ট আছে?"},
+  {icon:"check",    label:"ভর্তির যোগ্যতা",        q:"ভর্তির যোগ্যতা কি?"},
+  {icon:"file",     label:"প্রয়োজনীয় ডকুমেন্টস",  q:"কি কি ডকুমেন্টস লাগবে?"},
+  {icon:"code",     label:"CSE সম্পর্কে জানতে চাই", q:"CSE ডিপার্টমেন্ট সম্পর্কে জানতে চাই"},
+  {icon:"pen",      label:"আবেদন করবো কিভাবে?",   q:"কিভাবে আবেদন করবো?"}
+];
+
+var SUGGEST = [
+  {icon:"check",    title:"ভর্তির যোগ্যতা",        sub:"ইউনিটভেদে GPA শর্ত ও পাস নম্বর", q:"ভর্তির যোগ্যতা কি?"},
+  {icon:"calendar", title:"ডেডলাইন ও সময়সূচি",    sub:"আবেদন, পরীক্ষা ও ফলাফলের তারিখ", q:"ভর্তির ডেডলাইন কবে?"},
+  {icon:"wallet",   title:"ফি ও খরচ",              sub:"আবেদন ফি, ভর্তি ফি ও হল খরচ", q:"ভর্তি ফি কত?"},
+  {icon:"file",     title:"প্রয়োজনীয় ডকুমেন্টস",   sub:"ভর্তির সময় যা যা লাগবে", q:"কি কি ডকুমেন্টস লাগবে?"},
+  {icon:"cap",      title:"ডিপার্টমেন্ট গাইড",      sub:"বিভাগ পরিচিতি ও ক্যারিয়ার পথ", q:"কোন কোন ডিপার্টমেন্ট আছে?"},
+  {icon:"pen",      title:"আবেদন প্রক্রিয়া",       sub:"ধাপে ধাপে অনলাইন আবেদন", q:"কিভাবে আবেদন করবো?"}
+];
+
+/* ---------- Chat plumbing ---------- */
+var messagesEl = document.getElementById('messages');
+var innerEl = document.getElementById('messagesInner');
+var welcomeEl = document.getElementById('welcome');
+var inputEl = document.getElementById('input');
+var typingEl = document.getElementById('typing');
+var sendBtn = document.getElementById('sendBtn');
+var chatHistory = [];
+var started = false;
+
+function nowTime(){ var d=new Date(); var h=d.getHours(), m=d.getMinutes(); var ap=h>=12?'PM':'AM'; h=h%12||12; return h+':'+(m<10?'0'+m:m)+' '+ap; }
+function scrollBottom(){ messagesEl.scrollTop = messagesEl.scrollHeight; }
+function beginConversation(){
+  if(started) return;
+  started = true;
+  if(welcomeEl && welcomeEl.parentNode) welcomeEl.parentNode.removeChild(welcomeEl);
+}
+function addMsg(text, who){
+  beginConversation();
+  var row=document.createElement('div'); row.className='msg-row '+who;
+  if(who==='bot'){ var av=document.createElement('div'); av.className='mini-avatar'; av.textContent='ঢা'; row.appendChild(av); }
+  var wrap=document.createElement('div');
+  var b=document.createElement('div'); b.className='bubble'; b.textContent=text;
+  var t=document.createElement('div'); t.className='time'; t.textContent= nowTime() + (who==='bot' ? ' • DU Assistant' : ' • Seen');
+  wrap.appendChild(b); wrap.appendChild(t); row.appendChild(wrap);
+  innerEl.appendChild(row); scrollBottom();
+}
+function showTyping(){ typingEl.classList.add('show'); scrollBottom(); }
+function hideTyping(){ typingEl.classList.remove('show'); }
+
+function deptAnswer(d){
+  return d.name+"\n\nঅনুষদ: "+d.faculty+"\nভর্তি: "+d.unit+" • আসন: "+d.seats+"\n\nসম্পর্কে: "+d.about+"\n\nক্যারিয়ার: "+d.career+"\n\nযোগ্যতা: "+d.req+"\n\nআরও জানতে চাইলে জিজ্ঞেস করুন — যেমন এই বিভাগের ভর্তি ফি বা আসন সংখ্যা।";
+}
+
+function localAnswer(raw){
+  var q = raw.toLowerCase();
+  if(/^(hi|hello|hey|assalam|আসসালাম|হ্যালো|হাই|সালাম)/.test(q) && q.length<40) return "আসসালামু আলাইকুম! স্বাগতম ঢাকা বিশ্ববিদ্যালয় ভর্তি সহায়তায়।\n\nআমি আপনাকে ভর্তির যোগ্যতা, ডেডলাইন, ফি, ডকুমেন্টস ও ডিপার্টমেন্ট গাইড নিয়ে সাহায্য করতে পারি। নিচের কুইক বাটন ব্যবহার করুন অথবা আপনার প্রশ্নটি লিখুন।";
+  if(q.includes('ধন্যবাদ')||q.includes('thank')) return "আপনাকেও অনেক ধন্যবাদ! আপনার ভর্তি যাত্রা সফল হোক — এই কামনা করি। আর কোনো তথ্য লাগলে নির্দ্বিধায় জিজ্ঞেস করুন।";
+
+  for(var key in DEPTS){
+    if(q.includes(key) || (key==='cse' && (q.includes('কম্পিউটার')||q.includes('সিএসই'))) || (key==='eee' && q.includes('ইইই')) || (key==='iba' && q.includes('আইবিএ'))){
+      return deptAnswer(DEPTS[key]);
+    }
+  }
+  if(q.includes('আইন')||q.includes(' law')) return deptAnswer(DEPTS['law']);
+  if(q.includes('ফার্মেসি')||q.includes('pharmacy')) return deptAnswer(DEPTS['pharmacy']);
+  if(q.includes('ইংরেজি')||q.includes('english dept')) return deptAnswer(DEPTS['english']);
+  if(q.includes('অর্থনীতি')||q.includes('economics')) return deptAnswer(DEPTS['economics']);
+
+  if(q.includes('ডিপার্টমেন্ট')||q.includes('department')||q.includes('বিভাগ')||q.includes('subject')||q.includes('সাবজেক্ট')){
+    return "ঢাকা বিশ্ববিদ্যালয়ে ১৩টি অনুষদ ও ৮০+ বিভাগ রয়েছে। জনপ্রিয় কয়েকটি:\n\n• CSE, EEE, সফটওয়্যার ইঞ্জিনিয়ারিং (IIT)\n• ফার্মেসি, অণুজীববিজ্ঞান, প্রাণরসায়ন\n• আইন, ইংরেজি, অর্থনীতি, ফাইন্যান্স, মার্কেটিং\n• আন্তর্জাতিক সম্পর্ক, গণযোগাযোগ ও সাংবাদিকতা\n• IBA (BBA) — আলাদা ভর্তি পরীক্ষা\n\nকোন ডিপার্টমেন্ট সম্পর্কে বিস্তারিত জানতে চান? নাম লিখুন — যেমন 'CSE' বা 'আইন' — আমি তথ্য ও ক্যারিয়ার গাইডলাইন দিচ্ছি।";
+  }
+  if(q.includes('ফি')||q.includes('fee')||q.includes('tuition')||q.includes('খরচ')||q.includes('টাকা')||q.includes('cost')){
+    return "ঢাকা বিশ্ববিদ্যালয়ের ফি (সাধারণ গাইডলাইন):\n\n• আবেদন ফি: প্রতি ইউনিট ৳১,০৫০ (অনলাইনে পরিশোধযোগ্য)\n• ভর্তি ফি (এককালীন): প্রায় ৳৮,৫০০ – ৳১৪,০০০ (বিভাগভেদে ভিন্ন)\n• সেমিস্টার/বর্ষ ফি: সরকারি বিশ্ববিদ্যালয় হওয়ায় খুবই কম — সাধারণত বছরে কয়েক হাজার টাকা\n• IBA BBA: তুলনামূলক বেশি (আলাদা ফি কাঠামো)\n• হল ফি: মাসিক সিট ভাড়া নামমাত্র, খাবার খরচ আলাদা\n\nশিক্ষাবর্ষভেদে ফি বদলায় — সঠিক অঙ্কের জন্য অফিসিয়াল সার্কুলার দেখুন: admission.eis.du.ac.bd";
+  }
+  if(q.includes('ডেডলাইন')||q.includes('deadline')||q.includes('শেষ তারিখ')||(q.includes('কবে')&&q.includes('আবেদন'))||q.includes('date')||q.includes('সময়সূচি')||q.includes('schedule')){
+    return "ভর্তির সময়সূচি (সাধারণ প্যাটার্ন):\n\n• অনলাইন আবেদন শুরু: সাধারণত নভেম্বর–ডিসেম্বর\n• আবেদনের শেষ তারিখ: আবেদন শুরুর প্রায় ৩–৪ সপ্তাহ পর\n• প্রবেশপত্র ডাউনলোড: পরীক্ষার ১ সপ্তাহ আগে থেকে\n• ভর্তি পরীক্ষা: সাধারণত ডিসেম্বর–ফেব্রুয়ারি (ইউনিটভেদে আলাদা দিন)\n• ফলাফল: পরীক্ষার ২–৪ সপ্তাহের মধ্যে\n\nপ্রতি বছরের নির্দিষ্ট তারিখ সার্কুলারে ঘোষণা করা হয়। লাইভ তারিখ জানতে ভিজিট করুন: admission.eis.du.ac.bd — দেরি না করে শুরুতেই আবেদন করুন, শেষ দিনে সার্ভারে চাপ থাকে।";
+  }
+  if(q.includes('যোগ্যতা')||q.includes('eligib')||q.includes('gpa')||q.includes('জিপিএ')||q.includes('পয়েন্ট')||q.includes('requirement')){
+    return "ভর্তির যোগ্যতা (স্নাতক ১ম বর্ষ):\n\n• SSC ও HSC উভয় পরীক্ষায় উত্তীর্ণ (সাধারণত সর্বশেষ ২ শিক্ষাবর্ষের HSC পাস)\n• ক ইউনিট (বিজ্ঞান): SSC+HSC মোট GPA কমপক্ষে ৮.০০, প্রতিটিতে আলাদা ৩.৫০+\n• খ ইউনিট (মানবিক): মোট GPA ৭.৫০, প্রতিটিতে ৩.০০+\n• গ ইউনিট (ব্যবসায়): মোট GPA ৭.৫০, প্রতিটিতে ৩.০০+\n• ঘ ইউনিট: নিজ বিভাগের শর্ত অনুযায়ী\n• চ ইউনিট (চারুকলা): মোট GPA ৬.৫০+\n\nপরীক্ষা: ১০০ নম্বর (MCQ ৬০ + লিখিত ৪০) + SSC/HSC GPA থেকে ২০ — মোট ১২০ নম্বরে মেধাতালিকা। পাস নম্বর ও বিষয়ভিত্তিক শর্ত সার্কুলারে থাকে।";
+  }
+  if(q.includes('ডকুমেন্ট')||q.includes('document')||q.includes('কাগজ')||q.includes('সার্টিফিকেট')||q.includes('লাগবে')){
+    return "ভর্তির সময় প্রয়োজনীয় ডকুমেন্টস:\n\n১. SSC ও HSC-এর মূল সার্টিফিকেট ও মার্কশিট + ফটোকপি\n২. ভর্তি পরীক্ষার প্রবেশপত্র ও ফলাফলের কপি\n৩. সদ্য তোলা পাসপোর্ট সাইজ ছবি (সাধারণত ৬–৮ কপি)\n৪. জাতীয় পরিচয়পত্র / জন্ম নিবন্ধনের কপি\n৫. চারিত্রিক সনদ (সর্বশেষ শিক্ষাপ্রতিষ্ঠান থেকে)\n৬. কোটা থাকলে: সংশ্লিষ্ট সনদ (মুক্তিযোদ্ধা, উপজাতি, প্রতিবন্ধী ইত্যাদি)\n৭. মাইগ্রেশন সার্টিফিকেট (প্রযোজ্য ক্ষেত্রে)\n\nসব মূল কপি সাথে রাখুন — যাচাইয়ের পর মূল কপি ফেরত দেওয়া হয়, তবে কিছু বিভাগে জমা রাখা হতে পারে।";
+  }
+  if(q.includes('আবেদন')||q.includes('apply')||q.includes('ভর্তি হব')||q.includes('কিভাবে')||q.includes('process')){
+    return "আবেদনের ধাপসমূহ:\n\n১. admission.eis.du.ac.bd-তে যান\n২. HSC ও SSC-এর রোল, বোর্ড ও পাসের সাল দিয়ে লগইন/রেজিস্ট্রেশন করুন\n৩. ছবি আপলোড করুন (নির্ধারিত সাইজে) ও তথ্য যাচাই করুন\n৪. পছন্দের ইউনিট সিলেক্ট করে আবেদন ফি (৳১,০৫০) বিকাশ/রকেট/কার্ডে পরিশোধ করুন\n৫. পেমেন্ট নিশ্চিত হলে আবেদন সম্পন্ন — SMS পাবেন\n৬. নির্ধারিত সময়ে একই সাইট থেকে প্রবেশপত্র ডাউনলোড করুন\n\nএকাধিক ইউনিটে আবেদন করা যায় (আলাদা ফি দিয়ে)। আবেদনের আগে সার্কুলারটি ভালো করে পড়ুন।";
+  }
+  if(q.includes('ইউনিট')||q.includes('unit')||q.includes('পরীক্ষা')||q.includes('exam')){
+    return "ঢাবি ভর্তি পরীক্ষার ইউনিটসমূহ:\n\n• ক ইউনিট — বিজ্ঞান (CSE, EEE, ফার্মেসি, সব বিজ্ঞান বিভাগ)\n• খ ইউনিট — মানবিক (আইন, ইংরেজি, ইতিহাস ইত্যাদি)\n• গ ইউনিট — ব্যবসায় শিক্ষা (FBS-এর সব বিভাগ)\n• ঘ ইউনিট — বিভাগ পরিবর্তন (সামাজিক বিজ্ঞানসহ সমন্বিত)\n• চ ইউনিট — চারুকলা (অঙ্কন পরীক্ষাসহ)\n• IBA — আলাদা পরীক্ষা\n\nপরীক্ষা কাঠামো: MCQ ৬০ + লিখিত ৪০ = ১০০, সময় সাধারণত ১ ঘণ্টা ৩০ মিনিট। কোন ইউনিটের প্রস্তুতি নিয়ে জানতে চান?";
+  }
+  if(q.includes('হল')||q.includes('hall')||q.includes('আবাসিক')||q.includes('বৃত্তি')||q.includes('scholarship')||q.includes('স্কলারশিপ')){
+    return "হল ও বৃত্তি:\n\n• ছেলেদের ও মেয়েদের জন্য আলাদা আবাসিক হল রয়েছে (সলিমুল্লাহ, জগন্নাথ, শহীদুল্লাহ, রোকেয়া, শামসুন নাহার হলসহ ২০+ হল)\n• মেধা ও প্রয়োজন অনুযায়ী সিট বরাদ্দ হয় — ১ম বর্ষে সবার সিট নিশ্চিত নয়\n• সরকারি বৃত্তি, বিশ্ববিদ্যালয় মেধাবৃত্তি ও বিভিন্ন ট্রাস্ট বৃত্তির সুযোগ আছে\n• টিউশন ফি মওকুফের আবেদন অর্থনৈতিক অবস্থা বিবেচনায় করা যায়\n\nবিস্তারিত জানতে আপনার বিভাগের অফিস ও হল প্রশাসনের সাথে যোগাযোগ করুন।";
+  }
+  if(q.includes('রেজাল্ট')||q.includes('result')||q.includes('ফলাফল')||q.includes('মেরিট')){
+    return "ফলাফল ও মেধাতালিকা:\n\n• ফলাফল প্রকাশিত হয় admission.eis.du.ac.bd ওয়েবসাইটে\n• রোল নম্বর দিয়ে লগইন করে স্কোর ও মেধাক্রম দেখা যায়\n• মেধাতালিকা অনুযায়ী বিষয় পছন্দক্রম (Subject Choice) দিতে হয়\n• অপেক্ষমাণ তালিকা থেকে শূন্য আসনে ভর্তি নেওয়া হয় — নিয়মিত ওয়েবসাইট চেক করুন\n\nফলাফলের নির্দিষ্ট তারিখ সার্কুলার ও ওয়েবসাইটে জানানো হয়।";
+  }
+  if(q.includes('যোগাযোগ')||q.includes('contact')||q.includes('ফোন')||q.includes('ইমেইল')||q.includes('হেল্পলাইন')){
+    return "অ্যাডমিশন অফিসে যোগাযোগ:\n\n• ফোন: +88 01903-446970\n• ইমেইল: registrar@du.ac.bd\n• ওয়েবসাইট: du.ac.bd\n• ভর্তি পোর্টাল: admission.eis.du.ac.bd\n• ঠিকানা: রেজিস্ট্রার বিল্ডিং, ঢাকা বিশ্ববিদ্যালয়, ঢাকা-১০০০\n\nঅফিস সময়: রবিবার–বৃহস্পতিবার, সকাল ৯টা – বিকেল ৫টা (সরকারি ছুটি ব্যতীত)।";
+  }
+  if(q.includes('ক্যারিয়ার')||q.includes('career')||q.includes('চাকরি')||q.includes('job')){
+    return "ক্যারিয়ার নিয়ে সাধারণ গাইড:\n\nঢাবি গ্র্যাজুয়েটদের সবচেয়ে বড় গন্তব্য — BCS, ব্যাংক, মাল্টিন্যাশনাল কোম্পানি, টেক সেক্টর ও গবেষণা। কোন বিভাগে পড়লে কোন পথ খোলা থাকে, তা জানতে নির্দিষ্ট ডিপার্টমেন্টের নাম লিখুন — যেমন 'CSE ক্যারিয়ার' বা 'আইন'।\n\nটিপস: পড়াশোনার পাশাপাশি ইংরেজি, কমিউনিকেশন ও ডিজিটাল স্কিল গড়ুন — এগুলো সব ক্যারিয়ারেই কাজে লাগে।";
+  }
+  if(q.includes('কোথায়')||q.includes('location')||q.includes('ঠিকানা')||q.includes('campus')){
+    return "ঢাকা বিশ্ববিদ্যালয় ক্যাম্পাস ঢাকার শাহবাগ/নীলক্ষেত এলাকায় অবস্থিত — TSC, কার্জন হল, কলাভবন ও সেন্ট্রাল লাইব্রেরি ক্যাম্পাসের প্রাণকেন্দ্র। মেট্রোরেলের ঢাকা বিশ্ববিদ্যালয় স্টেশন দিয়ে সহজে আসা যায়।";
+  }
+  return null;
+}
+
+async function callGemini(userText){
+  /* সার্ভার proxy-তে পাঠানো হয় — ব্রাউজারে কোনো API Key নেই।
+     সার্ভার (Vercel function) নিজের env var থেকে Key ব্যবহার করে
+     Gemini-কে কল করে শুধু উত্তরটি ফেরত দেয়। */
+  var res = await fetch('/api/chat', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ message: userText, history: chatHistory.slice(-6) })
+  });
+  if(!res.ok) throw new Error('Chat proxy error '+res.status);
+  var data = await res.json();
+  var text = data && (data.text || data.reply);
+  if(!text) throw new Error('Empty response');
+  return String(text).trim();
+}
+
+var busy=false;
+async function handleSend(text){
+  var msg=(text||inputEl.value).trim();
+  if(!msg||busy) return;
+  busy=true; sendBtn.disabled=true;
+  addMsg(msg,'user'); chatHistory.push({role:'user',text:msg});
+  inputEl.value=''; inputEl.style.height='auto';
+  showTyping();
+  var delay = 900 + Math.random()*700;
+  await new Promise(function(r){ setTimeout(r, delay); });
+  var reply=null;
+  if(proxyState!=="down"){
+    try{ reply = await callGemini(msg); proxyState="ok"; }
+    catch(e){ proxyState="down"; reply = localAnswer(msg); }
+  } else {
+    reply = localAnswer(msg);
+  }
+  if(!reply) reply = FALLBACK;
+  hideTyping();
+  addMsg(reply,'bot'); chatHistory.push({role:'bot',text:reply});
+  busy=false; sendBtn.disabled=false; inputEl.focus();
+}
+
+sendBtn.addEventListener('click', function(){ handleSend(); });
+inputEl.addEventListener('keydown', function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); handleSend(); } });
+inputEl.addEventListener('input', function(){ inputEl.style.height='auto'; inputEl.style.height=Math.min(inputEl.scrollHeight,110)+'px'; });
+
+/* Quick replies — SVG icon + high-contrast label */
+var qr=document.getElementById('quickReplies');
+QUICK.forEach(function(item){
+  var b=document.createElement('button'); b.className='qbtn'; b.type='button';
+  b.innerHTML = ic(ICON[item.icon],16) + '<span>'+item.label+'</span>';
+  b.addEventListener('click', function(){ handleSend(item.q); });
+  qr.appendChild(b);
+});
+
+/* Welcome suggestion cards */
+var sg=document.getElementById('suggestGrid');
+SUGGEST.forEach(function(item){
+  var b=document.createElement('button'); b.className='suggest'; b.type='button';
+  b.innerHTML = '<span class="ic-wrap">'+ic(ICON[item.icon],19)+'</span><span><b>'+item.title+'</b><small>'+item.sub+'</small></span>';
+  b.addEventListener('click', function(){ handleSend(item.q); });
+  sg.appendChild(b);
+});
+
+/* Department grid in sidebar */
+var dg=document.getElementById('deptGrid');
+[['CSE','ক ইউনিট • টেক'],['EEE','ক ইউনিট'],['ফার্মেসি','ক ইউনিট'],['আইন','খ / ঘ ইউনিট'],['ফাইন্যান্স','গ ইউনিট • FBS'],['IBA BBA','আলাদা পরীক্ষা']].forEach(function(x){
+  var b=document.createElement('button'); b.className='dept-btn'; b.type='button';
+  var nm=document.createElement('span'); nm.textContent=x[0];
+  var sm=document.createElement('small'); sm.textContent=x[1];
+  b.appendChild(nm); b.appendChild(sm);
+  b.addEventListener('click', function(){ closeSidebar(); handleSend(x[0]+' ডিপার্টমেন্ট সম্পর্কে জানতে চাই'); });
+  dg.appendChild(b);
+});
+
+/* Sidebar drawer (mobile) */
+var sidebar=document.getElementById('sidebar');
+var backdrop=document.getElementById('backdrop');
+function openSidebar(){ sidebar.classList.add('open'); backdrop.classList.add('show'); }
+function closeSidebar(){ sidebar.classList.remove('open'); backdrop.classList.remove('show'); }
+document.getElementById('infoBtn').addEventListener('click', openSidebar);
+document.getElementById('sideClose').addEventListener('click', closeSidebar);
+backdrop.addEventListener('click', closeSidebar);
+
+/* Clear chat → back to the full welcome state */
+document.getElementById('clearBtn').addEventListener('click', function(){
+  chatHistory=[]; started=false; busy=false; sendBtn.disabled=false; hideTyping();
+  innerEl.innerHTML='';
+  var dl=document.createElement('div'); dl.className='date-label'; dl.textContent='আজ • ঢাকা বিশ্ববিদ্যালয় ভর্তি সহায়তা';
+  innerEl.appendChild(dl);
+  var w=document.createElement('div'); w.className='welcome'; w.id='welcome';
+  w.innerHTML = '<div class="mark" aria-hidden="true">ঢা</div><h2>আসসালামু আলাইকুম!<br>ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?</h2><p>ভর্তির যোগ্যতা, ডেডলাইন, ফি, ডকুমেন্টস কিংবা যেকোনো ডিপার্টমেন্ট ও ক্যারিয়ার গাইড — নিচের বিষয়গুলো থেকে বেছে নিন, অথবা নিজের প্রশ্নটি লিখুন।</p>';
+  var grid=document.createElement('div'); grid.className='suggest-grid';
+  SUGGEST.forEach(function(item){
+    var b=document.createElement('button'); b.className='suggest'; b.type='button';
+    b.innerHTML = '<span class="ic-wrap">'+ic(ICON[item.icon],19)+'</span><span><b>'+item.title+'</b><small>'+item.sub+'</small></span>';
+    b.addEventListener('click', function(){ handleSend(item.q); });
+    grid.appendChild(b);
+  });
+  w.appendChild(grid);
+  innerEl.appendChild(w);
+  welcomeEl = w;
+  scrollBottom();
+});
+</script>
+</body>
+</html>
