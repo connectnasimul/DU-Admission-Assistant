@@ -27,6 +27,9 @@ University of Dhaka Admission Assistant AI Chatbot — একটি Messenger-�
 ```
 du-admission-chatbot/
 ├── index.html    # চ্যাটবটের UI — ফুল-স্ক্রিন, মোবাইল ফ্রেন্ডলি, SVG আইকন
+│                 # (ঢাবি লোগো index.html-এর ভেতরেই এমবেড করা আছে)
+├── assets/
+│   └── du-logo.jpg  # ঢাকা বিশ্ববিদ্যালয়ের অফিসিয়াল লোগো (৭৩৬×৭৩৬)
 ├── api/
 │   └── chat.js   # Vercel Serverless Function — Gemini proxy (Key সার্ভার-সাইডে পড়ে)
 ├── vercel.json   # Vercel স্ট্যাটিক সেটিংস
