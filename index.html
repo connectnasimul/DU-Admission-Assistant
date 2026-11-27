@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <link rel="icon" href="data:,"/>
-<script>document.documentElement.setAttribute('data-theme',(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');</script>
+<script>(function(){var th='';try{th=localStorage.getItem('du-admission-theme')||'';}catch(e){}if(th!=='dark'&&th!=='light'){th=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}document.documentElement.setAttribute('data-theme',th);})();</script>
 <title>DU Admission Assistant — ঢাকা বিশ্ববিদ্যালয়</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -311,6 +311,92 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
   .head-actions .lang-toggle button{padding:5px 10px;font-size:12.5px}
 }
 @media(prefers-reduced-motion:reduce){.dot{animation:none}.sidebar,.backdrop,body,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.icon-btn,.dept-btn,.suggest,.qbtn{transition:none}}
+
+/* ============================================================
+   Full-screen shell (Cortex-style layout, DU identity):
+   the app fills the whole viewport edge-to-edge — no floating
+   card, no decorative backdrop margins — with a light history
+   sidebar and a centred hero with glowing logo orb.
+   ============================================================ */
+body{background:var(--bg)}
+.app{padding:0;background:transparent}
+.topbar{display:none}
+.main{flex:1;min-height:0;width:100%;max-width:none;margin:0;background:var(--panel);border-radius:0;border:none;box-shadow:none;overflow:hidden;grid-template-columns:312px minmax(0,1fr)}
+@media(max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- Sidebar: brand, new chat, search, nav, history ---------- */
+.sidebar{background:#F7F6FA;gap:16px;padding:20px 16px 22px}
+:root[data-theme="dark"] .sidebar{background:#131A15}
+/* No section may ever be compressed by the flex column: when the
+   sidebar's content is taller than the viewport, the sidebar
+   scrolls instead of squeezing sections into each other (that
+   squeeze was the history/status-line overlap). */
+.sidebar>*{flex-shrink:0}
+.chat-head,.typing,#dock{flex-shrink:0}
+.side-brand{padding:2px 4px 0}
+.side-logo{border-radius:50%;border-color:#D9C08A}
+.new-chat-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;border-radius:12px;background:#0C3B2E;color:#FFFFFF;font-size:14.5px;font-weight:600;padding:12px 14px;min-height:46px;box-shadow:0 4px 14px rgba(12,59,44,.25)}
+.new-chat-btn:hover{background:#12503D;color:#FFFFFF}
+.new-chat-btn:focus-visible{background:#12503D;color:#FFFFFF;outline:2px solid var(--gold);outline-offset:2px}
+.new-chat-btn:active{background:#07271D;color:#FFFFFF}
+:root[data-theme="dark"] .new-chat-btn{background:#1E5C46;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+:root[data-theme="dark"] .new-chat-btn:hover,:root[data-theme="dark"] .new-chat-btn:focus-visible{background:#27755A}
+.side-search{display:flex;align-items:center;gap:8px;border:1px solid var(--line-strong);background:var(--panel);border-radius:11px;padding:0 12px;min-height:42px;color:var(--ink-3)}
+.side-search:focus-within{border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
+.side-search input{flex:1;min-width:0;border:none;background:transparent;outline:none;font-size:13.5px;color:var(--ink);padding:10px 0}
+.side-search input::placeholder{color:var(--ink-3);opacity:1}
+.side-nav{display:flex;flex-direction:column;gap:2px}
+.nav-item{display:flex;align-items:center;gap:11px;width:100%;border:none;background:transparent;color:var(--ink-2);font-size:14px;font-weight:600;text-align:left;padding:9px 10px;border-radius:10px;min-height:40px}
+.nav-item svg{color:var(--ink-3)}
+.nav-item:hover{background:var(--green-soft);color:var(--ink)}
+.nav-item:hover svg{color:var(--green)}
+.nav-item:focus-visible{background:var(--green-soft);color:var(--ink);outline:2px solid var(--green-2);outline-offset:1px}
+.nav-item:active{background:#0C3B2E;color:#FFFFFF}
+.nav-item:active svg{color:#FFFFFF}
+.history-sec{min-height:40px}
+.hist-group{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:12px 4px 6px}
+.hist-group:first-child{margin-top:2px}
+.hist-empty{font-size:13px;color:var(--ink-3);line-height:1.55;padding:2px 4px}
+.hist-item{display:flex;align-items:center;gap:4px;border-radius:10px;padding:2px 2px 2px 4px}
+.hist-item:hover{background:var(--green-soft)}
+.hist-item.active{background:var(--green-soft);box-shadow:inset 0 0 0 1px var(--line-strong)}
+.hist-open{flex:1;min-width:0;border:none;background:transparent;color:var(--ink-2);font-size:13.5px;font-weight:500;text-align:left;padding:7px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.35}
+.hist-open:hover{color:var(--ink)}
+.hist-item.active .hist-open{color:var(--ink);font-weight:600}
+.hist-del{width:30px;height:30px;border:none;background:transparent;color:var(--ink-3);border-radius:8px;display:grid;place-items:center;flex:0 0 auto}
+.hist-del:hover{background:var(--panel);color:#B3261E}
+.hist-del:focus-visible{outline:2px solid var(--green-2);outline-offset:1px;color:var(--ink)}
+
+/* ---------- Chat top bar: export pill like the reference ---------- */
+.chat-head{box-shadow:none;border-bottom:1px solid var(--line)}
+.export-btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);font-size:13px;font-weight:600;padding:8px 13px;border-radius:999px;min-height:42px;white-space:nowrap}
+.export-btn:hover{border-color:var(--green);background:var(--green-soft);color:var(--ink)}
+.export-btn:focus-visible{border-color:var(--green);background:var(--green-soft);color:var(--ink);outline:2px solid var(--green-2);outline-offset:1px}
+.export-btn:active{background:#0C3B2E;color:#FFFFFF;border-color:#0C3B2E}
+@media(max-width:720px){.export-btn{min-height:38px;padding:7px 11px}}
+@media(max-width:420px){.export-btn span{display:none}.export-btn{padding:7px 10px}}
+
+/* ---------- Hero: glowing DU orb, greeting, centred composer ---------- */
+.welcome{max-width:880px;padding-top:10px}
+.welcome .mark{width:94px;height:94px;border-radius:50%;padding:9px;margin-bottom:18px;background:#FFFFFF;border:1px solid #E3D3A0;box-shadow:0 0 0 12px rgba(18,80,61,.05),0 0 46px 10px rgba(201,164,76,.38),0 0 84px 26px rgba(18,80,61,.20)}
+:root[data-theme="dark"] .welcome .mark{box-shadow:0 0 0 12px rgba(127,191,158,.06),0 0 46px 10px rgba(227,185,91,.25),0 0 84px 26px rgba(127,191,158,.14)}
+.welcome-greet{margin:0 0 4px;font-size:19px;font-weight:600;color:var(--green-2);letter-spacing:.01em}
+:root[data-theme="dark"] .welcome-greet{color:var(--green-2)}
+.welcome h2{font-size:31px;line-height:1.28;margin-bottom:10px}
+.welcome p#welcomeText{margin-bottom:20px}
+#heroDockSlot{width:100%;max-width:700px;margin:0 auto 8px}
+.welcome #dock .quick-wrap{border-top:none;background:transparent;padding:12px 0 0}
+.welcome #dock .quick-label{text-align:center}
+.welcome #dock .quick-scroll{justify-content:center}
+.welcome #dock .composer-wrap{background:transparent;padding:10px 0 0}
+.welcome #dock .composer textarea{border-radius:18px;background:var(--panel);box-shadow:0 10px 30px rgba(52,24,110,.10);padding:14px 17px}
+:root[data-theme="dark"] .welcome #dock .composer textarea{background:var(--panel-2);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.welcome #dock .disclaimer{margin-top:10px}
+.suggest-grid{grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+@media(max-width:760px){.suggest-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.suggest-grid{grid-template-columns:1fr}.welcome h2{font-size:25px}}
+.suggest{flex-direction:column;gap:9px;padding:16px;border-radius:16px;min-height:104px}
+.suggest .ic-wrap{width:34px;height:34px;border-radius:50%}
 </style>
 </head>
 <body>
@@ -334,6 +420,25 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
         <span class="side-brand-name">ঢাকা বিশ্ববিদ্যালয়<small>University of Dhaka</small></span>
       </div>
 
+      <button class="new-chat-btn" id="newChatBtn" type="button"><svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg><span id="newChatLabel">নতুন চ্যাট</span></button>
+
+      <label class="side-search">
+        <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="chatSearch" placeholder="চ্যাট খুঁজুন..." aria-label="চ্যাট খুঁজুন">
+      </label>
+
+      <nav class="side-nav" aria-label="দ্রুত বিষয়">
+        <button type="button" class="nav-item" id="navEligibility"><svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span>ভর্তির যোগ্যতা</span></button>
+        <button type="button" class="nav-item" id="navDepts"><svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg><span>ডিপার্টমেন্টসমূহ</span></button>
+        <button type="button" class="nav-item" id="navFees"><svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg><span>ফি ও খরচ</span></button>
+        <button type="button" class="nav-item" id="navDeadline"><svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg><span>ডেডলাইন</span></button>
+      </nav>
+
+      <section class="side-sec history-sec">
+        <h3 id="histH">চ্যাট ইতিহাস</h3>
+        <div id="historyList"></div>
+      </section>
+
       <section class="side-sec">
         <span class="status-line"><i></i><span id="sideStatus">অ্যাডমিশন অফিস • অনলাইন</span></span>
         <h2 id="sideTitle">আসসালামু আলাইকুম! ভর্তিতে সাহায্য করতে আমি এখানে</h2>
@@ -348,11 +453,11 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
       <section class="side-sec">
         <h3 id="factsH">এক নজরে ভর্তি তথ্য</h3>
         <div class="info-row"><span id="fL1">আবেদন মাধ্যম</span><b id="fV1">অনলাইন</b></div>
-        <div class="info-row"><span id="fL2">আবেদন ফি (প্রতি ইউনিট)</span><b id="fV2">৳১,০৫০ *</b></div>
+        <div class="info-row"><span id="fL2">আবেদন ফি (প্রতি ইউনিট)</span><b id="fV2">৳১,২০০ *</b></div>
         <div class="info-row"><span id="fL3">ভর্তি ফি (আনুমানিক)</span><b id="fV3">৳৮,৫০০ – ১৪,০০০</b></div>
         <div class="info-row"><span id="fL4">পরীক্ষা পদ্ধতি</span><b id="fV4">MCQ + লিখিত</b></div>
         <div class="info-row"><span id="fL5">মোট নম্বর</span><b id="fV5">১০০ (পরীক্ষা) + ২০ (GPA)</b></div>
-        <p class="side-note" id="sideNote">* ফি ও তারিখ শিক্ষাবর্ষভেদে বদলাতে পারে। চ্যাটে জিজ্ঞেস করলে বিস্তারিত পাবেন।</p>
+        <p class="side-note" id="sideNote">* এটি সাধারণ ইউনিটের ফি — চারুকলা (৳১,৪০০) ও IBA (৳১,৫০০)-র ফি আলাদা। চ্যাটে জিজ্ঞেস করলে বিস্তারিত পাবেন।</p>
       </section>
 
       <section class="side-sec">
@@ -379,6 +484,7 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
           <p><i></i><span id="headStatus">Active now • সাথে সাথে উত্তর দেয়</span></p>
         </div>
         <div class="head-actions">
+          <button class="export-btn" id="exportBtn" type="button" title="চ্যাট এক্সপোর্ট করুন"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span id="exportLabel">এক্সপোর্ট</span></button>
           <div class="lang-toggle" role="group" aria-label="Language — ভাষা বেছে নিন">
             <button type="button" id="langBn" class="active" aria-pressed="true">বাংলা</button>
             <button type="button" id="langEn" aria-pressed="false">EN</button>
@@ -394,8 +500,10 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
 
           <div class="welcome" id="welcome">
             <div class="mark"><img src="assets/du-logo.svg" alt="ঢাকা বিশ্ববিদ্যালয়ের অফিসিয়াল লোগো"></div>
-            <h2 id="welcomeTitle">আসসালামু আলাইকুম!<br>ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?</h2>
+            <p class="welcome-greet" id="welcomeGreet">আসসালামু আলাইকুম!</p>
+            <h2 id="welcomeTitle">ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?</h2>
             <p id="welcomeText">ভর্তির যোগ্যতা, ডেডলাইন, ফি, ডকুমেন্টস কিংবা যেকোনো ডিপার্টমেন্ট ও ক্যারিয়ার গাইড — নিচের বিষয়গুলো থেকে বেছে নিন, অথবা নিজের প্রশ্নটি লিখুন।</p>
+            <div id="heroDockSlot"></div>
             <div class="suggest-grid" id="suggestGrid"></div>
           </div>
         </div>
@@ -409,6 +517,7 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
         </div>
       </div>
 
+      <div id="dock">
       <div class="quick-wrap">
         <div class="quick-inner">
           <div class="quick-label" id="quickLabel">কুইক রিপ্লাই — এক ক্লিকে জিজ্ঞেস করুন</div>
@@ -422,6 +531,7 @@ body,.sidebar,.chat,.chat-head,.messages,.typing,.quick-wrap,.composer-wrap,.ico
           <button class="send-btn" id="sendBtn" aria-label="মেসেজ পাঠান"></button>
         </div>
         <p class="disclaimer" id="disclaimer">তথ্য সাধারণ গাইডলাইনের জন্য — চূড়ান্ত তারিখ ও ফি অফিসিয়াল সার্কুলারে যাচাই করুন: admission.eis.du.ac.bd</p>
+      </div>
       </div>
     </section>
   </div>
@@ -476,15 +586,15 @@ var I18N = {
     sideIntro: 'আমি <b style="color:var(--ink)">ঢাবি অ্যাডমিশন অ্যাসিস্ট্যান্ট</b>। ভর্তির যোগ্যতা, আবেদন, ফি, ডকুমেন্টস ও ডিপার্টমেন্ট নিয়ে যেকোনো প্রশ্ন করুন — বাংলা বা English-এ।',
     sideList: ["ইউনিট: ক (বিজ্ঞান), খ (মানবিক), গ (ব্যবসায়), ঘ (সমন্বিত), চ (চারুকলা)", "আবেদন: অনলাইনে — admission.eis.du.ac.bd", "সর্বশেষ তারিখ সবসময় অফিসিয়াল সার্কুলারে মিলিয়ে নিন"],
     factsH: "এক নজরে ভর্তি তথ্য",
-    facts: [["আবেদন মাধ্যম","অনলাইন"],["আবেদন ফি (প্রতি ইউনিট)","৳১,০৫০ *"],["ভর্তি ফি (আনুমানিক)","৳৮,৫০০ – ১৪,০০০"],["পরীক্ষা পদ্ধতি","MCQ + লিখিত"],["মোট নম্বর","১০০ (পরীক্ষা) + ২০ (GPA)"]],
-    sideNote: "* ফি ও তারিখ শিক্ষাবর্ষভেদে বদলাতে পারে। চ্যাটে জিজ্ঞেস করলে বিস্তারিত পাবেন।",
+    facts: [["আবেদন মাধ্যম","অনলাইন"],["আবেদন ফি (প্রতি ইউনিট)","৳১,২০০ *"],["ভর্তি ফি (আনুমানিক)","৳৮,৫০০ – ১৪,০০০"],["পরীক্ষা পদ্ধতি","MCQ + লিখিত"],["মোট নম্বর","১০০ (পরীক্ষা) + ২০ (GPA)"]],
+    sideNote: "* এটি সাধারণ ইউনিটের ফি — চারুকলা (৳১,৪০০) ও IBA (৳১,৫০০)-র ফি আলাদা। চ্যাটে জিজ্ঞেস করলে বিস্তারিত পাবেন।",
     deptH: "জনপ্রিয় ডিপার্টমেন্ট",
     contactH: "অ্যাডমিশন অফিসে যোগাযোগ",
     contactPhone: "ফোন:", contactEmail: "ইমেইল:", contactAddr: "ঠিকানা: রেজিস্ট্রার ভবন, ঢাকা বিশ্ববিদ্যালয়, ঢাকা-১০০০",
     sideFoot: "এই বটটি একটি প্র্যাকটিক্যাল প্রজেক্ট — তথ্য সাধারণ গাইডলাইনের জন্য। ভর্তির চূড়ান্ত সিদ্ধান্ত, তারিখ ও ফি অবশ্যই অফিসিয়াল ওয়েবসাইট ও ভর্তি সার্কুলার থেকে যাচাই করুন।",
     headStatus: "Active now • সাথে সাথে উত্তর দেয়",
     dateLabel: "আজ • ঢাকা বিশ্ববিদ্যালয় ভর্তি সহায়তা",
-    welcomeTitle: "আসসালামু আলাইকুম!<br>ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?",
+    welcomeTitle: "ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?",
     welcomeText: "ভর্তির যোগ্যতা, ডেডলাইন, ফি, ডকুমেন্টস কিংবা যেকোনো ডিপার্টমেন্ট ও ক্যারিয়ার গাইড — নিচের বিষয়গুলো থেকে বেছে নিন, অথবা নিজের প্রশ্নটি লিখুন।",
     typing: "টাইপিং...",
     quickLabel: "কুইক রিপ্লাই — এক ক্লিকে জিজ্ঞেস করুন",
@@ -500,15 +610,15 @@ var I18N = {
     sideIntro: 'I am the <b style="color:var(--ink)">DU Admission Assistant</b>. Ask me anything about eligibility, applications, fees, documents and departments — in English or বাংলা.',
     sideList: ["Units: A (Science), B (Humanities), C (Business), D (Combined), Cha (Fine Arts)", "Apply online — admission.eis.du.ac.bd", "Always cross-check the latest dates in the official circular"],
     factsH: "Admission at a glance",
-    facts: [["Application mode","Online"],["Application fee (per unit)","BDT 1,050 *"],["Admission fee (approx.)","BDT 8,500 – 14,000"],["Exam format","MCQ + Written"],["Total marks","100 (exam) + 20 (GPA)"]],
-    sideNote: "* Fees and dates can change each academic year. Ask in the chat for details.",
+    facts: [["Application mode","Online"],["Application fee (per unit)","BDT 1,200 *"],["Admission fee (approx.)","BDT 8,500 – 14,000"],["Exam format","MCQ + Written"],["Total marks","100 (exam) + 20 (GPA)"]],
+    sideNote: "* This is the general unit fee — Fine Arts (Tk 1,400) and IBA (Tk 1,500) fees differ. Ask in the chat for details.",
     deptH: "Popular departments",
     contactH: "Contact the Admission Office",
     contactPhone: "Phone:", contactEmail: "Email:", contactAddr: "Address: Registrar Building, University of Dhaka, Dhaka-1000",
     sideFoot: "This bot is a practical project — information is a general guideline. Always verify final admission decisions, dates and fees on the official website and the admission circular.",
     headStatus: "Active now • Replies instantly",
     dateLabel: "Today • University of Dhaka admission help",
-    welcomeTitle: "Welcome!<br>How can I help with your DU admission?",
+    welcomeTitle: "How can I help with your DU admission?",
     welcomeText: "Eligibility, deadlines, fees, documents, or any department and career guide — pick a topic below, or type your own question.",
     typing: "Typing...",
     quickLabel: "Quick replies — ask in one click",
@@ -553,6 +663,7 @@ themeBtn.addEventListener('click', function(){
   themeChosen=true;
   var dark=document.documentElement.getAttribute('data-theme')==='dark';
   document.documentElement.setAttribute('data-theme', dark?'light':'dark');
+  try{ localStorage.setItem('du-admission-theme', dark?'light':'dark'); }catch(e){}
   renderThemeIcon();
 });
 if(window.matchMedia){
@@ -627,17 +738,21 @@ function scrollBottom(){ messagesEl.scrollTop = messagesEl.scrollHeight; }
 function beginConversation(){
   if(started) return;
   started = true;
+  var dock=document.getElementById('dock');
+  if(dock) document.querySelector('.chat').appendChild(dock);
   if(welcomeEl && welcomeEl.parentNode) welcomeEl.parentNode.removeChild(welcomeEl);
 }
-function addMsg(text, who){
+function addMsg(text, who, timeStr){
   beginConversation();
+  var ts = timeStr || nowTime();
   var row=document.createElement('div'); row.className='msg-row '+who;
   if(who==='bot'){ var av=document.createElement('div'); av.className='mini-avatar'; av.setAttribute('aria-hidden','true'); av.innerHTML='<img src="assets/du-logo.svg" alt="">'; row.appendChild(av); }
   var wrap=document.createElement('div');
   var b=document.createElement('div'); b.className='bubble'; b.textContent=text;
-  var t=document.createElement('div'); t.className='time'; t.textContent= nowTime() + (who==='bot' ? ' • DU Assistant' : ' • Seen');
+  var t=document.createElement('div'); t.className='time'; t.textContent= ts + (who==='bot' ? ' • DU Assistant' : ' • Seen');
   wrap.appendChild(b); wrap.appendChild(t); row.appendChild(wrap);
   innerEl.appendChild(row); scrollBottom();
+  return ts;
 }
 function showTyping(){ typingEl.classList.add('show'); scrollBottom(); }
 function hideTyping(){ typingEl.classList.remove('show'); }
@@ -670,7 +785,7 @@ var FAQ_DB = [
 {k:["ঢাকা বিশ্ববিদ্যালয় সম্পর্কে","about du","ঢাবি সম্পর্কে","university of dhaka"],a:"ঢাকা বিশ্ববিদ্যালয় (ঢাবি) বাংলাদেশের প্রাচীনতম ও শীর্ষস্থানীয় পাবলিক বিশ্ববিদ্যালয় — প্রতিষ্ঠিত ১৯২১ সালে।\n\n• ১৩টি অনুষদ, ৮০+ বিভাগ, একাধিক ইনস্টিটিউট\n• ক্যাম্পাস: শাহবাগ–নীলক্ষেত এলাকা, ঢাকা\n• ভর্তি: প্রতি বছর ইউনিটভিত্তিক প্রতিযোগিতামূলক পরীক্ষার মাধ্যমে\n• ভর্তি পোর্টাল: admission.eis.du.ac.bd\n\nকোন বিষয়ে বিস্তারিত জানতে চান — যোগ্যতা, ইউনিট নাকি ডিপার্টমেন্ট?"},
 {k:["কবে প্রতিষ্ঠিত","established","প্রতিষ্ঠা সাল"],a:"ঢাকা বিশ্ববিদ্যালয় প্রতিষ্ঠিত হয় ১৯২১ সালে। এটি বাংলাদেশের প্রাচীনতম বিশ্ববিদ্যালয় এবং 'প্রাচ্যের অক্সফোর্ড' নামে পরিচিত।"},
 {k:["মোট আসন","কত আসন","total seat","আসন সংখ্যা কত"],a:"ঢাকা বিশ্ববিদ্যালয়ে স্নাতকে মোট আসন প্রতি বছর প্রায় ৬,০০০+ (শিক্ষাবর্ষ ও সার্কুলারভেদে বদলায়)।\n\n• ক ইউনিটে সবচেয়ে বেশি আসন\n• এরপর খ, গ, ঘ ও চ ইউনিট\n• নির্দিষ্ট বিভাগের আসন জানতে বিভাগের নাম লিখুন — যেমন 'CSE আসন কত?'"},
-{k:["ভর্তি হতে চাই","admission nite chai","ভর্তি হবো","i want admission","ভর্তি নিতে চাই"],a:"ঢাবিতে ভর্তি হতে হলে ধাপগুলো হলো:\n\n১. যোগ্যতা যাচাই করুন (SSC+HSC GPA শর্ত)\n২. সার্কুলার প্রকাশ হলে admission.eis.du.ac.bd-তে অনলাইনে আবেদন করুন\n৩. আবেদন ফি (প্রতি ইউনিট ৳১,০৫০) পরিশোধ করুন\n৪. প্রবেশপত্র ডাউনলোড করে ভর্তি পরীক্ষায় অংশ নিন\n৫. মেধাতালিকায় স্থান পেলে সাবজেক্ট চয়েস ও ভর্তি সম্পন্ন করুন\n\nকোন ধাপ নিয়ে বিস্তারিত জানতে চান?"},
+{k:["ভর্তি হতে চাই","admission nite chai","ভর্তি হবো","i want admission","ভর্তি নিতে চাই"],a:"ঢাবিতে ভর্তি হতে হলে ধাপগুলো হলো:\n\n১. যোগ্যতা যাচাই করুন (SSC+HSC GPA শর্ত)\n২. সার্কুলার প্রকাশ হলে admission.eis.du.ac.bd-তে অনলাইনে আবেদন করুন\n৩. আবেদন ফি (প্রতি ইউনিট ৳১,২০০) পরিশোধ করুন\n৪. প্রবেশপত্র ডাউনলোড করে ভর্তি পরীক্ষায় অংশ নিন\n৫. মেধাতালিকায় স্থান পেলে সাবজেক্ট চয়েস ও ভর্তি সম্পন্ন করুন\n\nকোন ধাপ নিয়ে বিস্তারিত জানতে চান?"},
 {k:["সার্কুলার","circular","বিজ্ঞপ্তি","notice"],a:"ভর্তি সার্কুলার (বিজ্ঞপ্তি) প্রতি শিক্ষাবর্ষে ঢাবির অফিসিয়াল ওয়েবসাইটে প্রকাশিত হয়।\n\n• ওয়েবসাইট: du.ac.bd ও admission.eis.du.ac.bd\n• সার্কুলারে থাকে: যোগ্যতা, তারিখ, ফি, পরীক্ষার নিয়ম ও মানবণ্টন\n• আবেদনের আগে পুরো সার্কুলার মনোযোগ দিয়ে পড়ুন — চূড়ান্ত নিয়ম সার্কুলারেই থাকে\n\nসার্কুলার প্রকাশের নির্দিষ্ট তারিখ প্রতি বছর ঘোষণা করা হয়।"},
 {k:["ক ইউনিট যোগ্যতা","ka unit eligibility"],a:"ক ইউনিট (বিজ্ঞান) যোগ্যতা:\n\n• SSC ও HSC উভয়ই বিজ্ঞান বিভাগ থেকে উত্তীর্ণ\n• SSC+HSC মোট GPA কমপক্ষে ৮.০০\n• প্রতিটি পরীক্ষায় আলাদাভাবে GPA কমপক্ষে ৩.৫০\n• HSC-তে সংশ্লিষ্ট বিষয় থাকা বিভাগভেদে বাধ্যতামূলক হতে পারে (যেমন CSE-তে গণিত)\n\nবিস্তারিত শর্ত সার্কুলারে দেখুন।"},
 {k:["খ ইউনিট যোগ্যতা","kha unit eligibility"],a:"খ ইউনিট (মানবিক) যোগ্যতা:\n\n• SSC+HSC মোট GPA কমপক্ষে ৭.৫০\n• প্রতিটি পরীক্ষায় আলাদাভাবে GPA কমপক্ষে ৩.০০\n• মানবিক ছাড়াও অন্য বিভাগের শিক্ষার্থীরা শর্ত পূরণ সাপেক্ষে আবেদন করতে পারে (সার্কুলার দেখুন)"},
@@ -689,7 +804,7 @@ var FAQ_DB = [
 {k:["আবেদনের লিংক","apply link","ওয়েবসাইট কোনটা","ভর্তির ওয়েবসাইট"],a:"ঢাবি ভর্তির অফিসিয়াল ওয়েবসাইট:\n\n• ভর্তি পোর্টাল: admission.eis.du.ac.bd\n• মূল ওয়েবসাইট: du.ac.bd\n\nশুধুমাত্র এই অফিসিয়াল সাইটগুলোই ব্যবহার করুন — ভুয়া সাইটে টাকা পাঠাবেন না।"},
 {k:["ছবি আপলোড","photo upload","ছবির সাইজ"],a:"আবেদনের ছবি সংক্রান্ত নিয়ম (সাধারণত):\n\n• সদ্য তোলা রঙিন পাসপোর্ট সাইজ ছবি\n• নির্ধারিত মাপ ও ফরম্যাট (সাধারণত JPG) সার্কুলার/পোর্টালে উল্লেখ থাকে\n• সানগ্লাস, টুপি বা অস্পষ্ট ছবি গ্রহণযোগ্য নয়\n• ছবি ভুল হলে প্রবেশপত্রে সমস্যা হতে পারে — আপলোডের আগে প্রিভিউ দেখে নিন"},
 {k:["আবেদন সংশোধন","edit application","ভুল হয়েছে আবেদনে","তথ্য ভুল"],a:"আবেদনে ভুল হলে:\n\n• আবেদনের সময়সীমার মধ্যে থাকলে পোর্টালে লগইন করে সংশোধনের সুযোগ থাকতে পারে\n• পেমেন্ট হয়ে গেলে কিছু তথ্য বদলানো যায় না — সেক্ষেত্রে হেল্পলাইনে যোগাযোগ করুন\n• ফোন: +88 01903-446970, ইমেইল: registrar@du.ac.bd\n\nতাই সাবমিটের আগে সব তথ্য দুইবার যাচাই করুন।"},
-{k:["একাধিক ইউনিট","multiple unit","দুই ইউনিটে আবেদন"],a:"হ্যাঁ, যোগ্যতা থাকলে একাধিক ইউনিটে আবেদন করা যায়:\n\n• প্রতিটি ইউনিটের জন্য আলাদা আবেদন ও আলাদা ফি (৳১,০৫০ করে)\n• পরীক্ষাগুলো সাধারণত আলাদা দিনে হয়\n• একাধিক ইউনিটে চান্স পেলে যেকোনো একটিতে ভর্তি হতে হয়"},
+{k:["একাধিক ইউনিট","multiple unit","দুই ইউনিটে আবেদন"],a:"হ্যাঁ, যোগ্যতা থাকলে একাধিক ইউনিটে আবেদন করা যায়:\n\n• প্রতিটি ইউনিটের জন্য আলাদা আবেদন ও আলাদা ফি (৳১,২০০ করে)\n• পরীক্ষাগুলো সাধারণত আলাদা দিনে হয়\n• একাধিক ইউনিটে চান্স পেলে যেকোনো একটিতে ভর্তি হতে হয়"},
 {k:["পেমেন্ট কিভাবে","payment method","বিকাশে ফি","ফি দেবো কিভাবে"],a:"আবেদন ফি পরিশোধের মাধ্যম (সাধারণত):\n\n• মোবাইল ব্যাংকিং: বিকাশ, রকেট, নগদ\n• ডেবিট/ক্রেডিট কার্ড ও অনলাইন ব্যাংকিং\n• পোর্টালে পেমেন্টের ধাপ অনুসরণ করুন\n\nপেমেন্ট সফল হলে নিশ্চিতকরণ SMS/রসিদ পাবেন — রসিদটি সংরক্ষণ করুন। পেমেন্ট কেটে গেছে কিন্তু নিশ্চিত হয়নি, এমন হলে সাথে সাথে হেল্পলাইনে (+88 01903-446970) জানান।"},
 {k:["ফি ফেরত","refund","টাকা ফেরত"],a:"আবেদন ফি সাধারণত অফেরতযোগ্য (non-refundable)।\n\nতবে পেমেন্টে কারিগরি ত্রুটি হলে (দুবার কেটে যাওয়া ইত্যাদি) প্রমাণসহ অ্যাডমিশন অফিসে আবেদন করা যায়: +88 01903-446970 / registrar@du.ac.bd"},
 {k:["প্রবেশপত্র","admit card","অ্যাডমিট কার্ড"],a:"প্রবেশপত্র (Admit Card):\n\n• পরীক্ষার প্রায় ১ সপ্তাহ আগে থেকে admission.eis.du.ac.bd থেকে ডাউনলোড করা যায়\n• লগইন করে রঙিন প্রিন্ট নিন\n• পরীক্ষার হলে প্রবেশপত্র + HSC রেজিস্ট্রেশন কার্ড/মূল সনদ সাথে রাখতে হয়\n• প্রবেশপত্রে পরীক্ষার কেন্দ্র, তারিখ ও সময় লেখা থাকে — আগের দিন কেন্দ্রের অবস্থান জেনে নিন"},
@@ -789,7 +904,7 @@ var FAQ_DB_EN = [
 {k:["about du","about the university","university of dhaka"],a:"The University of Dhaka (DU) is Bangladesh's oldest and leading public university — founded in 1921.\n\n• 13 faculties, 80+ departments and several institutes\n• Campus: Shahbagh–Nilkhet area, Dhaka\n• Admission: through competitive unit-wise tests every year\n• Admission portal: admission.eis.du.ac.bd\n\nWhat would you like to know — eligibility, units or departments?"},
 {k:["when was du established","established","founded"],a:"The University of Dhaka was founded in 1921. It is the oldest university in Bangladesh and is known as the 'Oxford of the East'."},
 {k:["total seat","how many seats","total seats"],a:"DU has roughly 6,000+ undergraduate seats each year (this changes by academic year and circular).\n\n• A Unit has the most seats\n• Then B, C, D and Cha Units\n• For a specific department's seats, type its name — e.g. 'How many seats in CSE?'"},
-{k:["i want admission","want to get admitted","get admission"],a:"To get admitted to DU, the steps are:\n\n1. Check your eligibility (SSC+HSC GPA requirements)\n2. When the circular is published, apply online at admission.eis.du.ac.bd\n3. Pay the application fee (BDT 1,050 per unit)\n4. Download the admit card and sit for the admission test\n5. If you make the merit list, complete subject choice and admission\n\nWhich step would you like in detail?"},
+{k:["i want admission","want to get admitted","get admission"],a:"To get admitted to DU, the steps are:\n\n1. Check your eligibility (SSC+HSC GPA requirements)\n2. When the circular is published, apply online at admission.eis.du.ac.bd\n3. Pay the application fee (BDT 1,200 per unit)\n4. Download the admit card and sit for the admission test\n5. If you make the merit list, complete subject choice and admission\n\nWhich step would you like in detail?"},
 {k:["circular","notice"],a:"The admission circular is published on DU's official websites each academic year.\n\n• Websites: du.ac.bd and admission.eis.du.ac.bd\n• The circular contains: eligibility, dates, fees, exam rules and mark distribution\n• Read the full circular carefully before applying — it carries the final rules\n\nThe exact publication date is announced each year."},
 {k:["a unit eligibility","science unit eligibility"],a:"A Unit (Science) eligibility:\n\n• Passed both SSC and HSC from the science group\n• Combined SSC+HSC GPA of at least 8.00\n• At least GPA 3.50 in each exam separately\n• Some departments require specific HSC subjects (e.g. Mathematics for CSE)\n\nSee the circular for full conditions."},
 {k:["b unit eligibility","humanities unit"],a:"B Unit (Humanities) eligibility:\n\n• Combined SSC+HSC GPA of at least 7.50\n• At least GPA 3.00 in each exam separately\n• Students from other groups may also apply if they meet the conditions (see the circular)"},
@@ -808,7 +923,7 @@ var FAQ_DB_EN = [
 {k:["apply link","admission website","official website"],a:"DU's official admission websites:\n\n• Admission portal: admission.eis.du.ac.bd\n• Main website: du.ac.bd\n\nUse only these official sites — never send money to unofficial sites."},
 {k:["photo upload","photo size","upload photo"],a:"Photo rules for the application (usually):\n\n• A recent colour passport-size photo\n• The size and format (usually JPG) are stated in the circular/portal\n• Sunglasses, caps or unclear photos are not accepted\n• A wrong photo can cause problems on the admit card — check the preview before submitting"},
 {k:["edit application","mistake in application","wrong information"],a:"If there is a mistake in your application:\n\n• Within the application period, you may be able to correct it by logging into the portal\n• Some information cannot be changed after payment — contact the helpline in that case\n• Phone: +88 01903-446970, Email: registrar@du.ac.bd\n\nAlways double-check everything before submitting."},
-{k:["multiple unit","two units","more than one unit"],a:"Yes, if you are eligible you can apply to multiple units:\n\n• A separate application and fee (BDT 1,050) for each unit\n• The tests are usually held on different days\n• If you get a chance in more than one unit, you must enrol in only one"},
+{k:["multiple unit","two units","more than one unit"],a:"Yes, if you are eligible you can apply to multiple units:\n\n• A separate application and fee (BDT 1,200) for each unit\n• The tests are usually held on different days\n• If you get a chance in more than one unit, you must enrol in only one"},
 {k:["payment","pay the fee","bkash"],a:"Ways to pay the application fee (usually):\n\n• Mobile banking: bKash, Rocket, Nagad\n• Debit/credit cards and online banking\n• Follow the payment steps on the portal\n\nAfter a successful payment you'll receive a confirmation SMS/receipt — keep it safe. If money is deducted but not confirmed, inform the helpline (+88 01903-446970) immediately."},
 {k:["refund","fee back"],a:"The application fee is generally non-refundable.\n\nHowever, for technical payment errors (e.g. being charged twice) you can apply to the Admission Office with proof: +88 01903-446970 / registrar@du.ac.bd"},
 {k:["admit card"],a:"Admit Card:\n\n• Available for download from admission.eis.du.ac.bd about 1 week before the exam\n• Log in and print it in colour\n• Bring the admit card plus your HSC registration card/original certificate to the exam hall\n• Your exam centre, date and time are printed on it — check the centre's location the day before"},
@@ -892,11 +1007,11 @@ var FAQ_DB_EN = [
 {k:["email address","contact email"],a:"DU admission email: registrar@du.ac.bd\n\nPhone: +88 01903-446970\nAdmission portal: admission.eis.du.ac.bd\nAddress: Registrar Building, University of Dhaka, Dhaka-1000"},
 {k:["get my certificate back","original certificate return"],a:"Getting back original certificates submitted at admission:\n\n• Apply through your department office after graduation or if you cancel admission\n• Provisional certificates and original certificates have separate rules and fees\n• Details: Registrar's office / your department office"},
 {k:["transcript"],a:"Collecting a transcript/marks sheet:\n\n• Apply at the Controller of Examinations office with the prescribed fee\n• Sealed transcripts are available for applications abroad\n• The process can take a few working days — apply with time in hand"},
-{k:["admission fee","application fee"],a:"University of Dhaka fees (general guideline):\n\n• Application fee: BDT 1,050 per unit (payable online)\n• Admission fee (one-time): approx. BDT 8,500 – 14,000 (varies by department)\n• Semester/year fees: very low, as DU is a public university — usually a few thousand taka per year\n• IBA BBA: comparatively higher (a separate fee structure)\n• Hall fees: nominal monthly seat rent; food costs are separate\n\nFees change by academic year — check the official circular for exact figures: admission.eis.du.ac.bd"},
-{k:["deadline","last date","schedule","when does application start"],a:"Admission schedule (general pattern):\n\n• Online application starts: usually November–December\n• Application deadline: about 3–4 weeks after applications open\n• Admit card download: from 1 week before the exam\n• Admission test: usually December–February (different days per unit)\n• Results: within 2–4 weeks of the test\n\nExact dates for each year are announced in the circular. For live dates visit: admission.eis.du.ac.bd"},
+{k:["admission fee","application fee"],a:"University of Dhaka fees (general guideline):\n\n• Application fee (2026–27): General units Tk 1,200, Fine Arts Tk 1,400, IBA Tk 1,500 (per unit, non-refundable)\n• Admission fee (one-time): approx. BDT 8,500 – 14,000 (varies by department)\n• Semester/year fees: very low, as DU is a public university — usually a few thousand taka per year\n• IBA BBA: comparatively higher (a separate fee structure)\n• Hall fees: nominal monthly seat rent; food costs are separate\n\nFees change by academic year — check the official circular for exact figures: admission.eis.du.ac.bd"},
+{k:["deadline","last date","schedule","when does application start"],a:"Admission schedule (2026–27): Online application 11 November 2026, 12:00 PM – 28 November 2026, 12:00 AM; admission tests — IBA 5 December, Science Unit 12 December, Arts, Law & Social Sciences Unit 19 December, Fine Arts Unit 22 December, Business Studies Unit 26 December 2026 — see admission.eis.du.ac.bd"},
 {k:["eligibility","gpa requirement","requirement"],a:"Eligibility (1st year undergraduate):\n\n• Passed both SSC and HSC\n• A Unit (Science): combined GPA at least 8.00, with 3.50+ in each\n• B Unit (Humanities): combined GPA 7.50, with 3.00+ in each\n• C Unit (Business): combined GPA 7.50, with 3.00+ in each\n• D Unit: per your own group's conditions\n• Cha Unit (Fine Arts): combined GPA 6.50+\n\nTest: 100 marks (MCQ 60 + written 40) + 20 from GPA — the merit list is out of 120."},
 {k:["documents required","required documents","what documents"],a:"Documents required at admission:\n\n1. Original SSC and HSC certificates and marksheets + photocopies\n2. Admission test admit card and a copy of the result\n3. Recent passport-size photos (usually 6–8 copies)\n4. National ID / birth registration copy\n5. Character certificate\n6. Quota certificate, if applicable\n7. Migration certificate (where applicable)\n\nKeep all originals with you."},
-{k:["how to apply","how do i apply","application process","apply online"],a:"Application steps:\n\n1. Go to admission.eis.du.ac.bd\n2. Register with your HSC and SSC roll numbers, board and passing years\n3. Upload your photo and verify your information\n4. Select a unit and pay the fee (BDT 1,050) via bKash/Rocket/card\n5. You'll receive an SMS once payment is confirmed\n6. Download your admit card at the scheduled time\n\nYou can apply to multiple units (with a separate fee for each)."},
+{k:["how to apply","how do i apply","application process","apply online"],a:"Application steps:\n\n1. Go to admission.eis.du.ac.bd\n2. Register with your HSC and SSC roll numbers, board and passing years\n3. Upload your photo and verify your information\n4. Select a unit and pay the fee (BDT 1,200) via bKash/Rocket/card\n5. You'll receive an SMS once payment is confirmed\n6. Download your admit card at the scheduled time\n\nYou can apply to multiple units (with a separate fee for each)."},
 {k:["which units","units are there","admission units","unit list"],a:"DU admission test units:\n\n• A Unit — Science\n• B Unit — Humanities\n• C Unit — Business Studies\n• D Unit — Group change (combined)\n• Cha Unit — Fine Arts\n• IBA — a separate test\n\nTest format: MCQ 60 + written 40 = 100, duration usually 1 hour 30 minutes."},
 {k:["departments are there","list of departments","which departments","all departments"],a:"The University of Dhaka has 13 faculties and 80+ departments. Some popular ones:\n\n• CSE, EEE, Software Engineering (IIT)\n• Pharmacy, Microbiology, Biochemistry\n• Law, English, Economics, Finance, Marketing\n• International Relations, Mass Communication & Journalism\n• IBA (BBA) — a separate admission test\n\nWhich department would you like in detail? Type its name — e.g. 'CSE' or 'Law' — and I'll give you information and career guidance."},
 {k:["result","merit list"],a:"Results and merit list:\n\n• Results: admission.eis.du.ac.bd\n• Log in with your roll number to see your score and merit position\n• Subject choice is given according to merit\n• Vacant seats are filled from the waiting list"},
@@ -989,10 +1104,10 @@ function localAnswer(raw){
     return "ঢাকা বিশ্ববিদ্যালয়ে ১৩টি অনুষদ ও ৮০+ বিভাগ রয়েছে। জনপ্রিয় কয়েকটি:\n\n• CSE, EEE, সফটওয়্যার ইঞ্জিনিয়ারিং (IIT)\n• ফার্মেসি, অণুজীববিজ্ঞান, প্রাণরসায়ন\n• আইন, ইংরেজি, অর্থনীতি, ফাইন্যান্স, মার্কেটিং\n• আন্তর্জাতিক সম্পর্ক, গণযোগাযোগ ও সাংবাদিকতা\n• IBA (BBA) — আলাদা ভর্তি পরীক্ষা\n\nকোন ডিপার্টমেন্ট সম্পর্কে বিস্তারিত জানতে চান? নাম লিখুন — যেমন 'CSE' বা 'আইন' — আমি তথ্য ও ক্যারিয়ার গাইডলাইন দিচ্ছি।";
   }
   if(q.indexOf("ফি")!==-1||q.indexOf("fee")!==-1||q.indexOf("tuition")!==-1||q.indexOf("খরচ")!==-1||q.indexOf("টাকা")!==-1||q.indexOf("cost")!==-1){
-    return "ঢাকা বিশ্ববিদ্যালয়ের ফি (সাধারণ গাইডলাইন):\n\n• আবেদন ফি: প্রতি ইউনিট ৳১,০৫০ (অনলাইনে পরিশোধযোগ্য)\n• ভর্তি ফি (এককালীন): প্রায় ৳৮,৫০০ – ৳১৪,০০০ (বিভাগভেদে ভিন্ন)\n• সেমিস্টার/বর্ষ ফি: সরকারি বিশ্ববিদ্যালয় হওয়ায় খুবই কম — সাধারণত বছরে কয়েক হাজার টাকা\n• IBA BBA: তুলনামূলক বেশি (আলাদা ফি কাঠামো)\n• হল ফি: মাসিক সিট ভাড়া নামমাত্র, খাবার খরচ আলাদা\n\nশিক্ষাবর্ষভেদে ফি বদলায় — সঠিক অঙ্কের জন্য অফিসিয়াল সার্কুলার দেখুন: admission.eis.du.ac.bd";
+    return "ঢাকা বিশ্ববিদ্যালয়ের ফি (সাধারণ গাইডলাইন):\n\n• আবেদন ফি (২০২৬–২৭): সাধারণ ইউনিট ৳১,২০০, চারুকলা ৳১,৪০০, IBA ৳১,৫০০ (প্রতি ইউনিট, অফেরতযোগ্য)\n• ভর্তি ফি (এককালীন): প্রায় ৳৮,৫০০ – ৳১৪,০০০ (বিভাগভেদে ভিন্ন)\n• সেমিস্টার/বর্ষ ফি: সরকারি বিশ্ববিদ্যালয় হওয়ায় খুবই কম — সাধারণত বছরে কয়েক হাজার টাকা\n• IBA BBA: তুলনামূলক বেশি (আলাদা ফি কাঠামো)\n• হল ফি: মাসিক সিট ভাড়া নামমাত্র, খাবার খরচ আলাদা\n\nশিক্ষাবর্ষভেদে ফি বদলায় — সঠিক অঙ্কের জন্য অফিসিয়াল সার্কুলার দেখুন: admission.eis.du.ac.bd";
   }
   if(q.indexOf("ডেডলাইন")!==-1||q.indexOf("deadline")!==-1||q.indexOf("শেষ তারিখ")!==-1||q.indexOf("schedule")!==-1||q.indexOf("সময়সূচি")!==-1||(q.indexOf("কবে")!==-1&&q.indexOf("আবেদন")!==-1)){
-    return "ভর্তির সময়সূচি (সাধারণ প্যাটার্ন):\n\n• অনলাইন আবেদন শুরু: সাধারণত নভেম্বর–ডিসেম্বর\n• আবেদনের শেষ তারিখ: আবেদন শুরুর প্রায় ৩–৪ সপ্তাহ পর\n• প্রবেশপত্র ডাউনলোড: পরীক্ষার ১ সপ্তাহ আগে থেকে\n• ভর্তি পরীক্ষা: সাধারণত ডিসেম্বর–ফেব্রুয়ারি (ইউনিটভেদে আলাদা দিন)\n• ফলাফল: পরীক্ষার ২–৪ সপ্তাহের মধ্যে\n\nপ্রতি বছরের নির্দিষ্ট তারিখ সার্কুলারে ঘোষণা করা হয়। লাইভ তারিখ জানতে ভিজিট করুন: admission.eis.du.ac.bd";
+    return "ভর্তির সময়সূচি (২০২৬–২৭): অনলাইন আবেদন ১১ নভেম্বর ২০২৬ দুপুর ১২টা – ২৮ নভেম্বর ২০২৬ রাত ১২টা; ভর্তি পরীক্ষা — IBA ৫ ডিসেম্বর, বিজ্ঞান ইউনিট ১২ ডিসেম্বর, কলা, আইন ও সামাজিক বিজ্ঞান ইউনিট ১৯ ডিসেম্বর, চারুকলা ইউনিট ২২ ডিসেম্বর, ব্যবসায় শিক্ষা ইউনিট ২৬ ডিসেম্বর ২০২৬ — অফিসিয়াল সাইট admission.eis.du.ac.bd দেখুন";
   }
   if(q.indexOf("যোগ্যতা")!==-1||q.indexOf("eligib")!==-1||q.indexOf("gpa")!==-1||q.indexOf("জিপিএ")!==-1||q.indexOf("requirement")!==-1){
     return "ভর্তির যোগ্যতা (স্নাতক ১ম বর্ষ):\n\n• SSC ও HSC উভয় পরীক্ষায় উত্তীর্ণ\n• ক ইউনিট (বিজ্ঞান): মোট GPA কমপক্ষে ৮.০০, প্রতিটিতে ৩.৫০+\n• খ ইউনিট (মানবিক): মোট GPA ৭.৫০, প্রতিটিতে ৩.০০+\n• গ ইউনিট (ব্যবসায়): মোট GPA ৭.৫০, প্রতিটিতে ৩.০০+\n• ঘ ইউনিট: নিজ বিভাগের শর্ত অনুযায়ী\n• চ ইউনিট (চারুকলা): মোট GPA ৬.৫০+\n\nপরীক্ষা: ১০০ নম্বর (MCQ ৬০ + লিখিত ৪০) + GPA থেকে ২০ — মোট ১২০ নম্বরে মেধাতালিকা।";
@@ -1001,7 +1116,7 @@ function localAnswer(raw){
     return "ভর্তির সময় প্রয়োজনীয় ডকুমেন্টস:\n\n১. SSC ও HSC-এর মূল সার্টিফিকেট ও মার্কশিট + ফটোকপি\n২. ভর্তি পরীক্ষার প্রবেশপত্র ও ফলাফলের কপি\n৩. সদ্য তোলা পাসপোর্ট সাইজ ছবি (সাধারণত ৬–৮ কপি)\n৪. জাতীয় পরিচয়পত্র / জন্ম নিবন্ধনের কপি\n৫. চারিত্রিক সনদ\n৬. কোটা থাকলে সংশ্লিষ্ট সনদ\n৭. মাইগ্রেশন সার্টিফিকেট (প্রযোজ্য ক্ষেত্রে)\n\nসব মূল কপি সাথে রাখুন।";
   }
   if(q.indexOf("আবেদন")!==-1||q.indexOf("apply")!==-1||q.indexOf("কিভাবে")!==-1){
-    return "আবেদনের ধাপসমূহ:\n\n১. admission.eis.du.ac.bd-তে যান\n২. HSC ও SSC-এর রোল, বোর্ড ও পাসের সাল দিয়ে রেজিস্ট্রেশন করুন\n৩. ছবি আপলোড করুন ও তথ্য যাচাই করুন\n৪. ইউনিট সিলেক্ট করে ফি (৳১,০৫০) বিকাশ/রকেট/কার্ডে পরিশোধ করুন\n৫. পেমেন্ট নিশ্চিত হলে SMS পাবেন\n৬. নির্ধারিত সময়ে প্রবেশপত্র ডাউনলোড করুন\n\nএকাধিক ইউনিটে আবেদন করা যায় (আলাদা ফি দিয়ে)।";
+    return "আবেদনের ধাপসমূহ:\n\n১. admission.eis.du.ac.bd-তে যান\n২. HSC ও SSC-এর রোল, বোর্ড ও পাসের সাল দিয়ে রেজিস্ট্রেশন করুন\n৩. ছবি আপলোড করুন ও তথ্য যাচাই করুন\n৪. ইউনিট সিলেক্ট করে ফি (৳১,২০০) বিকাশ/রকেট/কার্ডে পরিশোধ করুন\n৫. পেমেন্ট নিশ্চিত হলে SMS পাবেন\n৬. নির্ধারিত সময়ে প্রবেশপত্র ডাউনলোড করুন\n\nএকাধিক ইউনিটে আবেদন করা যায় (আলাদা ফি দিয়ে)।";
   }
   if(q.indexOf("ইউনিট")!==-1||q.indexOf("unit")!==-1||q.indexOf("পরীক্ষা")!==-1||q.indexOf("exam")!==-1){
     return "ঢাবি ভর্তি পরীক্ষার ইউনিটসমূহ:\n\n• ক ইউনিট — বিজ্ঞান\n• খ ইউনিট — মানবিক\n• গ ইউনিট — ব্যবসায় শিক্ষা\n• ঘ ইউনিট — বিভাগ পরিবর্তন (সমন্বিত)\n• চ ইউনিট — চারুকলা\n• IBA — আলাদা পরীক্ষা\n\nপরীক্ষা কাঠামো: MCQ ৬০ + লিখিত ৪০ = ১০০, সময় সাধারণত ১ ঘণ্টা ৩০ মিনিট।";
@@ -1044,7 +1159,7 @@ async function handleSend(text){
   var msg=(text||inputEl.value).trim();
   if(!msg||busy) return;
   busy=true; sendBtn.disabled=true;
-  addMsg(msg,'user'); chatHistory.push({role:'user',text:msg});
+  var uTime=addMsg(msg,'user'); chatHistory.push({role:'user',text:msg,time:uTime}); saveTurn();
   inputEl.value=''; inputEl.style.height='auto';
   showTyping();
   var delay = 900 + Math.random()*700;
@@ -1059,7 +1174,7 @@ async function handleSend(text){
   }
   if(!reply) reply = (LANG==='en' ? FALLBACK_EN : FALLBACK);
   hideTyping();
-  addMsg(reply,'bot'); chatHistory.push({role:'bot',text:reply});
+  var bTime=addMsg(reply,'bot'); chatHistory.push({role:'bot',text:reply,time:bTime}); saveTurn();
   busy=false; sendBtn.disabled=false; inputEl.focus();
 }
 
@@ -1118,6 +1233,7 @@ renderDepts();
 /* ---------- Language toggle wiring ---------- */
 function setLang(lang){
   LANG = lang;
+  try{ localStorage.setItem('du-admission-lang', lang); }catch(e){}
   document.documentElement.setAttribute('lang', lang==='bn'?'bn':'en');
   var bnBtn=document.getElementById('langBn'), enBtn=document.getElementById('langEn');
   bnBtn.classList.toggle('active', lang==='bn'); bnBtn.setAttribute('aria-pressed', lang==='bn'?'true':'false');
@@ -1176,14 +1292,205 @@ document.getElementById('clearBtn').addEventListener('click', function(){
   var dl=document.createElement('div'); dl.className='date-label'; dl.id='dateLabel'; dl.textContent=t('dateLabel');
   innerEl.appendChild(dl);
   var w=document.createElement('div'); w.className='welcome'; w.id='welcome';
-  w.innerHTML = '<div class="mark"><img src="assets/du-logo.svg" alt="ঢাকা বিশ্ববিদ্যালয়ের অফিসিয়াল লোগো"></div><h2 id="welcomeTitle">'+t('welcomeTitle')+'</h2><p id="welcomeText">'+t('welcomeText')+'</p>';
+  w.innerHTML = '<div class="mark"><img src="assets/du-logo.svg" alt="ঢাকা বিশ্ববিদ্যালয়ের অফিসিয়াল লোগো"></div><p class="welcome-greet" id="welcomeGreet">'+(LANG==='en'?'Welcome to DU Admission Help':'আসসালামু আলাইকুম!')+'</p><h2 id="welcomeTitle">'+(LANG==='en'?'How can I help with your DU admission?':'ঢাবি ভর্তিতে কীভাবে সাহায্য করতে পারি?')+'</h2><p id="welcomeText">'+t('welcomeText')+'</p>';
+  var slot=document.createElement('div'); slot.id='heroDockSlot';
+  w.appendChild(slot);
   var grid=document.createElement('div'); grid.className='suggest-grid'; grid.id='suggestGrid';
   fillSuggestGrid(grid);
   w.appendChild(grid);
   innerEl.appendChild(w);
   welcomeEl = w;
+  var dockEl=document.getElementById('dock'); if(dockEl) slot.appendChild(dockEl);
+  startFreshChat();
   scrollBottom();
 });
+
+/* ============================================================
+   localStorage: চ্যাট ইতিহাস, থিম ও ভাষা এই ডিভাইসেই সেভ থাকে।
+   প্রতিটি কথোপকথন আলাদা এন্ট্রি — সাইডবারের ইতিহাস থেকে
+   যেকোনো পুরনো চ্যাট আবার খোলা বা মুছে ফেলা যায়।
+   ============================================================ */
+var LS_CHATS='du-admission-chats-v1';
+var store={chats:[],activeId:null};
+function lsRead(){ try{ var raw=localStorage.getItem(LS_CHATS); if(raw){ var p=JSON.parse(raw); if(p && p.chats) store=p; } }catch(e){} }
+function persist(){ try{ localStorage.setItem(LS_CHATS, JSON.stringify(store)); }catch(e){} }
+function findChat(id){ for(var i=0;i<store.chats.length;i++){ if(store.chats[i].id===id) return store.chats[i]; } return null; }
+function ensureActive(){
+  var c=findChat(store.activeId);
+  if(!c){
+    c={id:'c'+Date.now()+Math.floor(Math.random()*999), title:'', updated:Date.now(), messages:[]};
+    store.chats.unshift(c); store.activeId=c.id;
+  }
+  return c;
+}
+function saveTurn(){
+  var c=ensureActive();
+  c.messages=chatHistory.map(function(m){ return {role:m.role,text:m.text,time:m.time||''}; });
+  if(!c.title){
+    for(var i=0;i<chatHistory.length;i++){ if(chatHistory[i].role==='user'){ c.title=chatHistory[i].text.slice(0,44); break; } }
+  }
+  c.updated=Date.now();
+  persist(); renderHistory();
+}
+function startFreshChat(){
+  var cur=findChat(store.activeId);
+  if(cur && (!cur.messages || cur.messages.length===0)){ renderHistory(); return; }
+  var c={id:'c'+Date.now()+Math.floor(Math.random()*999), title:'', updated:Date.now(), messages:[]};
+  store.chats.unshift(c); store.activeId=c.id;
+  persist(); renderHistory();
+}
+function dayGroup(ts){
+  var d=new Date(ts), now=new Date();
+  var startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  if(ts>=startToday) return LANG==='en'?'Today':'আজ';
+  if(ts>=startToday-86400000) return LANG==='en'?'Yesterday':'গতকাল';
+  return LANG==='en'?'Earlier':'আগের';
+}
+var searchQuery='';
+function renderHistory(){
+  var box=document.getElementById('historyList');
+  if(!box) return;
+  box.innerHTML='';
+  var list=store.chats.filter(function(c){ return c.messages && c.messages.length>0; });
+  list.sort(function(a,b){ return (b.updated||0)-(a.updated||0); });
+  if(searchQuery){ var q=searchQuery.toLowerCase(); list=list.filter(function(c){ return (c.title||'').toLowerCase().indexOf(q)!==-1; }); }
+  if(!list.length){
+    var em=document.createElement('p'); em.className='hist-empty';
+    em.textContent = searchQuery ? (LANG==='en'?'No chat matches your search.':'খোঁজের সাথে মিলে এমন চ্যাট নেই।') : (LANG==='en'?'No chats yet. Your conversations will appear here.':'এখনো কোনো চ্যাট নেই। আপনার কথোপকথন এখানে দেখা যাবে।');
+    box.appendChild(em); return;
+  }
+  var lastGroup='';
+  list.forEach(function(c){
+    var g=dayGroup(c.updated||Date.now());
+    if(g!==lastGroup){ lastGroup=g; var gh=document.createElement('div'); gh.className='hist-group'; gh.textContent=g; box.appendChild(gh); }
+    var item=document.createElement('div'); item.className='hist-item'+(c.id===store.activeId?' active':'');
+    var open=document.createElement('button'); open.type='button'; open.className='hist-open'; open.textContent=c.title||(LANG==='en'?'New chat':'নতুন চ্যাট');
+    open.title=c.title||'';
+    open.addEventListener('click', function(){ loadConversation(c.id); });
+    var del=document.createElement('button'); del.type='button'; del.className='hist-del';
+    del.setAttribute('aria-label', LANG==='en'?'Delete this chat':'এই চ্যাট মুছুন');
+    del.innerHTML='<svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+    del.addEventListener('click', function(){ deleteConversation(c.id); });
+    item.appendChild(open); item.appendChild(del);
+    box.appendChild(item);
+  });
+}
+function buildWelcomeInto(){
+  innerEl.innerHTML='';
+  var dl=document.createElement('div'); dl.className='date-label'; dl.id='dateLabel'; dl.textContent=t('dateLabel');
+  innerEl.appendChild(dl);
+  var w=document.createElement('div'); w.className='welcome'; w.id='welcome';
+  w.innerHTML = '<div class="mark"><img src="assets/du-logo.svg" alt="ঢাকা বিশ্ববিদ্যালয়ের অফিসিয়াল লোগো"></div><p class="welcome-greet" id="welcomeGreet">'+(LANG==='en'?'Welcome to DU Admission Help':'আসসালামু আলাইকুম!')+'</p><h2 id="welcomeTitle">'+t('welcomeTitle')+'</h2><p id="welcomeText">'+t('welcomeText')+'</p>';
+  var slot=document.createElement('div'); slot.id='heroDockSlot';
+  w.appendChild(slot);
+  var grid=document.createElement('div'); grid.className='suggest-grid'; grid.id='suggestGrid';
+  fillSuggestGrid(grid);
+  w.appendChild(grid);
+  innerEl.appendChild(w);
+  welcomeEl=w;
+  var dockEl=document.getElementById('dock'); if(dockEl) slot.appendChild(dockEl);
+}
+function loadConversation(id){
+  var c=findChat(id); if(!c) return;
+  store.activeId=id; persist();
+  chatHistory=[]; started=false; busy=false; sendBtn.disabled=false; hideTyping();
+  if(c.messages && c.messages.length){
+    buildWelcomeInto();
+    c.messages.forEach(function(m){
+      chatHistory.push({role:m.role,text:m.text,time:m.time||''});
+      addMsg(m.text, m.role==='bot'?'bot':'user', m.time||undefined);
+    });
+  } else {
+    buildWelcomeInto();
+  }
+  renderHistory(); closeSidebar(); scrollBottom();
+}
+function deleteConversation(id){
+  var wasActive = (store.activeId===id);
+  store.chats = store.chats.filter(function(c){ return c.id!==id; });
+  if(wasActive){
+    store.activeId=null;
+    chatHistory=[]; started=false; busy=false; sendBtn.disabled=false; hideTyping();
+    buildWelcomeInto();
+  }
+  persist(); renderHistory();
+}
+
+/* Sidebar: new chat, search filter, quick-topic nav */
+document.getElementById('newChatBtn').addEventListener('click', function(){
+  closeSidebar();
+  document.getElementById('clearBtn').click();
+});
+document.getElementById('chatSearch').addEventListener('input', function(e){
+  searchQuery=e.target.value.trim();
+  renderHistory();
+});
+function navAsk(qBn, qEn){ closeSidebar(); handleSend(LANG==='en'?qEn:qBn); }
+document.getElementById('navEligibility').addEventListener('click', function(){ navAsk('ভর্তির যোগ্যতা কি?','What is the eligibility?'); });
+document.getElementById('navDepts').addEventListener('click', function(){ navAsk('কোন কোন ডিপার্টমেন্ট আছে?','What departments are there?'); });
+document.getElementById('navFees').addEventListener('click', function(){ navAsk('ভর্তি ফি কত?','What is the admission fee?'); });
+document.getElementById('navDeadline').addEventListener('click', function(){ navAsk('ভর্তির ডেডলাইন কবে?','When is the admission deadline?'); });
+
+/* Export chat — downloads the current conversation as a text file */
+document.getElementById('exportBtn').addEventListener('click', function(){
+  var lines=[];
+  lines.push(LANG==='en'?'University of Dhaka — Admission Assistant Chat':'ঢাকা বিশ্ববিদ্যালয় — অ্যাডমিশন অ্যাসিস্ট্যান্ট চ্যাট');
+  lines.push(new Date().toLocaleString());
+  lines.push('----------------------------------------');
+  if(!chatHistory.length){
+    lines.push(LANG==='en'?'No messages yet.':'এখনো কোনো মেসেজ নেই।');
+  }
+  chatHistory.forEach(function(m){
+    lines.push('');
+    lines.push((m.role==='bot' ? 'DU Assistant' : (LANG==='en'?'You':'আপনি')) + (m.time ? ' • '+m.time : '') + ':');
+    lines.push(m.text);
+  });
+  var blob=new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download='du-admission-chat.txt';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 600);
+});
+
+/* Chrome labels that follow the language toggle */
+var CHROME_TXT = {
+  bn: { newChat:'নতুন চ্যাট', searchPh:'চ্যাট খুঁজুন...', hist:'চ্যাট ইতিহাস', export:'এক্সপোর্ট', greet:'আসসালামু আলাইকুম!',
+        nav:['ভর্তির যোগ্যতা','ডিপার্টমেন্টসমূহ','ফি ও খরচ','ডেডলাইন'] },
+  en: { newChat:'New chat', searchPh:'Search chats...', hist:'Chat history', export:'Export chat', greet:'Welcome to DU Admission Help',
+        nav:['Eligibility','Departments','Fees & costs','Deadline'] }
+};
+function updateChrome(){
+  var x=CHROME_TXT[LANG];
+  document.getElementById('newChatLabel').textContent=x.newChat;
+  var si=document.getElementById('chatSearch'); si.setAttribute('placeholder', x.searchPh); si.setAttribute('aria-label', x.searchPh);
+  document.getElementById('histH').textContent=x.hist;
+  document.getElementById('exportLabel').textContent=x.export;
+  document.getElementById('exportBtn').title = LANG==='en'?'Export this chat':'চ্যাট এক্সপোর্ট করুন';
+  var g=document.getElementById('welcomeGreet'); if(g) g.textContent=x.greet;
+  var navIds=['navEligibility','navDepts','navFees','navDeadline'];
+  navIds.forEach(function(id,i){ var el=document.getElementById(id); if(el) el.querySelector('span').textContent=x.nav[i]; });
+  renderHistory();
+}
+document.getElementById('langBn').addEventListener('click', function(){ updateChrome(); });
+document.getElementById('langEn').addEventListener('click', function(){ updateChrome(); });
+
+/* ---------- Init: restore saved language, theme already applied in head ---------- */
+lsRead();
+(function(){
+  var savedLang=''; try{ savedLang=localStorage.getItem('du-admission-lang')||''; }catch(e){}
+  if(savedLang==='en'){ setLang('en'); }
+  updateChrome();
+  var active=findChat(store.activeId);
+  if(active && active.messages && active.messages.length){
+    loadConversation(active.id);
+  } else {
+    var slot=document.getElementById('heroDockSlot');
+    var dock=document.getElementById('dock');
+    if(slot && dock) slot.appendChild(dock);
+    renderHistory();
+  }
+})();
 </script>
 </body>
 </html>
